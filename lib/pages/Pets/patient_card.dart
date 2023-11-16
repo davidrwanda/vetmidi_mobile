@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/utils/functions.dart';
 
 import '../../core/theme/colors_theme.dart';
@@ -46,6 +47,7 @@ class PatientCard extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
+              Get.find<PatientController>().patient = patient;
               Get.toNamed(AppRoutes.petdetails);
             },
             child: Column(

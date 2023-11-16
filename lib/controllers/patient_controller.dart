@@ -7,10 +7,19 @@ class PatientController extends GetxController {
   final RxBool _isLoading = false.obs;
   final RxBool _fetchedPatients = false.obs;
   final RxList<Patient> _patients = RxList<Patient>([]);
+  final Rx<Patient?> _patient = Rx<Patient?>(null);
   final PatientService _patientService = PatientService();
 
   List<Patient> get patients {
     return [..._patients];
+  }
+
+  Patient? get patient {
+    return _patient.value;
+  }
+
+  set patient(Patient? inPatient) {
+    _patient.value = inPatient;
   }
 
   bool get loading {

@@ -134,10 +134,9 @@ class _NewPetState extends State<NewPet> {
         "insurance_desc": getYesOrNoValue(isInsured!),
       };
 
-      print("sent dataaaaaaaaaaaaaaaaaaaaaaa//\\ $data");
-      // String token = Get.find<AuthController>().token?.accessToken ?? "";
-      // await Get.find<PatientController>().createPatient(data, token);
-      // print("doneeeeeeeeeee");
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      await Get.find<PatientController>().createPatient(data, token);
+      Get.find<AuthController>().selectedTab = 1;
     }
   }
 
@@ -353,18 +352,20 @@ class _NewPetState extends State<NewPet> {
                       });
                     },
                   ),
-                  select("page.pets.sex".tr, sex, [
-                    "page.general.male".tr,
-                    "page.general.female".tr
-                  ], (String value) {
-                    setState(() {
-                      sex = value;
-                      sexIsValid = true;
-                    });
-                  },
-                      required: true,
-                      valid: sexIsValid,
-                      errorText: "page.pets.sexIsrequired".tr),
+                  select(
+                    "page.pets.sex".tr,
+                    sex,
+                    ["page.general.male".tr, "page.general.female".tr],
+                    (String value) {
+                      setState(() {
+                        sex = value;
+                        sexIsValid = true;
+                      });
+                    },
+                    required: true,
+                    valid: sexIsValid,
+                    errorText: "page.pets.sexIsrequired".tr,
+                  ),
                   InputText(
                     "page.pets.Alimentation".tr,
                     _alimentation,
