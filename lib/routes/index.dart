@@ -7,6 +7,7 @@ import 'package:vetmidi/pages/Profile/profile.dart';
 import 'package:vetmidi/pages/home.dart';
 
 import '../pages/Auth/login.dart';
+import '../pages/Pets/edit_pet_details.dart';
 
 class AppRoutes {
   static const String home = '/home';
@@ -15,6 +16,7 @@ class AppRoutes {
   static const String mypets = "/mypets";
   static const String newpet = "/newpet";
   static const String petdetails = "/petdetails";
+  static const String editpetdetails = "/editpetdetails";
 
   static final routes = [
     // GetPage(name: home, page: () => const HomeScreen(), middlewares: [
@@ -31,5 +33,6 @@ class AppRoutes {
     GetPage(name: mypets, page: () => const MyPetsScreen()),
     GetPage(name: newpet, page: () => const NewPet()),
     GetPage(name: petdetails, page: () => const PetDetailsScreen()),
+    GetPage(name: editpetdetails, page: () => const EditPetDetailsScreen()),
   ];
 }

@@ -6,7 +6,6 @@ import 'package:vetmidi/controllers/auth_controller.dart';
 
 import '../../components/language_switch.dart';
 import '../../core/utils/app_constants.dart';
-import '../../routes/index.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});

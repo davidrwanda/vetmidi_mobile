@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/components/button.dart';
+import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
 
-import '../../components/app_bar.dart';
 import '../../components/inputs.dart';
 import '../../core/utils/app_constants.dart';
 
@@ -18,6 +18,7 @@ class NewPet extends StatefulWidget {
 }
 
 class _NewPetState extends State<NewPet> {
+  var containerWidth = 400 * fem;
   late TextEditingController _petName;
   String? specie;
   String? spayed;
@@ -50,12 +51,17 @@ class _NewPetState extends State<NewPet> {
     _color = TextEditingController();
     _weight = TextEditingController();
     _alimentation = TextEditingController();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        containerWidth = 1;
+      });
+    });
   }
 
   validateFields() {
     var formValid = true;
 
-    print("date of birth  $dateOfBirth");
     if (_petName.text.isEmpty) {
       formValid = false;
       setState(() {
@@ -148,7 +154,29 @@ class _NewPetState extends State<NewPet> {
         color: ThemeColors.primaryBackground,
         child: ListView(
           children: [
-            const CustomAppBar(),
+            // const CustomAppBar(),
+            Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: Container()),
+                      Padding(
+                          padding:
+                              EdgeInsets.only(right: 10 * fem, top: 5 * fem),
+                          child: const Icon(Icons.close)),
+                    ],
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(
+                          20 * fem, 0 * fem, 0 * fem, 10 * fem),
+                      child: Text("page.pets.uploadImage.validation".tr)),
+                ],
+              ),
+            ),
             SizedBox(height: 20 * fem),
             Text(
               "page.pets.addPet".tr,
@@ -217,9 +245,17 @@ class _NewPetState extends State<NewPet> {
                           ),
                         ),
                         Expanded(
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Center(child: Text("page.pet.upload".tr)),
+                          child: GestureDetector(
+                            onTap: () {
+                              showNotification(context, "Yoo");
+                              // setState(() {
+                              //   containerWidth = 1;
+                              // });
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Center(child: Text("page.pet.upload".tr)),
+                            ),
                           ),
                         ),
                       ],
@@ -229,10 +265,10 @@ class _NewPetState extends State<NewPet> {
                   InputText(
                     "page.pets.PetEntername".tr,
                     _petName,
-                    valid: nameIsValid,
-                    errorText: "page.pets.nameIsrequired".tr,
                     label: "page.pets.RecordsPetName".tr,
                     required: true,
+                    valid: nameIsValid,
+                    errorText: "page.pets.nameIsrequired".tr,
                     setValid: (bool value) {
                       setState(() {
                         nameIsValid = value;
@@ -253,7 +289,6 @@ class _NewPetState extends State<NewPet> {
                       "page.type.REP".tr,
                     ],
                     (String value) {
-                      print("Yes changedddddddddddddd $value");
                       setState(() {
                         specie = value;
                         specieIsValid = true;

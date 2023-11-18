@@ -4,19 +4,22 @@ import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/utils/functions.dart';
 
 import '../../components/app_bar.dart';
+import '../../components/button.dart';
 import '../../components/inputs.dart';
+import '../../controllers/auth_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
-import '../../routes/index.dart';
+import 'pet_files.dart';
+import 'upload_documents.dart';
 
-class PetDetailsScreen extends StatefulWidget {
-  const PetDetailsScreen({super.key});
+class EditPetDetailsScreen extends StatefulWidget {
+  const EditPetDetailsScreen({super.key});
 
   @override
-  State<PetDetailsScreen> createState() => _PetDetailsScreenState();
+  State<EditPetDetailsScreen> createState() => _EditPetDetailsScreenState();
 }
 
-class _PetDetailsScreenState extends State<PetDetailsScreen> {
+class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
   var activeTab = 0;
 
   late TextEditingController _petName;
@@ -36,39 +39,44 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
   String? isInsured;
   late TextEditingController _insuranceName;
 
-  @override
-  void initState() {
-    super.initState();
-    _petName = TextEditingController();
-    _petName.text = Get.find<PatientController>().patient?.name ?? "";
+  var nameIsValid = true;
+  var specieIsValid = true;
+  var spayedIsValid = true;
+  var dobIsValid = true;
+  var breedIsValid = true;
+  var weightIsValid = true;
+  var sexIsValid = true;
+  var insuredIsValid = true;
 
+  initiateFields() {
+    _petName.text = Get.find<PatientController>().patient?.name ?? "";
+    specie = "page.type.${Get.find<PatientController>().patient?.species}";
+    spayed = getTranslationKeys(
+        Get.find<PatientController>().patient?.sterilise.toLowerCase() ??
+            "yes");
     vaccinationDate =
         Get.find<PatientController>().patient?.relanceMaladies ?? "";
     identificationDate =
         Get.find<PatientController>().patient?.identificationDate ?? "";
     dateOfBirth = Get.find<PatientController>().patient?.birthDate ?? "";
-
-    _breed = TextEditingController();
     _breed.text = Get.find<PatientController>().patient?.race ?? "";
-
-    _color = TextEditingController();
     _color.text = Get.find<PatientController>().patient?.color ?? "";
-
     rabbiesVaccinationDate =
         Get.find<PatientController>().patient?.relanceRage ?? "";
-
-    _microship = TextEditingController();
     _microship.text = Get.find<PatientController>().patient?.microship ?? "";
-
-    _weight = TextEditingController();
     _weight.text =
         Get.find<PatientController>().patient?.weight.toString() ?? "";
-
-    _alimentation = TextEditingController();
+    sex = (Get.find<PatientController>().patient?.sex ?? "M").startsWith("M")
+        ? "page.general.male"
+        : "page.general.female";
     _alimentation.text =
         Get.find<PatientController>().patient?.alimentation.toString() ?? "";
-
-    _insuranceName = TextEditingController();
+    goesOutside = getTranslationKeys(
+        Get.find<PatientController>().patient?.modeDeVie.toLowerCase() ??
+            "yes");
+    isInsured = getTranslationKeys(
+        Get.find<PatientController>().patient?.insuranceDesc.toLowerCase() ??
+            "yes");
     _insuranceName.text =
         (Get.find<PatientController>().patient?.insuranceName ?? "").isNotEmpty
             ? Get.find<PatientController>().patient!.insuranceName
@@ -76,27 +84,115 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _petName = TextEditingController();
+    _breed = TextEditingController();
+    _color = TextEditingController();
+    _microship = TextEditingController();
+    _weight = TextEditingController();
+    _alimentation = TextEditingController();
+    _insuranceName = TextEditingController();
+
+    initiateFields();
+
+    Future.delayed(const Duration(seconds: 0), () {
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      Get.find<PatientController>()
+          .getPetFiles(Get.find<PatientController>().patient!.fmId, token);
+    });
+  }
+
+  validateFields() {
+    var formValid = true;
+
+    if (_petName.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        nameIsValid = false;
+      });
+    }
+
+    if (specie == null || specie == "no_value") {
+      formValid = false;
+      setState(() {
+        specieIsValid = false;
+      });
+    }
+
+    if (spayed == null || spayed == "no_value") {
+      formValid = false;
+      setState(() {
+        spayedIsValid = false;
+      });
+    }
+
+    if (sex == null || sex == "no_value") {
+      formValid = false;
+      setState(() {
+        sexIsValid = false;
+      });
+    }
+
+    if (isInsured == null || isInsured == "no_value") {
+      formValid = false;
+      setState(() {
+        insuredIsValid = false;
+      });
+    }
+
+    if (dateOfBirth.isEmpty) {
+      formValid = false;
+      setState(() {
+        dobIsValid = false;
+      });
+    }
+
+    if (_breed.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        breedIsValid = false;
+      });
+    }
+
+    if (_weight.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        weightIsValid = false;
+      });
+    }
+
+    return formValid;
+  }
+
+  updatePatientHandler() async {
+    if (validateFields()) {
+      Map<String, dynamic> data = {
+        "name": _petName.text,
+        "species": getTranslationKeys(specie!).split('.')[2],
+        "sterilise": getYesOrNoValue(spayed!),
+        "relance_maladies": vaccinationDate,
+        "identification_date": identificationDate,
+        "birth_date": dateOfBirth,
+        "race": _breed.text,
+        "color": _color.text,
+        "relance_rage": rabbiesVaccinationDate,
+        "weight": int.parse(_weight.text),
+        "sex": sex!.substring(0, 1),
+        "alimentation": _alimentation.text,
+        "mode_de_vie": getYesOrNoValue(goesOutside!),
+        "insurance_desc": getYesOrNoValue(isInsured!),
+      };
+
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      await Get.find<PatientController>().updatePatient(
+          Get.find<PatientController>().patient!.fmId, data, token);
+      Get.find<AuthController>().selectedTab = 1;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    specie = "page.type.${Get.find<PatientController>().patient?.species}".tr;
-
-    spayed = getTranslationKeys(
-            Get.find<PatientController>().patient?.sterilise.toLowerCase() ??
-                "yes")
-        .tr;
-    goesOutside = getTranslationKeys(
-            Get.find<PatientController>().patient?.modeDeVie.toLowerCase() ??
-                "yes")
-        .tr;
-
-    isInsured = getTranslationKeys(Get.find<PatientController>()
-                .patient
-                ?.insuranceDesc
-                .toLowerCase() ??
-            "yes")
-        .tr;
-    sex = (Get.find<PatientController>().patient?.sex ?? "M").startsWith("M")
-        ? "page.general.male".tr
-        : "page.general.female".tr;
     return SafeArea(
         child: Scaffold(
       backgroundColor: ThemeColors.primaryBackground,
@@ -109,12 +205,13 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
               Get.toNamed(Get.previousRoute);
             },
             child: Row(
-              children: const [
-                Icon(
+              children: [
+                SizedBox(width: 20 * fem),
+                const Icon(
                   Icons.arrow_back,
                   color: ThemeColors.secondaryColor,
                 ),
-                Text(
+                const Text(
                   "Back",
                   style: TextStyle(
                     color: ThemeColors.secondaryColor,
@@ -146,30 +243,25 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                   child: Image.asset("assets/images/dog.png"),
                 ),
                 SizedBox(height: 15 * fem),
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.editpetdetails);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/edit.png"),
-                      SizedBox(
-                        width: 3 * fem,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/edit.png"),
+                    SizedBox(
+                      width: 3 * fem,
+                    ),
+                    Text(
+                      "page.pets.editPet".tr,
+                      style: const TextStyle(
+                        color: ThemeColors.secondaryColor,
                       ),
-                      Text(
-                        "page.pets.editPet".tr,
-                        style: const TextStyle(
-                          color: ThemeColors.secondaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 15 * fem),
                 Container(
                   height: 35 * fem,
-                  width: 230 * fem,
+                  width: 250 * fem,
                   padding: EdgeInsets.all(2 * fem),
                   decoration: BoxDecoration(
                     color: ThemeColors.primaryBackground,
@@ -246,30 +338,51 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                             "page.pets.PetEntername".tr,
                             _petName,
                             label: "page.pets.RecordsPetName".tr,
-                            readOnly: true,
+                            required: true,
+                            valid: nameIsValid,
+                            errorText: "page.pets.nameIsrequired".tr,
+                            setValid: (bool value) {
+                              setState(() {
+                                nameIsValid = value;
+                              });
+                            },
                           ),
                           select(
                             "page.pets.Type".tr,
                             specie,
                             [
-                              "page.type.CT".tr,
-                              "page.type.CN".tr,
-                              "page.type.LP".tr,
-                              "page.type.GP".tr,
-                              "page.type.OI".tr,
-                              "page.type.HAM".tr,
-                              "page.type.NAC".tr,
-                              "page.type.REP".tr,
+                              "page.type.CT",
+                              "page.type.CN",
+                              "page.type.LP",
+                              "page.type.GP",
+                              "page.type.OI",
+                              "page.type.HAM",
+                              "page.type.NAC",
+                              "page.type.REP",
                             ],
-                            () {},
-                            readOnly: true,
+                            required: true,
+                            valid: specieIsValid,
+                            errorText: "page.pets.typeIsrequired".tr,
+                            (String value) {
+                              setState(() {
+                                specie = value;
+                                specieIsValid = true;
+                              });
+                            },
                           ),
                           select(
                             "page.pets.Spayed".tr,
-                            "page.general.yes".tr,
-                            ["page.general.yes".tr, "page.general.no".tr],
-                            () {},
-                            readOnly: true,
+                            spayed,
+                            ["page.general.yes", "page.general.no"],
+                            (String value) {
+                              setState(() {
+                                spayed = value;
+                                spayedIsValid = true;
+                              });
+                            },
+                            required: true,
+                            valid: spayedIsValid,
+                            errorText: "page.pets.SpayedValidate".tr,
                           ),
                           datePicker(
                             label: "page.pets.VacinationDate".tr,
@@ -280,7 +393,6 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                               });
                             },
                             context: context,
-                            readOnly: true,
                           ),
                           datePicker(
                             label: "page.pets.IdentificationDate".tr,
@@ -291,7 +403,6 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                               });
                             },
                             context: context,
-                            readOnly: true,
                           ),
                           datePicker(
                             label: "page.pets.birth".tr,
@@ -301,19 +412,26 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                                 dateOfBirth = value;
                               });
                             },
+                            required: true,
+                            valid: dobIsValid,
                             context: context,
-                            readOnly: true,
                           ),
                           InputText(
                             "page.pets.enterBreed".tr,
                             _breed,
-                            readOnly: true,
                             label: "page.pets.breed".tr,
+                            required: true,
+                            valid: breedIsValid,
+                            errorText: "page.pets.breedIsrequired".tr,
+                            setValid: (bool value) {
+                              setState(() {
+                                breedIsValid = value;
+                              });
+                            },
                           ),
                           InputText(
                             "page.pets.enterColor".tr,
                             _color,
-                            readOnly: true,
                             label: "page.pets.Color".tr,
                           ),
                           datePicker(
@@ -324,98 +442,109 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                                   rabbiesVaccinationDate = value;
                                 });
                               },
-                              readOnly: true,
                               context: context),
                           InputText(
                             "page.pets.MicroshipunAvailable".tr,
                             _microship,
                             label: "page.pets.Microship".tr,
                             fontSize: 15,
-                            readOnly: true,
                           ),
                           InputText(
                             "page.pets.Weight".tr,
                             _weight,
                             label: "page.pets.Weight".tr,
-                            readOnly: true,
+                            required: true,
+                            valid: weightIsValid,
+                            errorText: "page.pets.WeightValidation".tr,
+                            setValid: (bool value) {
+                              setState(() {
+                                weightIsValid = value;
+                              });
+                            },
                           ),
                           select(
                             "page.pets.sex".tr,
                             sex,
-                            ["page.general.male".tr, "page.general.female".tr],
+                            ["page.general.male", "page.general.female"],
                             (String value) {
                               setState(() {
                                 sex = value;
+                                sexIsValid = true;
                               });
                             },
+                            required: true,
+                            valid: sexIsValid,
                             errorText: "page.pets.sexIsrequired".tr,
-                            readOnly: true,
                           ),
                           InputText(
                             "page.pets.Alimentation".tr,
                             _alimentation,
                             label: "page.pets.Alimentation".tr,
-                            readOnly: true,
                           ),
                           select(
                             "page.pets.Goesoutside".tr,
                             goesOutside,
-                            ["page.general.yes".tr, "page.general.no".tr],
+                            ["page.general.yes", "page.general.no"],
                             (String value) {
                               setState(() {
                                 goesOutside = value;
                               });
                             },
-                            readOnly: true,
                           ),
                           select(
                             "page.pets.IsInsured".tr,
                             isInsured,
-                            ["page.general.yes".tr, "page.general.no".tr],
+                            ["page.general.yes", "page.general.no"],
                             (String value) {
                               setState(() {
                                 isInsured = value;
+                                insuredIsValid = true;
                               });
                             },
-                            readOnly: true,
+                            valid: insuredIsValid,
+                            errorText: "page.pets.IsInsuredvalidate".tr,
+                            required: true,
                           ),
                           InputText(
                             "page.pets.Insurancename".tr,
                             _insuranceName,
                             label: "page.pets.Alimentation".tr,
-                            readOnly: true,
                           ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Button(
+                                  "page.pet.cancel".tr,
+                                  (BuildContext ctx) {},
+                                  context,
+                                  backgroundColor: Colors.white,
+                                  color: ThemeColors.secondaryColor,
+                                  hasBorder: true,
+                                ),
+                              ),
+                              SizedBox(width: 20 * fem),
+                              Expanded(
+                                child: Obx(() {
+                                  return Button(
+                                    "page.pet.save".tr,
+                                    (BuildContext ctx) async {
+                                      await updatePatientHandler();
+                                    },
+                                    context,
+                                    loading:
+                                        Get.find<PatientController>().loading,
+                                    backgroundColor: ThemeColors.secondaryColor,
+                                  );
+                                }),
+                              ),
+                            ],
+                          )
                         ],
                       )
                     : Container(),
-                activeTab == 1
-                    ? Container(
-                        padding: EdgeInsets.symmetric(vertical: 10 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: const Color(0xff1C2232),
-                            borderRadius: BorderRadius.circular(20 * fem)),
-                        child: Center(
-                          child: Text(
-                            "page.pet.Nofiles".tr,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      )
-                    : Container(),
+                activeTab == 1 ? const PetFiles() : Container(),
                 activeTab == 2
-                    ? Container(
-                        height: 300 * fem,
-                        padding: EdgeInsets.all(20 * fem),
-                        color: ThemeColors.primaryBackground,
-                        child: Text(
-                          "Put your files here, they will be uploaded and sent to the clinic or browse",
-                          style: TextStyle(
-                            fontSize: 20 * ffem,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      )
+                    ? const UploadDocuments()
                     : Container()
               ],
             ),

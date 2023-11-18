@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/models/token.dart';

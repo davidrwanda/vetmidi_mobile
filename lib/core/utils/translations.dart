@@ -804,7 +804,6 @@ class Translation extends Translations {
               "Welcome to your personal EVC Aigle space!",
           "message.page.firstTimePopUpevcetoy.Title":
               "Welcome to your personal EVC Etoy space!",
-          "sidebar.settings": "settings",
           "page.referant.description": "How did you find us ?",
           "page.referant.byfriend": "Recommended by a friend",
           "page.referant.bygads": "Google Adwords",
@@ -840,6 +839,9 @@ class Translation extends Translations {
           "page.pets.back": "Back",
           "page.pets.name": "Name",
           "page.pets.uploadImage": "Upload image",
+          "page.pets.uploadBrowse": "browse",
+          "page.pets.uploadDescription":
+              "Put your files here, they will be uploaded and sent to the clinic or ",
           "page.pets.nameIsrequired": "Name is required",
           "page.pets.bdateIsrequired": "Birth date is required",
           "page.pets.typeIsrequired": "Specie is required",
@@ -898,6 +900,7 @@ class Translation extends Translations {
           "page.pets.RecordsDate": "Date",
           "page.pets.title": "Title",
           "page.pets.editImage": "Edit Image",
+          "page.pets.uploadImage.validation": "You have to create pet first!",
           "page.newUser.FillAllInfoevc":
               "Please complete the information on this page. All data provided will remain confidential and will be used to build your personal file.",
           "page.title": "Title",
@@ -1723,6 +1726,9 @@ class Translation extends Translations {
           "page.pets.back": "Retour",
           "page.pets.name": "Nom",
           "page.pets.uploadImage": "Ajouter une image",
+          "page.pets.uploadBrowse": "parcourir",
+          "page.pets.uploadDescription":
+              "Déposez vos fichiers, ils seront téléchargés et envoyés à la la clinique ou",
           "page.pets.nameIsrequired": "Le nom est requis",
           "page.pets.bdateIsrequired": "La date de naissance est requise",
           "page.pets.typeIsrequired": "Le type est requis",
@@ -1793,6 +1799,8 @@ class Translation extends Translations {
           "page.pets.RecordsDate": "Date",
           "page.pets.title": "Titre",
           "page.pets.editImage": "Éditer l'image",
+          "page.pets.uploadImage.validation":
+              "Vous devez d'abord créer un animal",
           "page.title": "Titre",
           "page.form.title.error": "Le titre est requis",
           "page.country": "Pays",

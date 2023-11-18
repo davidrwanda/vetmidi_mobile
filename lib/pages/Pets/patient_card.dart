@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
-import 'package:vetmidi/core/utils/functions.dart';
 
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
@@ -27,23 +26,34 @@ class PatientCard extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(10 * fem)),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 50 * fem,
-            child: Image.asset("assets/images/dog.png"),
+          SizedBox(
+            height: 100 * fem,
+            width: 100 * fem,
+            child: ClipOval(
+              child: patient.webImage.isEmpty
+                  ? Image.asset("assets/images/dog.png")
+                  : Image.network(patient.webImage, fit: BoxFit.cover),
+            ),
           ),
           SizedBox(height: 10 * fem),
           Text(patient.name, style: TextStyle(fontSize: 20 * ffem)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.edit_outlined,
-                  color: ThemeColors.secondaryColor),
-              SizedBox(width: 3 * fem),
-              Text(
-                "page.pets.editPet".tr,
-                style: const TextStyle(color: ThemeColors.secondaryColor),
-              ),
-            ],
+          GestureDetector(
+            onTap: () {
+              Get.find<PatientController>().patient = patient;
+              Get.toNamed(AppRoutes.editpetdetails);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.edit_outlined,
+                    color: ThemeColors.secondaryColor),
+                SizedBox(width: 3 * fem),
+                Text(
+                  "page.pets.editPet".tr,
+                  style: const TextStyle(color: ThemeColors.secondaryColor),
+                ),
+              ],
+            ),
           ),
           GestureDetector(
             onTap: () {

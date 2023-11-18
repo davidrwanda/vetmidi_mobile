@@ -9,7 +9,7 @@ import '../core/utils/app_constants.dart';
 class InputText extends StatelessWidget {
   final String hintText, icon, errorText, label;
   final Color backgroundColor;
-  final double marginTop, width, height;
+  final double marginTop, width, height, fontSize;
   final bool showBorder, showIcon, valid, required;
   final bool numberKeyboard, isPassword, readOnly;
   final TextEditingController txtController;
@@ -26,6 +26,7 @@ class InputText extends StatelessWidget {
       this.errorText = 'This field can\'t be empty',
       this.icon = 'auth_user.svg',
       this.marginTop = 5,
+      this.fontSize = 16,
       this.backgroundColor = Colors.white,
       this.showBorder = false,
       this.showIcon = true,
@@ -60,13 +61,14 @@ class InputText extends StatelessWidget {
           child: TextField(
             obscureText: isPassword,
             readOnly: readOnly,
-            style: const TextStyle(color: ThemeColors.textColor, fontSize: 16),
+            style: TextStyle(
+                color: ThemeColors.textColor, fontSize: fontSize * ffem),
             keyboardType:
                 numberKeyboard ? TextInputType.number : TextInputType.text,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle:
-                  const TextStyle(color: ThemeColors.textColor, fontSize: 16),
+              hintStyle: TextStyle(
+                  color: ThemeColors.textColor, fontSize: fontSize * ffem),
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
               contentPadding: const EdgeInsets.all(10.0),
@@ -75,8 +77,6 @@ class InputText extends StatelessWidget {
               if (setValid != null && required && value.isEmpty) {
                 setValid!(false);
               }
-              print(
-                  "${setValid != null} && ${!valid && required} && ${value.isNotEmpty}");
               if (setValid != null && !valid && required && value.isNotEmpty) {
                 setValid!(true);
               }
@@ -203,6 +203,7 @@ Widget select(String label, String? value, List<String> items,
     {bool valid = true,
     String errorText = "",
     bool required = false,
+    bool readOnly = false,
     double height = 45,
     double width = double.infinity}) {
   return Column(
@@ -239,11 +240,13 @@ Widget select(String label, String? value, List<String> items,
               style: const TextStyle(color: ThemeColors.textColor),
               underline: null,
               hint: const Text("Select an option"),
-              onChanged: (String? newValue) {
-                if (newValue != "no_value") {
-                  valueChangedHandler(newValue);
-                }
-              },
+              onChanged: readOnly
+                  ? null
+                  : (String? newValue) {
+                      if (newValue != "no_value") {
+                        valueChangedHandler(newValue);
+                      }
+                    },
               items: [
                 DropdownMenuItem<String>(
                   value: "no_value",
@@ -256,7 +259,7 @@ Widget select(String label, String? value, List<String> items,
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
-                      value!,
+                      value!.tr,
                       style: const TextStyle(color: ThemeColors.textColor),
                     ),
                   );
@@ -332,6 +335,7 @@ Column datePicker(
     required BuildContext context,
     required Function onChange,
     bool valid = true,
+    bool readOnly = false,
     bool required = false,
     String errorText = ""}) {
   return Column(
@@ -349,16 +353,18 @@ Column datePicker(
       SizedBox(height: 10 * fem),
       GestureDetector(
         onTap: () async {
-          final DateTime? picked = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2101),
-          );
+          if (!readOnly) {
+            final DateTime? picked = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
 
-          if (picked != null) {
-            DateFormat formatter = DateFormat('MM/dd/yyyy');
-            onChange(formatter.format(picked));
+            if (picked != null) {
+              DateFormat formatter = DateFormat('MM/dd/yyyy');
+              onChange(formatter.format(picked));
+            }
           }
         },
         child: Container(
@@ -374,7 +380,9 @@ Column datePicker(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(value.isNotEmpty ? value : "mm/dd/yyyy"),
-              Icon(Icons.calendar_today, size: 16 * ffem),
+              readOnly
+                  ? Container()
+                  : Icon(Icons.calendar_today, size: 16 * ffem),
             ],
           ),
         ),

@@ -1,4 +1,4 @@
-class User {
+class Profile {
   final String firstName;
   final String lastName;
   final String email;
@@ -18,11 +18,10 @@ class User {
   final String contactWithSMS;
   final String contactWithWhatsapp;
   final bool isNewUser;
-  final int? isAdmin;
-  final String? referantDescription;
-  final String? title;
+  final String referantDescription;
+  final String title;
 
-  User({
+  Profile({
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -42,13 +41,12 @@ class User {
     required this.contactWithSMS,
     required this.contactWithWhatsapp,
     required this.isNewUser,
-    this.isAdmin,
-    this.referantDescription,
-    this.title,
+    required this.referantDescription,
+    required this.title,
   });
 
-  factory User.fromJSON(Map<String, dynamic> json) {
-    return User(
+  factory Profile.fromJSON(Map<String, dynamic> json) {
+    return Profile(
       firstName: json["first_name"],
       lastName: json["last_name"],
       email: json["email"],
@@ -68,7 +66,8 @@ class User {
       contactWithSMS: json["contact_with_sms"],
       contactWithWhatsapp: json["contact_with_whatsapp"],
       isNewUser: json["is_new_user"],
-      isAdmin: json["is_admin"],
+      referantDescription: json["referant_description"],
+      title: json["title"],
     );
   }
 
@@ -94,7 +93,8 @@ contactWithEmail: $contactWithEmail,
 contactWithSMS: $contactWithSMS,
 contactWithWhatsapp: $contactWithWhatsapp,
 isNewUser: $isNewUser,
-isAdmin: $isAdmin,
+referantDescription: $referantDescription,
+title: $title,
   }
 ''';
   }

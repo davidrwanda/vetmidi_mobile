@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
-import 'package:vetmidi/pages/Auth/login.dart';
 import 'package:vetmidi/pages/Pets/new_pet.dart';
 import 'package:vetmidi/pages/Pets/pets.dart';
 import 'package:vetmidi/pages/Profile/profile.dart';
@@ -17,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
   var bottomNavigationBarItems = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(
       icon: Icon(Icons.person_rounded),

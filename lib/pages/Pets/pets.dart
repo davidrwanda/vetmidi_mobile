@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
@@ -10,7 +9,6 @@ import '../../components/app_bar.dart';
 import '../../components/loading.dart';
 import '../../controllers/auth_controller.dart';
 import '../../core/utils/app_constants.dart';
-import '../Profile/details_items.dart';
 import 'patient_card.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -28,10 +26,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 0), () {
-      String token = Get.find<AuthController>().token?.accessToken ?? "";
-      Get.find<PatientController>().getPatients(token);
-    });
+    if (!Get.find<PatientController>().fetchedPatients) {
+      Future.delayed(const Duration(seconds: 0), () {
+        String token = Get.find<AuthController>().token?.accessToken ?? "";
+        Get.find<PatientController>().getPatients(token);
+      });
+    }
   }
 
   var activeTab = 0;
@@ -142,7 +142,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 20 * fem),
                         child: Column(
                           children: [
-                            Container(
+                            SizedBox(
                               height: 260 * fem,
                               width: double.infinity,
                               // padding: EdgeInsets.all(20 * fem),
@@ -356,10 +356,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                         child: Image.asset("assets/images/dog.png"),
                       ),
                       SizedBox(height: 10 * fem),
-                      Container(
-                        width: 60 * fem,
-                        height: 20 * fem,
-                        color: Colors.grey.shade200,
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.editpetdetails);
+                        },
+                        child: Container(
+                          width: 60 * fem,
+                          height: 20 * fem,
+                          color: Colors.grey.shade200,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

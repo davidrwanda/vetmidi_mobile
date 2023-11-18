@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vetmidi/components/inputs.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/pages/Records/select_typey.dart';
@@ -97,7 +96,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
             ),
           ),
           SizedBox(height: 30 * fem),
-          Container(
+          SizedBox(
             height: 50 * fem,
             width: double.infinity,
             child: ListView(
