@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../core/utils/app_constants.dart';
 import '../core/utils/translations.dart';
@@ -49,6 +50,8 @@ class LanguageSwitch extends StatelessWidget {
                         .toList(),
                     onChanged: (String? code) {
                       if (code != null) {
+                        final box = GetStorage();
+                        box.write('locale', code);
                         Get.updateLocale(Locale(code));
                       }
                     }),

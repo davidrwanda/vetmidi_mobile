@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -8,8 +7,6 @@ import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/models/patients.dart';
 import 'package:vetmidi/models/pet_file.dart';
 import 'package:vetmidi/services/patient_service.dart';
-
-import 'package:http/http.dart' as http;
 
 class PatientController extends GetxController {
   final RxBool _isLoading = false.obs;
@@ -48,6 +45,10 @@ class PatientController extends GetxController {
     return _fetchedPatients.value;
   }
 
+  set fetchedPatients(bool value) {
+    _fetchedPatients.value = value;
+  }
+
   Future<void> getPatients(String token) async {
     try {
       _isLoading.value = true;
@@ -77,6 +78,8 @@ class PatientController extends GetxController {
         throw Exception(res["message"]);
       } else {
         _fetchedPatients.value = false;
+        showToast("page.pets.updateSuccess".tr,
+            title: "feedback.alert.successTitle".tr);
       }
     } catch (error) {
       showToast(error.toString());
@@ -92,6 +95,7 @@ class PatientController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
+        showToast("page.pets.petAddedSuccess".tr);
         _fetchedPatients.value = false;
       }
     } catch (error) {
@@ -125,25 +129,11 @@ class PatientController extends GetxController {
       _isUpLoading.value = true;
       for (var file in files) {
         File f = File.fromUri(Uri.file(file.path!));
-        // print("file $f");
         Uint8List? fileBytes = await f.readAsBytes();
-        // print("file uploadd  ${file.name} bytessssssssssssssss ${file.bytes}");
-        if (fileBytes != null) {
-          Map<String, dynamic> data = {
-            "type": "application/pdf",
-            "name": file.name,
-            "file": file
-          };
-          var res = await _patientService.uploadPetDocument(data, petId, token);
-          // print("dataaaaaaaaaaaa $data");
-          // print("ressssssssssssssssss $res");
-          if (res["error"] != null && res["error"] == true) {
-            throw Exception(res["message"]);
-          }
-        }
+        await _patientService.uploadPetDocument(
+            file.name, fileBytes, petId, token);
       }
     } catch (error) {
-      print(error.toString());
       showToast(error.toString());
     } finally {
       _isUpLoading.value = false;

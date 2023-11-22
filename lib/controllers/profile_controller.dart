@@ -15,8 +15,16 @@ class ProfileController extends GetxController {
     return _fetchedProfile.value;
   }
 
+  set fetchedProfile(bool value) {
+    _fetchedProfile.value = value;
+  }
+
   bool get fetching {
     return _fetching.value;
+  }
+
+  bool get updating {
+    return _updating.value;
   }
 
   Profile? get profile {
@@ -51,7 +59,8 @@ class ProfileController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        _fetchedProfile.value = false;
+        showToast("page.profile.updateSuccessful".tr,
+            title: "feedback.alert.successTitle".tr);
       }
     } catch (error) {
       showToast(error.toString());

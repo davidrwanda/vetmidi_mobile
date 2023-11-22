@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vetmidi/core/bindings/root_bindings.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/routes/index.dart';
 
 import 'core/utils/translations.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await GetStorage.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final box = GetStorage();
 
   // This widget is the root of your application.
   @override
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,
       initialBinding: RootBinding(),
-      locale: const Locale('en'),
+      locale: Locale(box.read('locale') ?? 'en'),
       translations: Translation(),
       supportedLocales: const [
         Locale('en'),

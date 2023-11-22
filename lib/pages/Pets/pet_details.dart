@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/utils/functions.dart';
+import 'package:vetmidi/pages/Pets/pet_files.dart';
+import 'package:vetmidi/pages/Pets/upload_documents.dart';
 
 import '../../components/app_bar.dart';
 import '../../components/inputs.dart';
+import '../../components/pet_image.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
 import '../../routes/index.dart';
@@ -109,12 +112,13 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
               Get.toNamed(Get.previousRoute);
             },
             child: Row(
-              children: const [
-                Icon(
+              children: [
+                SizedBox(width: 15 * fem),
+                const Icon(
                   Icons.arrow_back,
                   color: ThemeColors.secondaryColor,
                 ),
-                Text(
+                const Text(
                   "Back",
                   style: TextStyle(
                     color: ThemeColors.secondaryColor,
@@ -141,10 +145,8 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                 borderRadius: BorderRadius.circular(10 * fem)),
             child: Column(
               children: [
-                CircleAvatar(
-                  radius: 50 * fem,
-                  child: Image.asset("assets/images/dog.png"),
-                ),
+                petImage(
+                    Get.find<PatientController>().patient!.webImage, false),
                 SizedBox(height: 15 * fem),
                 GestureDetector(
                   onTap: () {
@@ -388,35 +390,8 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                         ],
                       )
                     : Container(),
-                activeTab == 1
-                    ? Container(
-                        padding: EdgeInsets.symmetric(vertical: 10 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: const Color(0xff1C2232),
-                            borderRadius: BorderRadius.circular(20 * fem)),
-                        child: Center(
-                          child: Text(
-                            "page.pet.Nofiles".tr,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                activeTab == 2
-                    ? Container(
-                        height: 300 * fem,
-                        padding: EdgeInsets.all(20 * fem),
-                        color: ThemeColors.primaryBackground,
-                        child: Text(
-                          "Put your files here, they will be uploaded and sent to the clinic or browse",
-                          style: TextStyle(
-                            fontSize: 20 * ffem,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      )
-                    : Container()
+                activeTab == 1 ? const PetFiles() : Container(),
+                activeTab == 2 ? const UploadDocuments() : Container()
               ],
             ),
           ),

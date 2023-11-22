@@ -1,7 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:vetmidi/core/utils/app_constants.dart';
 import 'package:vetmidi/core/utils/http_request.dart';
 import 'package:http/http.dart' as http;
@@ -63,24 +61,52 @@ class PatientService {
   }
 
   Future<dynamic> uploadPetDocument(
-      Map<String, dynamic> data, String petId, String token) async {
+      String name, Uint8List fileBytes, String petId, String token) async {
     Map<String, String> headers = {
       "Accept": "*/*",
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
       "Connection": "keep-alive",
       "Authorization": "Bearer $token"
     };
-    print("htt payload $data");
-    http.Response response = await http.post(
-        Uri.parse("$baseUrl/postPetFiles/$petId"),
-        body: data,
-        headers: headers);
+    // print("htt payload $data");
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse("$baseUrl/postPetFiles/$petId"),
+    );
 
-    print("htt presonse ${response.body}");
-    if (response.body.isNotEmpty) {
-      return json.decode(response.body);
+    // Add headers to the request
+    request.headers.addAll(headers);
+
+    // Add form fields
+    // request.fields['type'] = 'application/pdf';
+    // request.fields['name'] = name;
+
+    // Add file to the request
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        'file',
+        fileBytes,
+        filename: name,
+        contentType: MediaType('application', 'pdf'),
+      ),
+    );
+
+    http.StreamedResponse response = await request.send();
+    // http.Response response = await http.post(
+    //     Uri.parse("$baseUrl/postPetFiles/$petId"),
+    //     body: data,
+    //     headers: headers);
+
+    if (response.statusCode == 200) {
+      // print('Request successful');
+      // print('Response: ${await response.stream.bytesToString()}');
     } else {
-      throw const HttpException('Empty response');
+      // print('Request failed with status: ${response.statusCode}');
     }
+    // if (response.body.isNotEmpty) {
+    //   return json.decode(response.body);
+    // } else {
+    //   throw const HttpException('Empty response');
+    // }
   }
 }

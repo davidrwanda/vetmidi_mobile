@@ -4,13 +4,13 @@ import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
 import 'package:vetmidi/pages/Profile/profile_card_loading.dart';
+import 'package:vetmidi/routes/index.dart';
 
 import '../../components/app_bar.dart';
 import '../../components/inputs.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../../core/utils/app_constants.dart';
-import '../../routes/index.dart';
 import 'details_items.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -31,7 +31,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _city;
   late TextEditingController _phone;
   late TextEditingController _postalCode;
+  String? contactWithEmail;
+  String? contactWithSMS;
+  String? contactWithWhatsapp;
   final ScrollController _scrollController = ScrollController();
+
+  var fNameIsValid = true;
+  var lNameIsValid = true;
+  var phoneIsValid = true;
+  var addressIsValid = true;
+  var cityIsValid = true;
+  var postalCodeIsValid = true;
 
   @override
   void initState() {
@@ -61,9 +71,93 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _city.text = Get.find<ProfileController>().profile?.city ?? "";
     _postalCode.text = Get.find<ProfileController>().profile?.postalCode ?? "";
     _phone.text = Get.find<ProfileController>().profile?.phone ?? "";
+    title = getTranslationKeys(
+        Get.find<ProfileController>().profile?.title ?? "Monsieur");
     referantDescription = getTranslationKeys(
         Get.find<ProfileController>().profile?.referantDescription ??
             "Recommandé par un ami");
+    contactWithEmail = getTranslationKeys(
+        Get.find<AuthController>().user?.contactWithEmail.toLowerCase() ??
+            "yes");
+    contactWithSMS = getTranslationKeys(
+        Get.find<AuthController>().user?.contactWithSMS.toLowerCase() ?? "yes");
+    contactWithWhatsapp = getTranslationKeys(
+        Get.find<AuthController>().user?.contactWithWhatsapp.toLowerCase() ??
+            "yes");
+  }
+
+  validateFields() {
+    var formValid = true;
+
+    if (_firstName.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        fNameIsValid = false;
+      });
+    }
+
+    if (_lastName.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        lNameIsValid = false;
+      });
+    }
+
+    if (_address.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        addressIsValid = false;
+      });
+    }
+
+    if (_city.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        cityIsValid = false;
+      });
+    }
+
+    if (_phone.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        phoneIsValid = false;
+      });
+    }
+
+    if (_postalCode.text.isEmpty) {
+      formValid = false;
+      setState(() {
+        postalCodeIsValid = false;
+      });
+    }
+
+    return formValid;
+  }
+
+  updateProfileHandler() async {
+    if (validateFields()) {
+      Map<String, dynamic> data = {
+        "first_name": _firstName.text,
+        "last_name": _lastName.text,
+        "email": _email.text,
+        "address": _address.text,
+        "city": _city.text,
+        "phone": _phone.text,
+        "postal_code": _postalCode.text,
+        "contact_with_email": getYesOrNoValue(contactWithEmail!),
+        "contact_with_sms": getYesOrNoValue(contactWithSMS!),
+        "contact_with_whatsapp": getYesOrNoValue(contactWithWhatsapp!),
+        "title": getTitleFrenchValue(title),
+        "referant_description": getReferalFrenchValue(referantDescription),
+      };
+
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      await Get.find<ProfileController>().updateProfile(data, token);
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.find<ProfileController>().fetchedProfile = false;
+        Get.offAndToNamed(AppRoutes.home);
+      });
+    }
   }
 
   @override
@@ -286,21 +380,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         _firstName,
                                         label: "page.FirstNameInput".tr,
                                         required: true,
+                                        valid: fNameIsValid,
+                                        errorText:
+                                            "validation.signUp.required.FirstName"
+                                                .tr,
+                                        setValid: (bool value) {
+                                          setState(() {
+                                            fNameIsValid = value;
+                                          });
+                                        },
                                       ),
                                       InputText(
                                         "",
                                         _lastName,
                                         label: "page.LastNameInput".tr,
                                         required: true,
+                                        valid: lNameIsValid,
+                                        errorText:
+                                            "validation.signUp.required.LastName"
+                                                .tr,
+                                        setValid: (bool value) {
+                                          setState(() {
+                                            lNameIsValid = value;
+                                          });
+                                        },
                                       ),
                                       select(
                                         "page.title".tr,
                                         title,
                                         [
-                                          "page.title".tr,
-                                          "page.general.madame".tr,
-                                          "page.general.monsieur".tr,
-                                          "page.general.mademoiselle".tr,
+                                          "page.title",
+                                          "page.general.madame",
+                                          "page.general.monsieur",
+                                          "page.general.mademoiselle",
                                         ],
                                         () {},
                                         required: true,
@@ -309,10 +421,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         "page.country".tr,
                                         country,
                                         [
-                                          "page.general.suisse".tr,
-                                          "page.general.france".tr,
-                                          "page.general.Italie".tr,
-                                          "page.general.Allemagne".tr,
+                                          "page.general.suisse",
+                                          "page.general.france",
+                                          "page.general.Italie",
+                                          "page.general.Allemagne",
                                         ],
                                         () {},
                                         required: true,
@@ -321,6 +433,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         "",
                                         _email,
                                         label: "Email",
+                                        readOnly: true,
                                         required: true,
                                       ),
                                     ],
@@ -342,23 +455,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       _address,
                                       label: "page.AddressInput".tr,
                                       required: true,
+                                      valid: addressIsValid,
+                                      errorText:
+                                          "errors.form.address.required".tr,
+                                      setValid: (bool value) {
+                                        setState(() {
+                                          addressIsValid = value;
+                                        });
+                                      },
                                     ),
                                     InputText(
                                       "page.signUpCityPlaceholder".tr,
                                       _city,
                                       label: "page.CityInput".tr,
+                                      errorText: "errors.form.city.required".tr,
+                                      valid: cityIsValid,
+                                      setValid: (bool value) {
+                                        setState(() {
+                                          cityIsValid = value;
+                                        });
+                                      },
                                       required: true,
                                     ),
                                     InputText(
                                       "page.signUpPhonePlaceholder".tr,
                                       _phone,
                                       label: "page.PhoneInput".tr,
+                                      errorText:
+                                          "validation.signUp.required.Phone".tr,
+                                      valid: phoneIsValid,
                                       required: true,
+                                      setValid: (bool value) {
+                                        setState(() {
+                                          phoneIsValid = value;
+                                        });
+                                      },
                                     ),
                                     InputText(
                                       "page.signUpPostalCodePlaceholder".tr,
                                       _postalCode,
                                       label: "page.PostalCodeInput".tr,
+                                      errorText:
+                                          "errors.form.postalCode.required".tr,
+                                      valid: postalCodeIsValid,
+                                      setValid: (bool value) {
+                                        setState(() {
+                                          postalCodeIsValid = value;
+                                        });
+                                      },
                                       required: true,
                                     ),
                                   ]),
@@ -376,49 +520,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Column(children: [
                                     select(
                                       "page.contact_with_email".tr,
-                                      getTranslationKeys(
-                                        Get.find<AuthController>()
-                                                .user
-                                                ?.contactWithSMS ??
-                                            "page.general.yes",
-                                      ).tr,
-                                      [
-                                        "page.general.yes".tr,
-                                        "page.general.no".tr
-                                      ],
+                                      contactWithEmail,
+                                      ["page.general.yes", "page.general.no"],
                                       () {},
                                       required: true,
                                     ),
                                     select(
                                       "page.contact_with_sms".tr,
-                                      getTranslationKeys(
-                                        Get.find<AuthController>()
-                                                .user
-                                                ?.contactWithSMS ??
-                                            "page.general.no",
-                                      ).tr,
-                                      [
-                                        "page.general.yes".tr,
-                                        "page.general.no".tr
-                                      ],
+                                      contactWithSMS,
+                                      ["page.general.yes", "page.general.no"],
                                       () {},
                                       required: true,
                                     ),
                                     select(
                                       "page.contact_with_whatsapp".tr,
-                                      getTranslationKeys(
-                                        Get.find<AuthController>()
-                                                .user
-                                                ?.contactWithSMS ??
-                                            "page.general.no",
-                                      ).tr,
-                                      [
-                                        "page.general.yes".tr,
-                                        "page.general.no".tr
-                                      ],
+                                      contactWithWhatsapp,
+                                      ["page.general.yes", "page.general.no"],
                                       () {},
                                       required: true,
-                                    )
+                                    ),
                                   ]),
                                 ),
                                 SizedBox(height: 35 * fem),
@@ -433,18 +553,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       EdgeInsets.symmetric(vertical: 20 * fem),
                                   child: Column(children: [
                                     select(
-                                        "page.referant.description".tr,
-                                        referantDescription,
-                                        [
-                                          "page.referant.byfriend",
-                                          "page.referant.bygads",
-                                          "page.referant.bylocal",
-                                          "page.referant.byvet1",
-                                          "page.referant.byfbc",
-                                          "page.referant.byvt2",
-                                        ],
-                                        () {},
-                                        required: true)
+                                      "page.referant.description".tr,
+                                      referantDescription,
+                                      [
+                                        "page.referant.byfriend",
+                                        "page.referant.bygads",
+                                        "page.referant.bylocal",
+                                        "page.referant.byvet1",
+                                        "page.referant.byfbc",
+                                        "page.referant.byvt2",
+                                      ],
+                                      () {},
+                                      required: true,
+                                    )
                                   ]),
                                 ),
                               ],
@@ -460,10 +581,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Button("page.profile.saveChanges.btn".tr,
-                              (BuildContext ctx) {
-                            Get.toNamed(AppRoutes.mypets);
-                          }, context),
+                          Obx(() {
+                            return Button(
+                              "page.profile.saveChanges.btn".tr,
+                              (BuildContext ctx) async {
+                                await updateProfileHandler();
+                              },
+                              context,
+                              loading: Get.find<ProfileController>().updating,
+                            );
+                          }),
                           SizedBox(width: 10 * fem),
                           Button(
                             "page.profile.changePassword.btn".tr,

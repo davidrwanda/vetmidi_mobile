@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:vetmidi/components/pet_image.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/utils/functions.dart';
+import 'package:vetmidi/core/utils/pick_image.dart';
 
 import '../../components/app_bar.dart';
 import '../../components/button.dart';
@@ -21,6 +24,7 @@ class EditPetDetailsScreen extends StatefulWidget {
 
 class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
   var activeTab = 0;
+  String? image;
 
   late TextEditingController _petName;
   String? specie;
@@ -47,6 +51,12 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
   var weightIsValid = true;
   var sexIsValid = true;
   var insuredIsValid = true;
+
+  setImage(String imageTemporary) {
+    setState(() {
+      image = imageTemporary;
+    });
+  }
 
   initiateFields() {
     _petName.text = Get.find<PatientController>().patient?.name ?? "";
@@ -169,7 +179,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
     if (validateFields()) {
       Map<String, dynamic> data = {
         "name": _petName.text,
-        "species": getTranslationKeys(specie!).split('.')[2],
+        "species": specie!.split('.')[2],
         "sterilise": getYesOrNoValue(spayed!),
         "relance_maladies": vaccinationDate,
         "identification_date": identificationDate,
@@ -178,16 +188,21 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
         "color": _color.text,
         "relance_rage": rabbiesVaccinationDate,
         "weight": int.parse(_weight.text),
-        "sex": sex!.substring(0, 1),
+        "sex": sex!.tr.substring(0, 1),
         "alimentation": _alimentation.text,
         "mode_de_vie": getYesOrNoValue(goesOutside!),
         "insurance_desc": getYesOrNoValue(isInsured!),
       };
+      if (image != null) {
+        data['photo'] = image;
+      } else {
+        data['photo'] = Get.find<PatientController>().patient!.webImage;
+      }
 
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<PatientController>().updatePatient(
           Get.find<PatientController>().patient!.fmId, data, token);
-      Get.find<AuthController>().selectedTab = 1;
+      // Get.find<AuthController>().selectedTab = 1;
     }
   }
 
@@ -222,7 +237,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
           ),
           SizedBox(height: 10 * fem),
           Text(
-            "page.pets.info".tr,
+            "page.pets.editPet".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 40 * ffem,
@@ -238,25 +253,30 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                 borderRadius: BorderRadius.circular(10 * fem)),
             child: Column(
               children: [
-                CircleAvatar(
-                  radius: 50 * fem,
-                  child: Image.asset("assets/images/dog.png"),
-                ),
+                image == null
+                    ? petImage(
+                        Get.find<PatientController>().patient!.webImage, false)
+                    : petImage(image!, true),
                 SizedBox(height: 15 * fem),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/images/edit.png"),
-                    SizedBox(
-                      width: 3 * fem,
-                    ),
-                    Text(
-                      "page.pets.editPet".tr,
-                      style: const TextStyle(
-                        color: ThemeColors.secondaryColor,
+                GestureDetector(
+                  onTap: () async {
+                    await pickImage(ImageSource.gallery, setImage);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.add, color: ThemeColors.secondaryColor),
+                      SizedBox(
+                        width: 3 * fem,
                       ),
-                    ),
-                  ],
+                      Text(
+                        "page.pets.editImage".tr,
+                        style: const TextStyle(
+                          color: ThemeColors.secondaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 15 * fem),
                 Container(
@@ -447,6 +467,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                             "page.pets.MicroshipunAvailable".tr,
                             _microship,
                             label: "page.pets.Microship".tr,
+                            readOnly: true,
                             fontSize: 15,
                           ),
                           InputText(
@@ -543,9 +564,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                       )
                     : Container(),
                 activeTab == 1 ? const PetFiles() : Container(),
-                activeTab == 2
-                    ? const UploadDocuments()
-                    : Container()
+                activeTab == 2 ? const UploadDocuments() : Container()
               ],
             ),
           ),

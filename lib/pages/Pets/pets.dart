@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
+import 'package:vetmidi/pages/Pets/pets_table_view.dart';
 import 'package:vetmidi/routes/index.dart';
 
 import '../../components/app_bar.dart';
@@ -19,9 +20,6 @@ class MyPetsScreen extends StatefulWidget {
 }
 
 class _MyPetsScreenState extends State<MyPetsScreen> {
-  final ScrollController _scrollController = ScrollController();
-  final ScrollController _scrollController2 = ScrollController();
-
   @override
   void initState() {
     super.initState();
@@ -138,208 +136,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                               .toList()
                         ],
                       )
-                    : Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20 * fem),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 260 * fem,
-                              width: double.infinity,
-                              // padding: EdgeInsets.all(20 * fem),
-                              child: RawScrollbar(
-                                thumbVisibility: true,
-                                thumbColor: ThemeColors.primaryColor,
-                                trackVisibility: true,
-                                trackColor: const Color(0xff1C2232),
-                                thickness: 10 * fem,
-                                radius: Radius.circular(20 * fem),
-                                interactive: true,
-                                controller: _scrollController,
-                                scrollbarOrientation:
-                                    ScrollbarOrientation.bottom,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      // color: Colors.amber,
-                                      width: double.infinity,
-                                      height: 60 * fem,
-                                      padding: EdgeInsets.all(12 * fem),
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10 * fem,
-                                      ),
-                                      child: ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        controller: _scrollController2,
-                                        children: [
-                                          Container(
-                                            width: 80 * fem,
-                                            height: 50 * fem,
-                                            color: Colors.transparent,
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Nom",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Race",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 90 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Date de naissance",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Espece",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Sterilise",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 40 * fem,
-                                            height: double.infinity,
-                                            color: Colors.transparent,
-                                          ),
-                                          Container(
-                                            width: 40 * fem,
-                                            height: double.infinity,
-                                            color: Colors.transparent,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      color: Colors.white,
-                                      width: double.infinity,
-                                      height: 70 * fem,
-                                      padding: EdgeInsets.all(12 * fem),
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10 * fem,
-                                      ),
-                                      child: ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        controller: _scrollController,
-                                        children: [
-                                          SizedBox(
-                                            width: 80 * fem,
-                                            height: 50 * fem,
-                                            // color: Colors.cyan,
-                                            child: Center(
-                                              child: Image.asset(
-                                                "assets/images/dog.png",
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Dog",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Test",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 90 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "05/11/2023",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "chien",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 60 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Text(
-                                                "Oui",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 40 * fem,
-                                            height: double.infinity,
-                                            child: Center(
-                                              child: Image.asset(
-                                                  "assets/images/edit.png"),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 40 * fem,
-                                            height: double.infinity,
-                                            child: const Center(
-                                              child: Icon(
-                                                Icons.preview,
-                                                color:
-                                                    ThemeColors.secondaryColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
+                    : const PetsTableView();
               } else {
                 return Container(
                   margin: EdgeInsets.fromLTRB(

@@ -7,6 +7,7 @@ import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
 
+import '../../components/app_bar.dart';
 import '../../components/inputs.dart';
 import '../../core/utils/app_constants.dart';
 
@@ -125,7 +126,7 @@ class _NewPetState extends State<NewPet> {
     if (validateFields()) {
       Map<String, dynamic> data = {
         "name": _petName.text,
-        "species": getTranslationKeys(specie!).split('.')[2],
+        "species": specie!.split('.')[2],
         "sterilise": getYesOrNoValue(spayed!),
         "relance_maladies": vaccinationDate,
         "identification_date": identificationDate,
@@ -134,7 +135,7 @@ class _NewPetState extends State<NewPet> {
         "color": _color.text,
         "relance_rage": rabbiesVaccinationDate,
         "weight": int.parse(_weight.text),
-        "sex": sex!.substring(0, 1),
+        "sex": sex!.tr.substring(0, 1),
         "alimentation": _alimentation.text,
         "mode_de_vie": getYesOrNoValue(goesOutside!),
         "insurance_desc": getYesOrNoValue(isInsured!),
@@ -142,7 +143,9 @@ class _NewPetState extends State<NewPet> {
 
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<PatientController>().createPatient(data, token);
-      Get.find<AuthController>().selectedTab = 1;
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.find<AuthController>().selectedTab = 1;
+      });
     }
   }
 
@@ -154,29 +157,7 @@ class _NewPetState extends State<NewPet> {
         color: ThemeColors.primaryBackground,
         child: ListView(
           children: [
-            // const CustomAppBar(),
-            Container(
-              width: double.infinity,
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: Container()),
-                      Padding(
-                          padding:
-                              EdgeInsets.only(right: 10 * fem, top: 5 * fem),
-                          child: const Icon(Icons.close)),
-                    ],
-                  ),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          20 * fem, 0 * fem, 0 * fem, 10 * fem),
-                      child: Text("page.pets.uploadImage.validation".tr)),
-                ],
-              ),
-            ),
+            const CustomAppBar(),
             SizedBox(height: 20 * fem),
             Text(
               "page.pets.addPet".tr,
@@ -247,10 +228,7 @@ class _NewPetState extends State<NewPet> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              showNotification(context, "Yoo");
-                              // setState(() {
-                              //   containerWidth = 1;
-                              // });
+                              showToast("page.pets.uploadImage.validation".tr);
                             },
                             child: Container(
                               color: Colors.transparent,
@@ -279,14 +257,14 @@ class _NewPetState extends State<NewPet> {
                     "page.pets.Type".tr,
                     specie,
                     [
-                      "page.type.CT".tr,
-                      "page.type.CN".tr,
-                      "page.type.LP".tr,
-                      "page.type.GP".tr,
-                      "page.type.OI".tr,
-                      "page.type.HAM".tr,
-                      "page.type.NAC".tr,
-                      "page.type.REP".tr,
+                      "page.type.CT",
+                      "page.type.CN",
+                      "page.type.LP",
+                      "page.type.GP",
+                      "page.type.OI",
+                      "page.type.HAM",
+                      "page.type.NAC",
+                      "page.type.REP",
                     ],
                     (String value) {
                       setState(() {
@@ -301,7 +279,7 @@ class _NewPetState extends State<NewPet> {
                   select(
                     "page.pets.Spayed".tr,
                     spayed,
-                    ["page.general.yes".tr, "page.general.no".tr],
+                    ["page.general.yes", "page.general.no"],
                     (String value) {
                       setState(() {
                         spayed = value;
@@ -390,7 +368,7 @@ class _NewPetState extends State<NewPet> {
                   select(
                     "page.pets.sex".tr,
                     sex,
-                    ["page.general.male".tr, "page.general.female".tr],
+                    ["page.general.male", "page.general.female"],
                     (String value) {
                       setState(() {
                         sex = value;
@@ -409,7 +387,7 @@ class _NewPetState extends State<NewPet> {
                   select(
                     "page.pets.Goesoutside".tr,
                     goesOutside,
-                    ["page.general.yes".tr, "page.general.no".tr],
+                    ["page.general.yes", "page.general.no"],
                     (String value) {
                       setState(() {
                         goesOutside = value;
@@ -419,7 +397,7 @@ class _NewPetState extends State<NewPet> {
                   select(
                     "page.pets.IsInsured".tr,
                     isInsured,
-                    ["page.general.yes".tr, "page.general.no".tr],
+                    ["page.general.yes", "page.general.no"],
                     (String value) {
                       setState(() {
                         isInsured = value;

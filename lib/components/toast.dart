@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import '../core/utils/app_constants.dart';
 
-void showToast(String message) {
+void showToast(String message, {String title = "Error"}) {
   Get.snackbar(
-    'Error',
+    title,
     message,
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: Colors.grey,

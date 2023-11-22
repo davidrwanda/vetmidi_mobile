@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 
+import '../../components/pet_image.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
 import '../../models/patients.dart';
@@ -26,15 +27,7 @@ class PatientCard extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(10 * fem)),
       child: Column(
         children: [
-          SizedBox(
-            height: 100 * fem,
-            width: 100 * fem,
-            child: ClipOval(
-              child: patient.webImage.isEmpty
-                  ? Image.asset("assets/images/dog.png")
-                  : Image.network(patient.webImage, fit: BoxFit.cover),
-            ),
-          ),
+          petImage(patient.webImage, false),
           SizedBox(height: 10 * fem),
           Text(patient.name, style: TextStyle(fontSize: 20 * ffem)),
           GestureDetector(

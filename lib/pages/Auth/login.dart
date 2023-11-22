@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  var rememberMe = false;
 
   @override
   void initState() {
@@ -65,7 +66,15 @@ class _LoginState extends State<Login> {
                 children: [
                   Row(
                     children: [
-                      const Checkbox(value: true, onChanged: null),
+                      Checkbox(
+                          value: rememberMe,
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                rememberMe = newValue;
+                              });
+                            }
+                          }),
                       Text("page.signInRememberMe".tr),
                     ],
                   ),
