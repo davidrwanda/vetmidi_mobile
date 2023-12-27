@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/components/pet_image.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/utils/functions.dart';
@@ -215,26 +216,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
         children: [
           const CustomAppBar(),
           SizedBox(height: 20 * fem),
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(Get.previousRoute);
-            },
-            child: Row(
-              children: [
-                SizedBox(width: 20 * fem),
-                const Icon(
-                  Icons.arrow_back,
-                  color: ThemeColors.secondaryColor,
-                ),
-                const Text(
-                  "Back",
-                  style: TextStyle(
-                    color: ThemeColors.secondaryColor,
-                  ),
-                )
-              ],
-            ),
-          ),
+          backButton(),
           SizedBox(height: 10 * fem),
           Text(
             "page.pets.editPet".tr,

@@ -1,12 +1,17 @@
 import 'package:get/get.dart';
 import 'package:vetmidi/core/bindings/home_bindings.dart';
+import 'package:vetmidi/pages/Home/appointment_details.dart';
+import 'package:vetmidi/pages/Notifications/notifications.dart';
 import 'package:vetmidi/pages/Pets/new_pet.dart';
 import 'package:vetmidi/pages/Pets/pet_details.dart';
+import 'package:vetmidi/pages/Pets/pet_profile.dart';
 import 'package:vetmidi/pages/Pets/pets.dart';
 import 'package:vetmidi/pages/Profile/profile.dart';
 import 'package:vetmidi/pages/home.dart';
 
 import '../pages/Auth/login.dart';
+import '../pages/Home/appointments.dart';
+import '../pages/Home/treatment_details.dart';
 import '../pages/Pets/edit_pet_details.dart';
 
 class AppRoutes {
@@ -17,6 +22,11 @@ class AppRoutes {
   static const String newpet = "/newpet";
   static const String petdetails = "/petdetails";
   static const String editpetdetails = "/editpetdetails";
+  static const String notifications = "/notifications";
+  static const String appointmentdetails = "/appointmentdetails";
+  static const String treatmentdetails = "/treatmentdetails";
+  static const String petprofile = "/petprofile";
+  static const String appointments = "/appointments";
 
   static final routes = [
     // GetPage(name: home, page: () => const HomeScreen(), middlewares: [
@@ -34,5 +44,10 @@ class AppRoutes {
     GetPage(name: newpet, page: () => const NewPet()),
     GetPage(name: petdetails, page: () => const PetDetailsScreen()),
     GetPage(name: editpetdetails, page: () => const EditPetDetailsScreen()),
+    GetPage(name: notifications, page: () => const NotificationsScreen()),
+    GetPage(name: appointmentdetails, page: () => const AppointmentDetails()),
+    GetPage(name: treatmentdetails, page: () => const TreatmentDetails()),
+    GetPage(name: petprofile, page: () => const PetProfile()),
+    GetPage(name: appointments, page: () => AppointmentsScreen()),
   ];
 }

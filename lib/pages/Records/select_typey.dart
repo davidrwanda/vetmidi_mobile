@@ -5,18 +5,22 @@ import '../../core/utils/app_constants.dart';
 
 class SelectType extends StatelessWidget {
   final int selectedIndex;
+  final List<String> tabs;
   final Function onChange;
 
   const SelectType(
-      {super.key, required this.selectedIndex, required this.onChange});
+      {super.key,
+      required this.tabs,
+      required this.selectedIndex,
+      required this.onChange});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20 * fem),
+      padding: EdgeInsets.fromLTRB(0, 20 * fem, 20 * fem, 20 * fem),
       child: Row(
         children: [
-          ...["All", "REPORT", "VIGNETTE", "PJ"]
+          ...tabs
               .asMap()
               .entries
               .map((entry) => GestureDetector(

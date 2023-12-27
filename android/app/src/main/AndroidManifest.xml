@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vetmidi">
+    package="org.vetmidi.digimidi">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    
    <application
-        android:label="vetmidi"
+        android:label="Digimidi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

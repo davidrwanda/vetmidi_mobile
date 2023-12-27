@@ -81,6 +81,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
               ),
             ),
             SelectType(
+              tabs: ["All", "REPORT", "VIGNETTE", "PJ"],
               selectedIndex: _selectedTab,
               onChange: onSelectChange,
             ),

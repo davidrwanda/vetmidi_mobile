@@ -1,4 +1,4 @@
-package com.example.vetmidi
+package org.vetmidi.digimidi
 
 import io.flutter.embedding.android.FlutterActivity
 

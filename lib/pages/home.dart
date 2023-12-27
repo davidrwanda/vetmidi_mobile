@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
+import 'package:vetmidi/pages/Home/home.dart';
 import 'package:vetmidi/pages/Pets/new_pet.dart';
 import 'package:vetmidi/pages/Pets/pets.dart';
 import 'package:vetmidi/pages/Profile/profile.dart';
@@ -18,28 +19,31 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var bottomNavigationBarItems = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(
-      icon: Icon(Icons.person_rounded),
+      icon: Icon(Icons.home_outlined),
+      label: "Home",
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.pets_outlined),
+      label: "My Pets",
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.account_circle_outlined),
       label: "Profile",
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.pets),
-      label: "Pets",
-    ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.add),
-      label: "Add",
-    ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.receipt_long),
-      label: "Records",
-    ),
+    // const BottomNavigationBarItem(
+    //   icon: Icon(Icons.add),
+    //   label: "Add Pet",
+    // ),
+    // const BottomNavigationBarItem(
+    //   icon: Icon(Icons.receipt_long),
+    //   label: "Records",
+    // ),
   ];
 
   final List<Widget> _pages = [
-    const ProfileScreen(),
+    const Home(),
     const MyPetsScreen(),
-    const NewPet(),
-    const MedicalRecords(),
+    const ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -48,13 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           body: _pages[Get.find<AuthController>().selectedTab],
           bottomNavigationBar: BottomNavigationBar(
-            showUnselectedLabels: false,
-            showSelectedLabels: false,
+            showUnselectedLabels: true,
+            showSelectedLabels: true,
             items: bottomNavigationBarItems,
             currentIndex: Get.find<AuthController>().selectedTab,
             type: BottomNavigationBarType.fixed,
-            selectedFontSize: 16,
-            unselectedFontSize: 16,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
             onTap: (index) {
               Get.find<AuthController>().selectedTab = index;
               // setState(() {
@@ -63,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             selectedItemColor: ThemeColors.secondaryColor,
             unselectedItemColor: ThemeColors.textColor,
-            backgroundColor: ThemeColors.primaryGrey3,
+            backgroundColor: Colors.white,
           ),
         );
       }),
