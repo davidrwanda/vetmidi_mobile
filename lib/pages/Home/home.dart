@@ -5,15 +5,32 @@ import 'package:get/get.dart';
 import 'package:vetmidi/pages/Home/appointments_card.dart';
 import 'package:vetmidi/pages/Home/home_pet_avatar.dart';
 import 'package:vetmidi/pages/Home/treatments_list.dart';
-import 'package:vetmidi/pages/Notifications/notifications.dart';
 import 'package:vetmidi/routes/index.dart';
 
+import '../../controllers/auth_controller.dart';
+import '../../controllers/patient_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
 import 'appointments_list.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    if (!Get.find<PatientController>().fetchedPatients) {
+      Future.delayed(const Duration(seconds: 0), () {
+        String token = Get.find<AuthController>().token?.accessToken ?? "";
+        Get.find<PatientController>().getPatients(token);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +39,7 @@ class Home extends StatelessWidget {
       color: ThemeColors.primaryBackground,
       padding: EdgeInsets.all(20 * fem),
       height: Get.height,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
