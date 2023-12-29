@@ -61,6 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _email = TextEditingController();
     _phone = TextEditingController();
     _postalCode = TextEditingController();
+
+    initializeFields();
   }
 
   initializeFields() {
@@ -73,6 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _phone.text = Get.find<ProfileController>().profile?.phone ?? "";
     title = getTranslationKeys(
         Get.find<ProfileController>().profile?.title ?? "Monsieur");
+    print("Initializeddddddddddddddddddd 0 $title");
     referantDescription = getTranslationKeys(
         Get.find<ProfileController>().profile?.referantDescription ??
             "Recommandé par un ami");
@@ -167,7 +170,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: ThemeColors.primaryBackground,
         height: Get.height,
         child: Obx(() {
-          initializeFields();
           return Column(
             children: [
               const CustomAppBar(),
@@ -414,7 +416,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           "page.general.monsieur",
                                           "page.general.mademoiselle",
                                         ],
-                                        () {},
+                                        (String value) {
+                                          print("valueee $value");
+                                          setState(() {
+                                            title = value;
+                                          });
+                                        },
                                         required: true,
                                       ),
                                       select(
@@ -426,7 +433,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           "page.general.Italie",
                                           "page.general.Allemagne",
                                         ],
-                                        () {},
+                                        (String value) {
+                                          setState(() {
+                                            country = value;
+                                          });
+                                        },
                                         required: true,
                                       ),
                                       InputText(
@@ -522,21 +533,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       "page.contact_with_email".tr,
                                       contactWithEmail,
                                       ["page.general.yes", "page.general.no"],
-                                      () {},
+                                      (String value) {
+                                        setState(() {
+                                          contactWithEmail = value;
+                                        });
+                                      },
                                       required: true,
                                     ),
                                     select(
                                       "page.contact_with_sms".tr,
                                       contactWithSMS,
                                       ["page.general.yes", "page.general.no"],
-                                      () {},
+                                      (String value) {
+                                        setState(() {
+                                          contactWithSMS = value;
+                                        });
+                                      },
                                       required: true,
                                     ),
                                     select(
                                       "page.contact_with_whatsapp".tr,
                                       contactWithWhatsapp,
                                       ["page.general.yes", "page.general.no"],
-                                      () {},
+                                      (String value) {
+                                        setState(() {
+                                          contactWithWhatsapp = value;
+                                        });
+                                      },
                                       required: true,
                                     ),
                                   ]),
@@ -563,7 +586,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         "page.referant.byfbc",
                                         "page.referant.byvt2",
                                       ],
-                                      () {},
+                                      (String value) {
+                                        setState(() {
+                                          referantDescription = value;
+                                        });
+                                      },
                                       required: true,
                                     )
                                   ]),
