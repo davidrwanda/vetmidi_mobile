@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/models/token.dart';
@@ -47,6 +49,34 @@ class AuthController extends GetxController {
         User user = User.fromJSON(res["user"]);
         _user.value = user;
         Get.toNamed(AppRoutes.home);
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> changePassword(String email, String currentPassword,
+      String password, String passwordConfirmation) async {
+    try {
+      _isLoading.value = true;
+      Map<String, String> map = {
+        "email": email,
+        "password": password,
+        "password_confirmation": passwordConfirmation,
+        "current_password": currentPassword,
+      };
+      var res = await _authService.changePasswordScreen(
+          map, _token.value!.accessToken);
+      if (res["error"] != null && res["error"] == true) {
+        throw Exception(res["message"]);
+      } else {
+        showToast("Password updated successfully!", title: "Success");
+        Timer(const Duration(seconds: 2), () {
+          Get.toNamed(AppRoutes.login);
+          _selectedTab.value = 0;
+        });
       }
     } catch (error) {
       showToast(error.toString());

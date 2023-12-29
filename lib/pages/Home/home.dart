@@ -9,6 +9,7 @@ import 'package:vetmidi/routes/index.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/patient_controller.dart';
+import '../../controllers/profile_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
 import 'appointments_list.dart';
@@ -24,10 +25,17 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    String token = Get.find<AuthController>().token?.accessToken ?? "";
+
     if (!Get.find<PatientController>().fetchedPatients) {
       Future.delayed(const Duration(seconds: 0), () {
-        String token = Get.find<AuthController>().token?.accessToken ?? "";
         Get.find<PatientController>().getPatients(token);
+      });
+    }
+
+    if (!Get.find<ProfileController>().fetchedProfile) {
+      Future.delayed(const Duration(seconds: 0), () {
+        Get.find<ProfileController>().getProfile(token);
       });
     }
   }
@@ -45,7 +53,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Hello, Sam!",
+                  "${"page.home.hello".tr}, ${Get.find<ProfileController>().profile?.firstName}!",
                   style: TextStyle(
                     fontSize: 33 * ffem,
                     fontWeight: FontWeight.w800,

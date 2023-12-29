@@ -578,27 +578,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
               !Get.find<ProfileController>().fetching
                   ? Container(
                       padding: EdgeInsets.symmetric(vertical: 5 * fem),
+                      margin: EdgeInsets.symmetric(horizontal: 10 * fem),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Obx(() {
-                            return Button(
-                              "page.profile.saveChanges.btn".tr,
-                              (BuildContext ctx) async {
-                                await updateProfileHandler();
+                          Expanded(
+                            flex: 4,
+                            child: Obx(() {
+                              return Button(
+                                "page.profile.saveChanges.btn".tr,
+                                (BuildContext ctx) async {
+                                  await updateProfileHandler();
+                                },
+                                context,
+                                loading: Get.find<ProfileController>().updating,
+                                fontSize: 14 * ffem,
+                              );
+                            }),
+                          ),
+                          SizedBox(width: 10 * fem),
+                          Expanded(
+                            flex: 5,
+                            child: Button(
+                              "page.profile.changePassword.btn".tr,
+                              (BuildContext ctx) {
+                                Get.toNamed(AppRoutes.changePassword);
                               },
                               context,
-                              loading: Get.find<ProfileController>().updating,
-                            );
-                          }),
-                          SizedBox(width: 10 * fem),
-                          Button(
-                            "page.profile.changePassword.btn".tr,
-                            (BuildContext ctx) {},
-                            context,
-                            color: ThemeColors.secondaryColor,
-                            backgroundColor: Colors.transparent,
-                            hasBorder: true,
+                              color: ThemeColors.secondaryColor,
+                              backgroundColor: Colors.transparent,
+                              hasBorder: true,
+                              fontSize: 14 * ffem,
+                            ),
                           ),
                         ],
                       ),
