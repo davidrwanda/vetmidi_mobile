@@ -109,7 +109,7 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
           SizedBox(height: 20 * fem),
           GestureDetector(
             onTap: () {
-              Get.toNamed(Get.previousRoute);
+              Get.back();
             },
             child: Row(
               children: [

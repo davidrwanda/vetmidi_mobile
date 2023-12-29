@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/routes/index.dart';
 
@@ -22,7 +23,7 @@ GestureDetector homePetAvatar(String image, String name) {
             height: 80 * fem,
             margin: EdgeInsets.only(bottom: 7 * fem),
             child: ClipOval(
-                child: !image.isEmpty
+                child: image == ""
                     ? Image.asset("assets/images/dog.png")
                     : Image.network(image, fit: BoxFit.cover)),
           ),
@@ -35,6 +36,40 @@ GestureDetector homePetAvatar(String image, String name) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+Container homePetAvatarLoading() {
+  return Container(
+    width: 80 * fem,
+    margin: EdgeInsets.only(right: 20 * fem),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            height: 80 * fem,
+            width: 80 * fem,
+            margin: EdgeInsets.only(bottom: 7 * fem),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40 * fem),
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            height: 13 * fem,
+            width: 50 * fem,
+            color: Colors.grey,
+          ),
+        ),
+      ],
     ),
   );
 }

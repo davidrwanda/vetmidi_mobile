@@ -13,6 +13,7 @@ import '../../components/inputs.dart';
 import '../../controllers/auth_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
+import '../../routes/index.dart';
 import 'pet_files.dart';
 import 'upload_documents.dart';
 
@@ -216,7 +217,23 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
         children: [
           const CustomAppBar(),
           SizedBox(height: 20 * fem),
-          backButton(),
+          GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.chevron_left,
+                  size: 26 * ffem,
+                ),
+                Text(
+                  "Back",
+                  style: TextStyle(fontSize: 17 * ffem),
+                )
+              ],
+            ),
+          ),
           SizedBox(height: 10 * fem),
           Text(
             "page.pets.editPet".tr,

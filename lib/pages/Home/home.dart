@@ -73,42 +73,47 @@ class _HomeState extends State<Home> {
             Container(
               height: 120 * fem,
               width: double.infinity,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...Get.find<PatientController>()
-                      .patients
-                      .map((pet) => homePetAvatar(pet.webImage, pet.name))
-                      .toList(),
-                  // homePetAvatar("assets/images/dog.png", "Luna"),
-                  // homePetAvatar("assets/images/dog.png", "Bella"),
-                  Container(
-                    height: 95 * fem,
-                    width: 75 * fem,
-                    margin: EdgeInsets.only(top: 7 * fem),
-                    decoration: BoxDecoration(
-                      color: ThemeColors.secondaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20 * fem),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: ThemeColors.secondaryColor,
-                          size: 30 * ffem,
-                        ),
-                        SizedBox(height: 5 * fem),
-                        Text(
-                          "Add Pet",
-                          style: TextStyle(
-                            fontSize: 13 * ffem,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: Get.find<PatientController>().loading
+                    ? [
+                        homePetAvatarLoading(),
+                        homePetAvatarLoading(),
+                      ]
+                    : [
+                        ...Get.find<PatientController>()
+                            .patients
+                            .map((pet) => homePetAvatar(pet.webImage, pet.name))
+                            .toList(),
+                        // homePetAvatar("assets/images/dog.png", "Luna"),
+                        // homePetAvatar("assets/images/dog.png", "Bella"),
+                        Container(
+                          height: 95 * fem,
+                          width: 75 * fem,
+                          margin: EdgeInsets.only(top: 7 * fem),
+                          decoration: BoxDecoration(
+                            color: ThemeColors.secondaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add,
+                                color: ThemeColors.secondaryColor,
+                                size: 30 * ffem,
+                              ),
+                              SizedBox(height: 5 * fem),
+                              Text(
+                                "Add Pet",
+                                style: TextStyle(
+                                  fontSize: 13 * ffem,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ],
               ),
             ),
             SizedBox(height: 20 * fem),

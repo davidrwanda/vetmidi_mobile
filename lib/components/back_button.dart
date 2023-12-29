@@ -6,7 +6,7 @@ import '../core/utils/app_constants.dart';
 Widget backButton() {
   return GestureDetector(
     onTap: () {
-      Get.toNamed(Get.previousRoute);
+      Get.back();
     },
     child: Row(
       children: [
