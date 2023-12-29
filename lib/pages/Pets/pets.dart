@@ -111,7 +111,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                   Button(
                     "page.pets.addPet".tr,
                     (BuildContext ctx) async {
-                      Get.find<AuthController>().selectedTab = 2;
+                      Get.toNamed(AppRoutes.addpet);
                     },
                     context,
                     hasIcon: true,

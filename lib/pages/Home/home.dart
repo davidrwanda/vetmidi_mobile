@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vetmidi/pages/Home/appointments_card.dart';
 import 'package:vetmidi/pages/Home/home_pet_avatar.dart';
 import 'package:vetmidi/pages/Home/treatments_list.dart';
 import 'package:vetmidi/routes/index.dart';
@@ -93,32 +90,34 @@ class _HomeState extends State<Home> {
                             .patients
                             .map((pet) => homePetAvatar(pet.webImage, pet.name))
                             .toList(),
-                        // homePetAvatar("assets/images/dog.png", "Luna"),
-                        // homePetAvatar("assets/images/dog.png", "Bella"),
-                        Container(
-                          height: 95 * fem,
-                          width: 75 * fem,
-                          margin: EdgeInsets.only(top: 7 * fem),
-                          decoration: BoxDecoration(
-                            color: ThemeColors.secondaryColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(20 * fem),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: ThemeColors.secondaryColor,
-                                size: 30 * ffem,
-                              ),
-                              SizedBox(height: 5 * fem),
-                              Text(
-                                "Add Pet",
-                                style: TextStyle(
-                                  fontSize: 13 * ffem,
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppRoutes.addpet),
+                          child: Container(
+                            height: 95 * fem,
+                            width: 75 * fem,
+                            margin: EdgeInsets.only(top: 7 * fem),
+                            decoration: BoxDecoration(
+                              color:
+                                  ThemeColors.secondaryColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20 * fem),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  color: ThemeColors.secondaryColor,
+                                  size: 30 * ffem,
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 5 * fem),
+                                Text(
+                                  "Add Pet",
+                                  style: TextStyle(
+                                    fontSize: 13 * ffem,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -22,6 +22,7 @@ class AppRoutes {
   static const String mypets = "/mypets";
   static const String newpet = "/newpet";
   static const String petdetails = "/petdetails";
+  static const String addpet = "/addpet";
   static const String editpetdetails = "/editpetdetails";
   static const String notifications = "/notifications";
   static const String appointmentdetails = "/appointmentdetails";
@@ -52,5 +53,6 @@ class AppRoutes {
     GetPage(name: petprofile, page: () => const PetProfile()),
     GetPage(name: appointments, page: () => AppointmentsScreen()),
     GetPage(name: changePassword, page: () => ChangePasswordScreen()),
+    GetPage(name: addpet, page: () => NewPet()),
   ];
 }

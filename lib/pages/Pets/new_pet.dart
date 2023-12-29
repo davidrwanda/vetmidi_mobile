@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
@@ -152,294 +153,305 @@ class _NewPetState extends State<NewPet> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        height: Get.height,
-        color: ThemeColors.primaryBackground,
-        child: ListView(
-          children: [
-            const CustomAppBar(),
-            SizedBox(height: 20 * fem),
-            Text(
-              "page.pets.addPet".tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 40 * ffem,
-              ),
-            ),
-            SizedBox(height: 10 * fem),
-            Container(
-              margin: EdgeInsets.all(15 * fem),
-              padding: EdgeInsets.all(20 * fem),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10 * fem)),
-              child: Column(
+      child: Scaffold(
+        body: Container(
+          height: Get.height,
+          color: ThemeColors.primaryBackground,
+          child: ListView(
+            children: [
+              const CustomAppBar(),
+              SizedBox(height: 20 * fem),
+              Row(
                 children: [
-                  CircleAvatar(
-                    radius: 50 * fem,
-                    child: Image.asset("assets/images/dog.png"),
-                  ),
-                  SizedBox(height: 10 * fem),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.add,
-                        color: ThemeColors.secondaryColor,
-                      ),
-                      SizedBox(
-                        width: 3 * fem,
-                      ),
-                      Text(
-                        "page.pets.uploadImage".tr,
-                        style: const TextStyle(
+                  SizedBox(width: 20 * fem),
+                  backButton(),
+                ],
+              ),
+              SizedBox(height: 20 * fem),
+              Text(
+                "page.pets.addPet".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 40 * ffem,
+                ),
+              ),
+              SizedBox(height: 10 * fem),
+              Container(
+                margin: EdgeInsets.all(15 * fem),
+                padding: EdgeInsets.all(20 * fem),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10 * fem)),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 50 * fem,
+                      child: Image.asset("assets/images/dog.png"),
+                    ),
+                    SizedBox(height: 10 * fem),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.add,
                           color: ThemeColors.secondaryColor,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10 * fem),
-                  Container(
-                    height: 35 * fem,
-                    width: 200 * fem,
-                    padding: EdgeInsets.all(2 * fem),
-                    decoration: BoxDecoration(
-                      color: ThemeColors.primaryBackground,
-                      borderRadius: BorderRadius.circular(13 * fem),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(13),
-                                bottomLeft: Radius.circular(13),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text("page.pet.general".tr),
-                            ),
-                          ),
+                        SizedBox(
+                          width: 3 * fem,
                         ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              showToast("page.pets.uploadImage.validation".tr);
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              child: Center(child: Text("page.pet.upload".tr)),
-                            ),
+                        Text(
+                          "page.pets.uploadImage".tr,
+                          style: const TextStyle(
+                            color: ThemeColors.secondaryColor,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 20 * fem),
-                  InputText(
-                    "page.pets.PetEntername".tr,
-                    _petName,
-                    label: "page.pets.RecordsPetName".tr,
-                    required: true,
-                    valid: nameIsValid,
-                    errorText: "page.pets.nameIsrequired".tr,
-                    setValid: (bool value) {
-                      setState(() {
-                        nameIsValid = value;
-                      });
-                    },
-                  ),
-                  select(
-                    "page.pets.Type".tr,
-                    specie,
-                    [
-                      "page.type.CT",
-                      "page.type.CN",
-                      "page.type.LP",
-                      "page.type.GP",
-                      "page.type.OI",
-                      "page.type.HAM",
-                      "page.type.NAC",
-                      "page.type.REP",
-                    ],
-                    (String value) {
-                      setState(() {
-                        specie = value;
-                        specieIsValid = true;
-                      });
-                    },
-                    valid: specieIsValid,
-                    errorText: "page.pets.typeIsrequired".tr,
-                    required: true,
-                  ),
-                  select(
-                    "page.pets.Spayed".tr,
-                    spayed,
-                    ["page.general.yes", "page.general.no"],
-                    (String value) {
-                      setState(() {
-                        spayed = value;
-                        spayedIsValid = true;
-                      });
-                    },
-                    valid: spayedIsValid,
-                    errorText: "page.pets.SpayedValidate".tr,
-                    required: true,
-                  ),
-                  datePicker(
-                    label: "page.pets.VacinationDate".tr,
-                    value: vaccinationDate,
-                    onChange: (String value) {
-                      setState(() {
-                        vaccinationDate = value;
-                      });
-                    },
-                    context: context,
-                  ),
-                  datePicker(
-                    label: "page.pets.IdentificationDate".tr,
-                    value: identificationDate,
-                    onChange: (String value) {
-                      setState(() {
-                        identificationDate = value;
-                      });
-                    },
-                    context: context,
-                  ),
-                  datePicker(
-                    label: "page.pets.birth".tr,
-                    value: dateOfBirth,
-                    onChange: (String value) {
-                      setState(() {
-                        dateOfBirth = value;
-                        dobIsValid = true;
-                      });
-                    },
-                    required: true,
-                    valid: dobIsValid,
-                    errorText: "page.pets.bdateIsrequired".tr,
-                    context: context,
-                  ),
-                  InputText(
-                    "page.pets.enterBreed".tr,
-                    _breed,
-                    label: "page.pets.breed".tr,
-                    valid: breedIsValid,
-                    errorText: "page.pets.breedIsrequired".tr,
-                    required: true,
-                    setValid: (bool value) {
-                      setState(() {
-                        breedIsValid = value;
-                      });
-                    },
-                  ),
-                  InputText(
-                    "page.pets.enterColor".tr,
-                    _color,
-                    label: "page.pets.Color".tr,
-                  ),
-                  datePicker(
-                    label: "page.pets.RabbiesBoaster".tr,
-                    value: rabbiesVaccinationDate,
-                    onChange: (String value) {
-                      setState(() {
-                        rabbiesVaccinationDate = value;
-                      });
-                    },
-                    context: context,
-                  ),
-                  InputText(
-                    "page.pets.Weight".tr,
-                    _weight,
-                    label: "page.pets.Weight".tr,
-                    valid: weightIsValid,
-                    errorText: "page.pets.WeightValidation".tr,
-                    required: true,
-                    setValid: (bool value) {
-                      setState(() {
-                        weightIsValid = value;
-                      });
-                    },
-                  ),
-                  select(
-                    "page.pets.sex".tr,
-                    sex,
-                    ["page.general.male", "page.general.female"],
-                    (String value) {
-                      setState(() {
-                        sex = value;
-                        sexIsValid = true;
-                      });
-                    },
-                    required: true,
-                    valid: sexIsValid,
-                    errorText: "page.pets.sexIsrequired".tr,
-                  ),
-                  InputText(
-                    "page.pets.Alimentation".tr,
-                    _alimentation,
-                    label: "page.pets.Alimentation".tr,
-                  ),
-                  select(
-                    "page.pets.Goesoutside".tr,
-                    goesOutside,
-                    ["page.general.yes", "page.general.no"],
-                    (String value) {
-                      setState(() {
-                        goesOutside = value;
-                      });
-                    },
-                  ),
-                  select(
-                    "page.pets.IsInsured".tr,
-                    isInsured,
-                    ["page.general.yes", "page.general.no"],
-                    (String value) {
-                      setState(() {
-                        isInsured = value;
-                        insuredIsValid = true;
-                      });
-                    },
-                    valid: insuredIsValid,
-                    errorText: "page.pets.IsInsuredvalidate".tr,
-                    required: true,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Button(
-                          "page.pet.cancel".tr,
-                          (BuildContext ctx) {},
-                          context,
-                          backgroundColor: Colors.white,
-                          color: ThemeColors.secondaryColor,
-                          hasBorder: true,
-                        ),
+                    SizedBox(height: 10 * fem),
+                    Container(
+                      height: 35 * fem,
+                      width: 200 * fem,
+                      padding: EdgeInsets.all(2 * fem),
+                      decoration: BoxDecoration(
+                        color: ThemeColors.primaryBackground,
+                        borderRadius: BorderRadius.circular(13 * fem),
                       ),
-                      SizedBox(width: 20 * fem),
-                      Expanded(
-                        child: Obx(() {
-                          return Button(
-                            "page.pet.save".tr,
-                            (BuildContext ctx) async {
-                              await addPetHandler();
-                            },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: double.infinity,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(13),
+                                  bottomLeft: Radius.circular(13),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("page.pet.general".tr),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                showToast(
+                                    "page.pets.uploadImage.validation".tr);
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child:
+                                    Center(child: Text("page.pet.upload".tr)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20 * fem),
+                    InputText(
+                      "page.pets.PetEntername".tr,
+                      _petName,
+                      label: "page.pets.RecordsPetName".tr,
+                      required: true,
+                      valid: nameIsValid,
+                      errorText: "page.pets.nameIsrequired".tr,
+                      setValid: (bool value) {
+                        setState(() {
+                          nameIsValid = value;
+                        });
+                      },
+                    ),
+                    select(
+                      "page.pets.Type".tr,
+                      specie,
+                      [
+                        "page.type.CT",
+                        "page.type.CN",
+                        "page.type.LP",
+                        "page.type.GP",
+                        "page.type.OI",
+                        "page.type.HAM",
+                        "page.type.NAC",
+                        "page.type.REP",
+                      ],
+                      (String value) {
+                        setState(() {
+                          specie = value;
+                          specieIsValid = true;
+                        });
+                      },
+                      valid: specieIsValid,
+                      errorText: "page.pets.typeIsrequired".tr,
+                      required: true,
+                    ),
+                    select(
+                      "page.pets.Spayed".tr,
+                      spayed,
+                      ["page.general.yes", "page.general.no"],
+                      (String value) {
+                        setState(() {
+                          spayed = value;
+                          spayedIsValid = true;
+                        });
+                      },
+                      valid: spayedIsValid,
+                      errorText: "page.pets.SpayedValidate".tr,
+                      required: true,
+                    ),
+                    datePicker(
+                      label: "page.pets.VacinationDate".tr,
+                      value: vaccinationDate,
+                      onChange: (String value) {
+                        setState(() {
+                          vaccinationDate = value;
+                        });
+                      },
+                      context: context,
+                    ),
+                    datePicker(
+                      label: "page.pets.IdentificationDate".tr,
+                      value: identificationDate,
+                      onChange: (String value) {
+                        setState(() {
+                          identificationDate = value;
+                        });
+                      },
+                      context: context,
+                    ),
+                    datePicker(
+                      label: "page.pets.birth".tr,
+                      value: dateOfBirth,
+                      onChange: (String value) {
+                        setState(() {
+                          dateOfBirth = value;
+                          dobIsValid = true;
+                        });
+                      },
+                      required: true,
+                      valid: dobIsValid,
+                      errorText: "page.pets.bdateIsrequired".tr,
+                      context: context,
+                    ),
+                    InputText(
+                      "page.pets.enterBreed".tr,
+                      _breed,
+                      label: "page.pets.breed".tr,
+                      valid: breedIsValid,
+                      errorText: "page.pets.breedIsrequired".tr,
+                      required: true,
+                      setValid: (bool value) {
+                        setState(() {
+                          breedIsValid = value;
+                        });
+                      },
+                    ),
+                    InputText(
+                      "page.pets.enterColor".tr,
+                      _color,
+                      label: "page.pets.Color".tr,
+                    ),
+                    datePicker(
+                      label: "page.pets.RabbiesBoaster".tr,
+                      value: rabbiesVaccinationDate,
+                      onChange: (String value) {
+                        setState(() {
+                          rabbiesVaccinationDate = value;
+                        });
+                      },
+                      context: context,
+                    ),
+                    InputText(
+                      "page.pets.Weight".tr,
+                      _weight,
+                      label: "page.pets.Weight".tr,
+                      valid: weightIsValid,
+                      errorText: "page.pets.WeightValidation".tr,
+                      required: true,
+                      setValid: (bool value) {
+                        setState(() {
+                          weightIsValid = value;
+                        });
+                      },
+                    ),
+                    select(
+                      "page.pets.sex".tr,
+                      sex,
+                      ["page.general.male", "page.general.female"],
+                      (String value) {
+                        setState(() {
+                          sex = value;
+                          sexIsValid = true;
+                        });
+                      },
+                      required: true,
+                      valid: sexIsValid,
+                      errorText: "page.pets.sexIsrequired".tr,
+                    ),
+                    InputText(
+                      "page.pets.Alimentation".tr,
+                      _alimentation,
+                      label: "page.pets.Alimentation".tr,
+                    ),
+                    select(
+                      "page.pets.Goesoutside".tr,
+                      goesOutside,
+                      ["page.general.yes", "page.general.no"],
+                      (String value) {
+                        setState(() {
+                          goesOutside = value;
+                        });
+                      },
+                    ),
+                    select(
+                      "page.pets.IsInsured".tr,
+                      isInsured,
+                      ["page.general.yes", "page.general.no"],
+                      (String value) {
+                        setState(() {
+                          isInsured = value;
+                          insuredIsValid = true;
+                        });
+                      },
+                      valid: insuredIsValid,
+                      errorText: "page.pets.IsInsuredvalidate".tr,
+                      required: true,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Button(
+                            "page.pet.cancel".tr,
+                            (BuildContext ctx) {},
                             context,
-                            loading: Get.find<PatientController>().loading,
-                            backgroundColor: ThemeColors.secondaryColor,
-                          );
-                        }),
-                      ),
-                    ],
-                  )
-                ],
+                            backgroundColor: Colors.white,
+                            color: ThemeColors.secondaryColor,
+                            hasBorder: true,
+                          ),
+                        ),
+                        SizedBox(width: 20 * fem),
+                        Expanded(
+                          child: Obx(() {
+                            return Button(
+                              "page.pet.save".tr,
+                              (BuildContext ctx) async {
+                                await addPetHandler();
+                              },
+                              context,
+                              loading: Get.find<PatientController>().loading,
+                              backgroundColor: ThemeColors.secondaryColor,
+                            );
+                          }),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
