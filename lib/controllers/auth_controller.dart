@@ -41,12 +41,13 @@ class AuthController extends GetxController {
       _isLoading.value = true;
       Map<String, String> map = {"email": email, "password": password};
       var res = await _authService.login(map);
-      if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+      var res2 = await _authService.login(map);
+      if (res2["error"] != null && res2["error"] == true) {
+        throw Exception(res2["message"]);
       } else {
-        Token token = Token.fromJSON(res["token"]);
+        Token token = Token.fromJSON(res2["token"]);
         _token.value = token;
-        User user = User.fromJSON(res["user"]);
+        User user = User.fromJSON(res2["user"]);
         _user.value = user;
         Get.toNamed(AppRoutes.home);
       }
