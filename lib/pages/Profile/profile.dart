@@ -75,7 +75,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _phone.text = Get.find<ProfileController>().profile?.phone ?? "";
     title = getTranslationKeys(
         Get.find<ProfileController>().profile?.title ?? "Monsieur");
-    print("Initializeddddddddddddddddddd 0 $title");
     referantDescription = getTranslationKeys(
         Get.find<ProfileController>().profile?.referantDescription ??
             "Recommandé par un ami");
@@ -407,23 +406,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           });
                                         },
                                       ),
-                                      select(
-                                        "page.title".tr,
-                                        title,
-                                        [
-                                          "page.title",
-                                          "page.general.madame",
-                                          "page.general.monsieur",
-                                          "page.general.mademoiselle",
-                                        ],
-                                        (String value) {
-                                          print("valueee $value");
-                                          setState(() {
-                                            title = value;
-                                          });
-                                        },
-                                        required: true,
-                                      ),
+                                      // select(
+                                      //   "page.title".tr,
+                                      //   title,
+                                      //   [
+                                      //     "page.title",
+                                      //     "page.general.madame",
+                                      //     "page.general.monsieur",
+                                      //     "page.general.mademoiselle",
+                                      //   ],
+                                      //   (String value) {
+                                      //     print("valueee $value");
+                                      //     setState(() {
+                                      //       title = value;
+                                      //     });
+                                      //   },
+                                      //   required: true,
+                                      // ),
                                       select(
                                         "page.country".tr,
                                         country,

@@ -32,6 +32,8 @@ String getTranslationKeys(String value) {
       return "page.referant.byvet1";
     case 'Facebook / Instagram':
       return "page.referant.byfbc";
+    case 'Google Adwords':
+      return 'page.referant.bygads';
     case 'Vétérinaire Fermé':
       return "page.referant.byvt2";
     case 'Madame':
