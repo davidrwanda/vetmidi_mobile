@@ -8,7 +8,7 @@ class Patient {
   final String species;
   final String identification;
   final String microship;
-  final int weight;
+  num? weight;
   final String race;
   final String robe;
   final String sex;
@@ -38,7 +38,7 @@ class Patient {
     required this.species,
     required this.identification,
     required this.microship,
-    required this.weight,
+    this.weight,
     required this.race,
     required this.robe,
     required this.sex,
@@ -70,7 +70,9 @@ class Patient {
       species: json["species"],
       identification: json["identification"],
       microship: json["microship"],
-      weight: json["weight"],
+      weight: json["weight"].toString() == ""
+          ? null
+          : double.parse(json["weight"].toString()),
       race: json["race"],
       robe: json["robe"],
       sex: json["sex"],

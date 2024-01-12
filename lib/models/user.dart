@@ -57,7 +57,7 @@ class User {
       phone: json["phone"],
       fax: json["fax"],
       profession: json["profession"],
-      postalCode: json["postal_code"],
+      postalCode: (json["postal_code"]).toString(),
       featureImage: json["feature_image"],
       userVerified: json["user_verified"],
       passwordChange: json["password_change"],

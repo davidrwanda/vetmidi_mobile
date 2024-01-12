@@ -35,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? contactWithSMS;
   String? contactWithWhatsapp;
   final ScrollController _scrollController = ScrollController();
+  var selectedTab = 0;
 
   var fNameIsValid = true;
   var lNameIsValid = true;
@@ -302,298 +303,416 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ]),
                                 ),
                                 SizedBox(height: 30 * fem),
-                                SizedBox(
-                                  height: 40 * fem,
+                                Container(
                                   width: double.infinity,
-                                  child: ListView(
-                                    scrollDirection: Axis.horizontal,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          _scrollController.animateTo(730 * fem,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              curve: Curves.easeInOut);
+                                  height: 40 * fem,
+                                  padding: EdgeInsets.only(left: 10 * fem),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(10 * fem)),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<int>(
+                                        value: selectedTab,
+                                        icon: const Icon(
+                                            Icons.arrow_drop_down_sharp,
+                                            color: ThemeColors.textColor),
+                                        elevation: 3,
+                                        dropdownColor: Colors.white,
+                                        style: const TextStyle(
+                                            color: ThemeColors.textColor),
+                                        underline: null,
+                                        hint: const Text("Select an option"),
+                                        onChanged: (int? newValue) {
+                                          if (newValue != null) {
+                                            setState(() {
+                                              selectedTab = newValue;
+                                            });
+                                          }
                                         },
-                                        child: Text(
-                                          "page.profile.pinfo".tr,
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10 * fem),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _scrollController.animateTo(
-                                              1300 * fem,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              curve: Curves.easeInOut);
-                                        },
-                                        child: Text(
-                                          "page.AddressInput".tr,
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10 * fem),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _scrollController.animateTo(
-                                              1700 * fem,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              curve: Curves.easeInOut);
-                                        },
-                                        child: Text(
-                                          "page.profile.contactwith".tr,
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10 * fem),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _scrollController.animateTo(
-                                              1700 * fem,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              curve: Curves.easeInOut);
-                                        },
-                                        child: Text(
-                                          "page.referant.description".tr,
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      )
-                                    ],
+                                        items: [
+                                          DropdownMenuItem<int>(
+                                            value: 0,
+                                            child: Text(
+                                              "page.profile.pinfo".tr,
+                                              style: TextStyle(
+                                                  color: ThemeColors.textColor),
+                                            ),
+                                          ),
+                                          DropdownMenuItem<int>(
+                                            value: 1,
+                                            child: Text(
+                                              "page.AddressInput".tr,
+                                              style: TextStyle(
+                                                  color: ThemeColors.textColor),
+                                            ),
+                                          ),
+                                          DropdownMenuItem<int>(
+                                            value: 2,
+                                            child: Text(
+                                              "page.profile.contactwith".tr,
+                                              style: TextStyle(
+                                                  color: ThemeColors.textColor),
+                                            ),
+                                          ),
+                                          DropdownMenuItem<int>(
+                                            value: 3,
+                                            child: Text(
+                                              "page.referant.description".tr,
+                                              style: TextStyle(
+                                                  color: ThemeColors.textColor),
+                                            ),
+                                          ),
+                                        ]),
                                   ),
                                 ),
-                                SizedBox(height: 15 * fem),
-                                Text(
-                                  "page.profile.pinfo".tr,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                SizedBox(height: 20 * fem),
-                                Container(
-                                  color: Colors.white,
-                                  padding: EdgeInsets.all(20 * fem),
-                                  child: Column(
-                                    children: [
-                                      InputText(
-                                        "page.signUpFirstNamePlaceholder".tr,
-                                        _firstName,
-                                        label: "page.FirstNameInput".tr,
-                                        required: true,
-                                        valid: fNameIsValid,
-                                        errorText:
-                                            "validation.signUp.required.FirstName"
-                                                .tr,
-                                        setValid: (bool value) {
-                                          setState(() {
-                                            fNameIsValid = value;
-                                          });
-                                        },
-                                      ),
-                                      InputText(
-                                        "",
-                                        _lastName,
-                                        label: "page.LastNameInput".tr,
-                                        required: true,
-                                        valid: lNameIsValid,
-                                        errorText:
-                                            "validation.signUp.required.LastName"
-                                                .tr,
-                                        setValid: (bool value) {
-                                          setState(() {
-                                            lNameIsValid = value;
-                                          });
-                                        },
-                                      ),
-                                      // select(
-                                      //   "page.title".tr,
-                                      //   title,
-                                      //   [
-                                      //     "page.title",
-                                      //     "page.general.madame",
-                                      //     "page.general.monsieur",
-                                      //     "page.general.mademoiselle",
-                                      //   ],
-                                      //   (String value) {
-                                      //     print("valueee $value");
-                                      //     setState(() {
-                                      //       title = value;
-                                      //     });
-                                      //   },
-                                      //   required: true,
-                                      // ),
-                                      select(
-                                        "page.country".tr,
-                                        country,
-                                        [
-                                          "page.general.suisse",
-                                          "page.general.france",
-                                          "page.general.Italie",
-                                          "page.general.Allemagne",
+                                SizedBox(height: 30 * fem),
+                                // SizedBox(
+                                //   height: 40 * fem,
+                                //   width: double.infinity,
+                                //   child: ListView(
+                                //     scrollDirection: Axis.horizontal,
+                                //     children: [
+                                //       GestureDetector(
+                                //         onTap: () {
+                                //           _scrollController.animateTo(730 * fem,
+                                //               duration:
+                                //                   const Duration(seconds: 1),
+                                //               curve: Curves.easeInOut);
+                                //         },
+                                //         child: Text(
+                                //           "page.profile.pinfo".tr,
+                                //           style: const TextStyle(fontSize: 13),
+                                //         ),
+                                //       ),
+                                //       SizedBox(width: 10 * fem),
+                                //       GestureDetector(
+                                //         onTap: () {
+                                //           _scrollController.animateTo(
+                                //               1300 * fem,
+                                //               duration:
+                                //                   const Duration(seconds: 1),
+                                //               curve: Curves.easeInOut);
+                                //         },
+                                //         child: Text(
+                                //           "page.AddressInput".tr,
+                                //           style: const TextStyle(fontSize: 13),
+                                //         ),
+                                //       ),
+                                //       SizedBox(width: 10 * fem),
+                                //       GestureDetector(
+                                //         onTap: () {
+                                //           _scrollController.animateTo(
+                                //               1700 * fem,
+                                //               duration:
+                                //                   const Duration(seconds: 1),
+                                //               curve: Curves.easeInOut);
+                                //         },
+                                //         child: Text(
+                                //           "page.profile.contactwith".tr,
+                                //           style: const TextStyle(fontSize: 13),
+                                //         ),
+                                //       ),
+                                //       SizedBox(width: 10 * fem),
+                                //       GestureDetector(
+                                //         onTap: () {
+                                //           _scrollController.animateTo(
+                                //               1700 * fem,
+                                //               duration:
+                                //                   const Duration(seconds: 1),
+                                //               curve: Curves.easeInOut);
+                                //         },
+                                //         child: Text(
+                                //           "page.referant.description".tr,
+                                //           style: const TextStyle(fontSize: 13),
+                                //         ),
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
+                                selectedTab == 0
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "page.profile.pinfo".tr,
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          ),
+                                          SizedBox(height: 20 * fem),
+                                          Container(
+                                            color: Colors.white,
+                                            padding: EdgeInsets.all(20 * fem),
+                                            child: Column(
+                                              children: [
+                                                InputText(
+                                                  "page.signUpFirstNamePlaceholder"
+                                                      .tr,
+                                                  _firstName,
+                                                  label:
+                                                      "page.FirstNameInput".tr,
+                                                  required: true,
+                                                  valid: fNameIsValid,
+                                                  errorText:
+                                                      "validation.signUp.required.FirstName"
+                                                          .tr,
+                                                  setValid: (bool value) {
+                                                    setState(() {
+                                                      fNameIsValid = value;
+                                                    });
+                                                  },
+                                                ),
+                                                InputText(
+                                                  "",
+                                                  _lastName,
+                                                  label:
+                                                      "page.LastNameInput".tr,
+                                                  required: true,
+                                                  valid: lNameIsValid,
+                                                  errorText:
+                                                      "validation.signUp.required.LastName"
+                                                          .tr,
+                                                  setValid: (bool value) {
+                                                    setState(() {
+                                                      lNameIsValid = value;
+                                                    });
+                                                  },
+                                                ),
+                                                // select(
+                                                //   "page.title".tr,
+                                                //   title,
+                                                //   [
+                                                //     "page.title",
+                                                //     "page.general.madame",
+                                                //     "page.general.monsieur",
+                                                //     "page.general.mademoiselle",
+                                                //   ],
+                                                //   (String value) {
+                                                //     print("valueee $value");
+                                                //     setState(() {
+                                                //       title = value;
+                                                //     });
+                                                //   },
+                                                //   required: true,
+                                                // ),
+                                                select(
+                                                  "page.country".tr,
+                                                  country,
+                                                  [
+                                                    "page.general.suisse",
+                                                    "page.general.france",
+                                                    "page.general.Italie",
+                                                    "page.general.Allemagne",
+                                                  ],
+                                                  (String value) {
+                                                    setState(() {
+                                                      country = value;
+                                                    });
+                                                  },
+                                                  required: true,
+                                                ),
+                                                InputText(
+                                                  "",
+                                                  _email,
+                                                  label: "Email",
+                                                  readOnly: true,
+                                                  required: true,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
-                                        (String value) {
-                                          setState(() {
-                                            country = value;
-                                          });
-                                        },
-                                        required: true,
-                                      ),
-                                      InputText(
-                                        "",
-                                        _email,
-                                        label: "Email",
-                                        readOnly: true,
-                                        required: true,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 35 * fem),
-                                Text(
-                                  "page.AddressInput".tr,
-                                  style: TextStyle(fontSize: 25 * ffem),
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  padding: EdgeInsets.all(20 * fem),
-                                  margin:
-                                      EdgeInsets.symmetric(vertical: 20 * fem),
-                                  child: Column(children: [
-                                    InputText(
-                                      "page.signUpAddressPlaceholder".tr,
-                                      _address,
-                                      label: "page.AddressInput".tr,
-                                      required: true,
-                                      valid: addressIsValid,
-                                      errorText:
-                                          "errors.form.address.required".tr,
-                                      setValid: (bool value) {
-                                        setState(() {
-                                          addressIsValid = value;
-                                        });
-                                      },
-                                    ),
-                                    InputText(
-                                      "page.signUpCityPlaceholder".tr,
-                                      _city,
-                                      label: "page.CityInput".tr,
-                                      errorText: "errors.form.city.required".tr,
-                                      valid: cityIsValid,
-                                      setValid: (bool value) {
-                                        setState(() {
-                                          cityIsValid = value;
-                                        });
-                                      },
-                                      required: true,
-                                    ),
-                                    InputText(
-                                      "page.signUpPhonePlaceholder".tr,
-                                      _phone,
-                                      label: "page.PhoneInput".tr,
-                                      errorText:
-                                          "validation.signUp.required.Phone".tr,
-                                      valid: phoneIsValid,
-                                      required: true,
-                                      setValid: (bool value) {
-                                        setState(() {
-                                          phoneIsValid = value;
-                                        });
-                                      },
-                                    ),
-                                    InputText(
-                                      "page.signUpPostalCodePlaceholder".tr,
-                                      _postalCode,
-                                      label: "page.PostalCodeInput".tr,
-                                      errorText:
-                                          "errors.form.postalCode.required".tr,
-                                      valid: postalCodeIsValid,
-                                      setValid: (bool value) {
-                                        setState(() {
-                                          postalCodeIsValid = value;
-                                        });
-                                      },
-                                      required: true,
-                                    ),
-                                  ]),
-                                ),
-                                SizedBox(height: 35 * fem),
-                                Text(
-                                  "page.contact_with".tr,
-                                  style: TextStyle(fontSize: 25 * ffem),
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  padding: EdgeInsets.all(20 * fem),
-                                  margin:
-                                      EdgeInsets.symmetric(vertical: 20 * fem),
-                                  child: Column(children: [
-                                    select(
-                                      "page.contact_with_email".tr,
-                                      contactWithEmail,
-                                      ["page.general.yes", "page.general.no"],
-                                      (String value) {
-                                        setState(() {
-                                          contactWithEmail = value;
-                                        });
-                                      },
-                                      required: true,
-                                    ),
-                                    select(
-                                      "page.contact_with_sms".tr,
-                                      contactWithSMS,
-                                      ["page.general.yes", "page.general.no"],
-                                      (String value) {
-                                        setState(() {
-                                          contactWithSMS = value;
-                                        });
-                                      },
-                                      required: true,
-                                    ),
-                                    select(
-                                      "page.contact_with_whatsapp".tr,
-                                      contactWithWhatsapp,
-                                      ["page.general.yes", "page.general.no"],
-                                      (String value) {
-                                        setState(() {
-                                          contactWithWhatsapp = value;
-                                        });
-                                      },
-                                      required: true,
-                                    ),
-                                  ]),
-                                ),
-                                SizedBox(height: 35 * fem),
-                                Text(
-                                  "page.referant.description".tr,
-                                  style: TextStyle(fontSize: 25 * ffem),
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  padding: EdgeInsets.all(20 * fem),
-                                  margin:
-                                      EdgeInsets.symmetric(vertical: 20 * fem),
-                                  child: Column(children: [
-                                    select(
-                                      "page.referant.description".tr,
-                                      referantDescription,
-                                      [
-                                        "page.referant.byfriend",
-                                        "page.referant.bygads",
-                                        "page.referant.bylocal",
-                                        "page.referant.byvet1",
-                                        "page.referant.byfbc",
-                                        "page.referant.byvt2",
-                                      ],
-                                      (String value) {
-                                        setState(() {
-                                          referantDescription = value;
-                                        });
-                                      },
-                                      required: true,
-                                    )
-                                  ]),
-                                ),
+                                      )
+                                    : Container(),
+                                selectedTab == 1
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "page.AddressInput".tr,
+                                            style:
+                                                TextStyle(fontSize: 25 * ffem),
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            padding: EdgeInsets.all(20 * fem),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 20 * fem),
+                                            child: Column(children: [
+                                              InputText(
+                                                "page.signUpAddressPlaceholder"
+                                                    .tr,
+                                                _address,
+                                                label: "page.AddressInput".tr,
+                                                required: true,
+                                                valid: addressIsValid,
+                                                errorText:
+                                                    "errors.form.address.required"
+                                                        .tr,
+                                                setValid: (bool value) {
+                                                  setState(() {
+                                                    addressIsValid = value;
+                                                  });
+                                                },
+                                              ),
+                                              InputText(
+                                                "page.signUpCityPlaceholder".tr,
+                                                _city,
+                                                label: "page.CityInput".tr,
+                                                errorText:
+                                                    "errors.form.city.required"
+                                                        .tr,
+                                                valid: cityIsValid,
+                                                setValid: (bool value) {
+                                                  setState(() {
+                                                    cityIsValid = value;
+                                                  });
+                                                },
+                                                required: true,
+                                              ),
+                                              InputText(
+                                                "page.signUpPhonePlaceholder"
+                                                    .tr,
+                                                _phone,
+                                                label: "page.PhoneInput".tr,
+                                                errorText:
+                                                    "validation.signUp.required.Phone"
+                                                        .tr,
+                                                valid: phoneIsValid,
+                                                required: true,
+                                                setValid: (bool value) {
+                                                  setState(() {
+                                                    phoneIsValid = value;
+                                                  });
+                                                },
+                                              ),
+                                              InputText(
+                                                "page.signUpPostalCodePlaceholder"
+                                                    .tr,
+                                                _postalCode,
+                                                label:
+                                                    "page.PostalCodeInput".tr,
+                                                errorText:
+                                                    "errors.form.postalCode.required"
+                                                        .tr,
+                                                valid: postalCodeIsValid,
+                                                setValid: (bool value) {
+                                                  setState(() {
+                                                    postalCodeIsValid = value;
+                                                  });
+                                                },
+                                                required: true,
+                                              ),
+                                            ]),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                                selectedTab == 2
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "page.contact_with".tr,
+                                            style:
+                                                TextStyle(fontSize: 25 * ffem),
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            padding: EdgeInsets.all(20 * fem),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 20 * fem),
+                                            child: Column(children: [
+                                              select(
+                                                "page.contact_with_email".tr,
+                                                contactWithEmail,
+                                                [
+                                                  "page.general.yes",
+                                                  "page.general.no"
+                                                ],
+                                                (String value) {
+                                                  setState(() {
+                                                    contactWithEmail = value;
+                                                  });
+                                                },
+                                                required: true,
+                                              ),
+                                              select(
+                                                "page.contact_with_sms".tr,
+                                                contactWithSMS,
+                                                [
+                                                  "page.general.yes",
+                                                  "page.general.no"
+                                                ],
+                                                (String value) {
+                                                  setState(() {
+                                                    contactWithSMS = value;
+                                                  });
+                                                },
+                                                required: true,
+                                              ),
+                                              select(
+                                                "page.contact_with_whatsapp".tr,
+                                                contactWithWhatsapp,
+                                                [
+                                                  "page.general.yes",
+                                                  "page.general.no"
+                                                ],
+                                                (String value) {
+                                                  setState(() {
+                                                    contactWithWhatsapp = value;
+                                                  });
+                                                },
+                                                required: true,
+                                              ),
+                                            ]),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+
+                                selectedTab == 3
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "page.referant.description".tr,
+                                            style:
+                                                TextStyle(fontSize: 25 * ffem),
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            padding: EdgeInsets.all(20 * fem),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 20 * fem),
+                                            child: Column(children: [
+                                              select(
+                                                "page.referant.description".tr,
+                                                referantDescription,
+                                                [
+                                                  "page.referant.byfriend",
+                                                  "page.referant.bygads",
+                                                  "page.referant.bylocal",
+                                                  "page.referant.byvet1",
+                                                  "page.referant.byfbc",
+                                                  "page.referant.byvt2",
+                                                ],
+                                                (String value) {
+                                                  setState(() {
+                                                    referantDescription = value;
+                                                  });
+                                                },
+                                                required: true,
+                                              )
+                                            ]),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
                               ],
                             )
                           : Container(),
