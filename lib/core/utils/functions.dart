@@ -48,7 +48,20 @@ String getTranslationKeys(String value) {
       return "page.general.monsieur";
     case 'Miss':
       return "page.general.mademoiselle";
-
+    case 'France':
+      return "page.general.france";
+    case 'Suisse':
+      return "page.general.suisse";
+    case 'Italie':
+      return 'page.general.Italie';
+    case 'Allemagne':
+      return 'page.general.Allemagne';
+    case 'Switzerland':
+      return "page.general.suisse";
+    case 'Italy':
+      return 'page.general.Italie';
+    case 'Germany':
+      return 'page.general.Allemagne';
     default:
       return "";
   }
@@ -62,6 +75,20 @@ String getTitleFrenchValue(String? value) {
       return 'Monsieur';
     case "page.general.mademoiselle":
       return 'Mademoiselle';
+  }
+  return "Monsieur";
+}
+
+String getCountryFrenchValue(String? value) {
+  switch (value) {
+    case "page.general.france":
+      return 'France';
+    case "page.general.suisse":
+      return 'Suisse';
+    case 'page.general.Italie':
+      return 'Italie';
+    case 'page.general.Allemagne':
+      return 'Allemagne';
   }
   return "Monsieur";
 }

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/controllers/patient_controller.dart';
+import 'package:vetmidi/controllers/profile_controller.dart';
 import 'package:vetmidi/models/token.dart';
 import 'package:vetmidi/routes/index.dart';
 
@@ -14,6 +16,8 @@ class AuthController extends GetxController {
   final Rx<User?> _user = Rx<User?>(null);
   final Rx<Token?> _token = Rx<Token?>(null);
 
+  final ProfileController _profileController = ProfileController();
+  final PatientController _petController = PatientController();
   final AuthService _authService = AuthService();
 
   bool get loading {
@@ -87,6 +91,7 @@ class AuthController extends GetxController {
   }
 
   void logout() {
+    _selectedTab.value = 0;
     _token.value = null;
     _user.value = null;
   }

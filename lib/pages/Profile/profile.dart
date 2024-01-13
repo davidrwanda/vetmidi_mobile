@@ -79,6 +79,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     referantDescription = getTranslationKeys(
         Get.find<ProfileController>().profile?.referantDescription ??
             "Recommandé par un ami");
+    country = getTranslationKeys(
+        Get.find<ProfileController>().profile?.pays ?? "Suisse");
     contactWithEmail = getTranslationKeys(
         Get.find<AuthController>().user?.contactWithEmail.toLowerCase() ??
             "yes");
@@ -144,6 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         "last_name": _lastName.text,
         "email": _email.text,
         "address": _address.text,
+        "pays": getCountryFrenchValue(country),
         "city": _city.text,
         "phone": _phone.text,
         "postal_code": _postalCode.text,
@@ -154,12 +157,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         "referant_description": getReferalFrenchValue(referantDescription),
       };
 
-      String token = Get.find<AuthController>().token?.accessToken ?? "";
-      await Get.find<ProfileController>().updateProfile(data, token);
-      Future.delayed(const Duration(seconds: 2), () {
-        Get.find<ProfileController>().fetchedProfile = false;
-        Get.offAndToNamed(AppRoutes.home);
-      });
+      print("update profileeeeeee handlerrrrrrr $data");
+
+      // String token = Get.find<AuthController>().token?.accessToken ?? "";
+      // await Get.find<ProfileController>().updateProfile(data, token);
+      // Future.delayed(const Duration(seconds: 2), () {
+      //   Get.find<ProfileController>().fetchedProfile = false;
+      //   Get.offAndToNamed(AppRoutes.home);
+      // });
     }
   }
 

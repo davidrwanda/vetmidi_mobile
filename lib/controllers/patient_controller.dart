@@ -49,6 +49,13 @@ class PatientController extends GetxController {
     _fetchedPatients.value = value;
   }
 
+  void resetPetsState() {
+    _fetchedPatients.value = false;
+    _patients.value = [];
+    _petFiles.value = [];
+    print("reseting petsssssss");
+  }
+
   Future<void> getPatients(String token) async {
     try {
       _isLoading.value = true;

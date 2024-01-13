@@ -3,6 +3,7 @@ class Profile {
   final String lastName;
   final String email;
   final String address;
+  final String pays;
   final String city;
   final String phone;
   final String fax;
@@ -26,6 +27,7 @@ class Profile {
     required this.lastName,
     required this.email,
     required this.address,
+    required this.pays,
     required this.city,
     required this.phone,
     required this.fax,
@@ -51,11 +53,12 @@ class Profile {
       lastName: json["last_name"],
       email: json["email"],
       address: json["address"],
+      pays: json["pays"],
       city: json["city"],
       phone: json["phone"],
       fax: json["fax"],
       profession: json["profession"],
-      postalCode: json["postal_code"],
+      postalCode: json["postal_code"].toString(),
       featureImage: json["feature_image"],
       userVerified: json["user_verified"],
       passwordChange: json["password_change"],
@@ -78,6 +81,7 @@ firstName: $firstName,
 lastName: $lastName,
 email: $email,
 address: $address,
+pays: $pays,
 city: $city,
 phone: $phone,
 fax: $fax,

@@ -35,6 +35,12 @@ class ProfileController extends GetxController {
     _profile.value = inProfile;
   }
 
+  void resetProfileState() {
+    _fetchedProfile.value = false;
+    _profile.value = null;
+    print("reseting profile");
+  }
+
   Future<void> getProfile(String token) async {
     try {
       _fetching.value = true;
