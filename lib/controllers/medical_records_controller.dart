@@ -23,7 +23,10 @@ class MedicalRecordsController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        // TODO parse results into MedicalRecords Models
+        List<dynamic> data = res["data"]["data"];
+        List<MedicalRecord> medicalRecords =
+            data.map((record) => MedicalRecord.fromJSON(record)).toList();
+        _records.value = medicalRecords;
       }
     } catch (e) {
       showToast(e.toString());
@@ -39,7 +42,10 @@ class MedicalRecordsController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        // TODO parse results into MedicalRecords Models
+        List<dynamic> data = res["data"]["data"];
+        List<MedicalRecord> medicalRecords =
+            data.map((record) => MedicalRecord.fromJSON(record)).toList();
+        _records.value = medicalRecords;
       }
     } catch (e) {
       showToast(e.toString());
@@ -55,7 +61,10 @@ class MedicalRecordsController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        // TODO parse results into MedicalRecords Models
+        List<dynamic> data = res["data"]["data"];
+        List<MedicalRecord> medicalRecords =
+            data.map((record) => MedicalRecord.fromJSON(record)).toList();
+        _records.value = medicalRecords;
       }
     } catch (e) {
       showToast(e.toString());
@@ -71,7 +80,10 @@ class MedicalRecordsController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        // TODO parse results into MedicalRecords Models
+        List<dynamic> data = res["data"]["data"];
+        List<MedicalRecord> medicalRecords =
+            data.map((record) => MedicalRecord.fromJSON(record)).toList();
+        _records.value = medicalRecords;
       }
     } catch (e) {
       showToast(e.toString());

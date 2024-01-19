@@ -17,7 +17,7 @@ class SelectType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 20 * fem, 20 * fem, 20 * fem),
+      padding: EdgeInsets.fromLTRB(0, 15 * fem, 20 * fem, 15 * fem),
       child: Row(
         children: [
           ...tabs
