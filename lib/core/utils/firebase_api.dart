@@ -16,5 +16,14 @@ class FirebaseApi {
     AuthController authController = AuthController();
     authController.fCMToken = fCMToken;
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Title ${message.notification?.title}");
+      print("body ${message.notification?.body}");
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("Background message opened: ${message.notification?.body}");
+    });
   }
 }
