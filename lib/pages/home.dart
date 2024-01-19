@@ -30,13 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: Icon(Icons.account_circle_outlined),
       label: "Profile",
     ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.receipt_long),
+      label: "Records",
+    ),
     // const BottomNavigationBarItem(
     //   icon: Icon(Icons.add),
     //   label: "Add Pet",
-    // ),
-    // const BottomNavigationBarItem(
-    //   icon: Icon(Icons.receipt_long),
-    //   label: "Records",
     // ),
   ];
 
@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const Home(),
     const MyPetsScreen(),
     const ProfileScreen(),
+    const MedicalRecords(),
   ];
   @override
   Widget build(BuildContext context) {

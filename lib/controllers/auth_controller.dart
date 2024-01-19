@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/controllers/profile_controller.dart';
@@ -9,16 +10,19 @@ import 'package:vetmidi/routes/index.dart';
 
 import '../models/user.dart';
 import '../services/auth_service.dart';
+import '../services/profile_service.dart';
 
 class AuthController extends GetxController {
   final RxBool _isLoading = false.obs;
   final RxInt _selectedTab = 0.obs;
   final Rx<User?> _user = Rx<User?>(null);
   final Rx<Token?> _token = Rx<Token?>(null);
+  final Rx<String?> _fCMToken = Rx<String?>(null);
 
   final ProfileController _profileController = ProfileController();
   final PatientController _petController = PatientController();
   final AuthService _authService = AuthService();
+  final ProfileService _profileService = ProfileService();
 
   bool get loading {
     return _isLoading.value;
@@ -40,6 +44,16 @@ class AuthController extends GetxController {
     _selectedTab.value = value;
   }
 
+  String? get fCMToken {
+    return _fCMToken.value;
+  }
+
+  set fCMToken(String? value) {
+    _fCMToken.value = value;
+    final box = GetStorage();
+    box.write('fCMToken', value);
+  }
+
   Future<void> login(String email, String password) async {
     try {
       _isLoading.value = true;
@@ -59,6 +73,18 @@ class AuthController extends GetxController {
       showToast(error.toString());
     } finally {
       _isLoading.value = false;
+      final box = GetStorage();
+      String? fcm = await box.read('fCMToken');
+      var body = {
+        "email": email,
+        "first_name": user?.firstName,
+        "last_name": user?.lastName,
+        "mobile_device": fcm
+      };
+      print("updating profile with device id $body");
+      var res = await _profileService.updatePatientService(
+          body, _token.value!.accessToken);
+      print("done eeee e eupdating profile with device id $res");
     }
   }
 
