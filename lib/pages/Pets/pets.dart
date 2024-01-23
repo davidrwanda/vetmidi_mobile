@@ -10,7 +10,7 @@ import '../../components/app_bar.dart';
 import '../../components/loading.dart';
 import '../../controllers/auth_controller.dart';
 import '../../core/utils/app_constants.dart';
-import 'patient_card.dart';
+import 'pet_card.dart';
 
 class MyPetsScreen extends StatefulWidget {
   const MyPetsScreen({super.key});

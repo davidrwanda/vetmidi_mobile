@@ -7,7 +7,7 @@ class MedicalRecordsController extends GetxController {
   final RxBool _fetching = false.obs;
   final RxList<MedicalRecord> _records = RxList<MedicalRecord>([]);
   final MedicalRecordsService _medicalRecordsService = MedicalRecordsService();
-
+  
   bool get fetching {
     return _fetching.value;
   }
@@ -16,10 +16,11 @@ class MedicalRecordsController extends GetxController {
     return [..._records];
   }
 
-  Future<dynamic> getMedicalRecords(String token) async {
+  Future<dynamic> getMedicalRecords(String query, String token) async {
     try {
       _fetching.value = true;
-      var res = await _medicalRecordsService.getMedicalRecordsService(token);
+      var res =
+          await _medicalRecordsService.getMedicalRecordsService(query, token);
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
@@ -35,10 +36,10 @@ class MedicalRecordsController extends GetxController {
     }
   }
 
-  Future<dynamic> getReport(String token) async {
+  Future<dynamic> getReport(String query, String token) async {
     try {
       _fetching.value = true;
-      var res = await _medicalRecordsService.getReportService(token);
+      var res = await _medicalRecordsService.getReportService(query, token);
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
@@ -54,10 +55,11 @@ class MedicalRecordsController extends GetxController {
     }
   }
 
-  Future<dynamic> getVignetteReport(String token) async {
+  Future<dynamic> getVignetteReport(String query, String token) async {
     try {
       _fetching.value = true;
-      var res = await _medicalRecordsService.getVignetteReportService(token);
+      var res =
+          await _medicalRecordsService.getVignetteReportService(query, token);
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
@@ -73,10 +75,10 @@ class MedicalRecordsController extends GetxController {
     }
   }
 
-  Future<dynamic> getPjReport(String token) async {
+  Future<dynamic> getPjReport(String query, String token) async {
     try {
       _fetching.value = true;
-      var res = await _medicalRecordsService.getPjReportService(token);
+      var res = await _medicalRecordsService.getPjReportService(query, token);
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {

@@ -29,15 +29,26 @@ class _MedicalRecordsState extends State<MedicalRecords> {
       _selectedTab = index;
     });
 
+    String query = selectedPet == "all" ? "" : selectedPet;
+
     String token = Get.find<AuthController>().token?.accessToken ?? "";
     if (index == 0) {
-      Get.find<MedicalRecordsController>().getMedicalRecords(token);
+      Get.find<MedicalRecordsController>().getMedicalRecords(query, token);
     } else if (index == 1) {
-      Get.find<MedicalRecordsController>().getReport(token);
+      Get.find<MedicalRecordsController>().getReport(query, token);
     } else if (index == 2) {
-      Get.find<MedicalRecordsController>().getVignetteReport(token);
+      Get.find<MedicalRecordsController>().getVignetteReport(query, token);
     } else {
-      Get.find<MedicalRecordsController>().getPjReport(token);
+      Get.find<MedicalRecordsController>().getPjReport(query, token);
+    }
+  }
+
+  onPetchanged(String? value) {
+    if (value != null) {
+      setState(() {
+        selectedPet = value;
+      });
+      onSelectChange(_selectedTab);
     }
   }
 
@@ -46,8 +57,9 @@ class _MedicalRecordsState extends State<MedicalRecords> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 0), () {
+      String query = selectedPet == "all" ? "" : selectedPet;
       String token = Get.find<AuthController>().token?.accessToken ?? "";
-      Get.find<MedicalRecordsController>().getMedicalRecords(token);
+      Get.find<MedicalRecordsController>().getMedicalRecords("", token);
     });
 
     if (!Get.find<PatientController>().fetchedPatients) {
@@ -109,7 +121,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
                     style: const TextStyle(color: ThemeColors.textColor),
                     underline: null,
                     hint: const Text("Select an option"),
-                    onChanged: (String? newValue) {},
+                    onChanged: onPetchanged,
                     items: [
                       const DropdownMenuItem<String>(
                         value: "all",
@@ -122,7 +134,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
                           .patients
                           .map<DropdownMenuItem<String>>((Patient patient) {
                         return DropdownMenuItem<String>(
-                          value: patient.name,
+                          value: patient.fmId,
                           child: Text(
                             patient.name,
                             style:

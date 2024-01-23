@@ -76,9 +76,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _phone.text = Get.find<ProfileController>().profile?.phone ?? "";
     title = getTranslationKeys(
         Get.find<ProfileController>().profile?.title ?? "Monsieur");
-    referantDescription = getTranslationKeys(
-        Get.find<ProfileController>().profile?.referantDescription ??
-            "Recommandé par un ami");
+    referantDescription =
+        (Get.find<ProfileController>().profile?.referantDescription == "" ||
+                Get.find<ProfileController>().profile?.referantDescription ==
+                    null)
+            ? getTranslationKeys("Recommandé par un ami")
+            : getTranslationKeys(
+                Get.find<ProfileController>().profile?.referantDescription ??
+                    "Recommandé par un ami");
     country = getTranslationKeys(
         Get.find<ProfileController>().profile?.pays ?? "Suisse");
     contactWithEmail = getTranslationKeys(

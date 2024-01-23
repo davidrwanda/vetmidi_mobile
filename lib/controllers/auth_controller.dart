@@ -55,11 +55,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> login(String email, String password) async {
+    var res2 = null;
     try {
       _isLoading.value = true;
       Map<String, String> map = {"email": email, "password": password};
       var res = await _authService.login(map);
-      var res2 = await _authService.login(map);
+      res2 = await _authService.login(map);
       if (res2["error"] != null && res2["error"] == true) {
         throw Exception(res2["message"]);
       } else {
@@ -76,15 +77,13 @@ class AuthController extends GetxController {
       final box = GetStorage();
       String? fcm = await box.read('fCMToken');
       var body = {
-        "email": email,
-        "first_name": user?.firstName,
-        "last_name": user?.lastName,
+        "email": res2["user"]["email"],
+        "first_name": res2["user"]["first_name"],
+        "last_name": res2["user"]["last_name"],
         "mobile_device": fcm
       };
-      print("updating profile with device id $body");
       var res = await _profileService.updatePatientService(
-          body, _token.value!.accessToken);
-      print("done eeee e eupdating profile with device id $res");
+          body, res2["token"]["access_token"]);
     }
   }
 

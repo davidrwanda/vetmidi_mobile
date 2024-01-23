@@ -53,7 +53,6 @@ class PatientController extends GetxController {
     _fetchedPatients.value = false;
     _patients.value = [];
     _petFiles.value = [];
-    print("reseting petsssssss");
   }
 
   Future<void> getPatients(String token) async {

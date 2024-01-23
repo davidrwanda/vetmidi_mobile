@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
-import 'package:vetmidi/pages/Pets/patient_card.dart';
+import 'package:vetmidi/pages/Pets/pet_card.dart';
 
 import '../../core/utils/app_constants.dart';
 import '../Home/appointments_list.dart';
