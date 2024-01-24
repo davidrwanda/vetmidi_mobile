@@ -13,21 +13,22 @@ class PatientController extends GetxController {
   final RxBool _isUpLoading = false.obs;
   final RxBool _fetchedPatients = false.obs;
   final RxList<Patient> _patients = RxList<Patient>([]);
-  final RxList<PetFile> _petFiles = RxList<PetFile>([]);
   final Rx<Patient?> _patient = Rx<Patient?>(null);
+  final RxList<PetFile> _petFiles = RxList<PetFile>([]);
   final PatientService _patientService = PatientService();
 
   List<Patient> get patients {
     return [..._patients];
   }
 
+  Patient? get patient {
+    return _patient.value;
+  }
+  
   List<PetFile> get petFiles {
     return [..._petFiles];
   }
 
-  Patient? get patient {
-    return _patient.value;
-  }
 
   set patient(Patient? inPatient) {
     _patient.value = inPatient;

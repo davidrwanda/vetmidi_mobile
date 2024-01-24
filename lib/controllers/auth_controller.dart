@@ -17,7 +17,6 @@ class AuthController extends GetxController {
   final RxInt _selectedTab = 0.obs;
   final Rx<User?> _user = Rx<User?>(null);
   final Rx<Token?> _token = Rx<Token?>(null);
-  final Rx<String?> _fCMToken = Rx<String?>(null);
 
   final ProfileController _profileController = ProfileController();
   final PatientController _petController = PatientController();
@@ -44,16 +43,6 @@ class AuthController extends GetxController {
     _selectedTab.value = value;
   }
 
-  String? get fCMToken {
-    return _fCMToken.value;
-  }
-
-  set fCMToken(String? value) {
-    _fCMToken.value = value;
-    final box = GetStorage();
-    box.write('fCMToken', value);
-  }
-
   Future<void> login(String email, String password) async {
     var res2 = null;
     try {
@@ -74,17 +63,21 @@ class AuthController extends GetxController {
       showToast(error.toString());
     } finally {
       _isLoading.value = false;
-      final box = GetStorage();
-      String? fcm = await box.read('fCMToken');
-      var body = {
-        "email": res2["user"]["email"],
-        "first_name": res2["user"]["first_name"],
-        "last_name": res2["user"]["last_name"],
-        "mobile_device": fcm
-      };
-      var res = await _profileService.updatePatientService(
-          body, res2["token"]["access_token"]);
     }
+  }
+
+  Future<void> updateDeviceId(String newDeviceId) async {
+    final box = GetStorage();
+    box.write('fCMToken', newDeviceId);
+    var body = {
+      "email": _user.value?.email,
+      "first_name": _user.value?.firstName,
+      "last_name": _user.value?.firstName,
+      "mobile_device": newDeviceId
+    };
+    var res = await _profileService.updatePatientService(
+        body, _token.value!.accessToken);
+    print("ressssssss $res");
   }
 
   Future<void> changePassword(String email, String currentPassword,

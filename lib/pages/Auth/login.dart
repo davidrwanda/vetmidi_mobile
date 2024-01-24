@@ -26,6 +26,34 @@ class _LoginState extends State<Login> {
     _password = TextEditingController();
   }
 
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes, It is"),
+      onPressed: () => Navigator.pop(context),
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("New device detected"),
+      content: Text("Please confirm that this is this your new device?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,6 +110,7 @@ class _LoginState extends State<Login> {
                     return Button(
                       "page.LoginNow".tr,
                       (BuildContext ctx) async {
+                        // showAlertDialog(ctx);
                         // Get.toNamed(AppRoutes.profile);
                         await Get.find<AuthController>()
                             .login(_email.text, _password.text);

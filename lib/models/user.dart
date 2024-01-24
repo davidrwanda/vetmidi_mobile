@@ -2,6 +2,7 @@ class User {
   final String firstName;
   final String lastName;
   final String email;
+  final String mobile_device;
   final String address;
   final String city;
   final String phone;
@@ -26,6 +27,7 @@ class User {
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.mobile_device,
     required this.address,
     required this.city,
     required this.phone,
@@ -52,6 +54,7 @@ class User {
       firstName: json["first_name"],
       lastName: json["last_name"],
       email: json["email"],
+      mobile_device: json["mobile_device"],
       address: json["address"],
       city: json["city"],
       phone: json["phone"],
@@ -78,6 +81,7 @@ class User {
 firstName: $firstName,
 lastName: $lastName,
 email: $email,
+mobile_device: $mobile_device,
 address: $address,
 city: $city,
 phone: $phone,

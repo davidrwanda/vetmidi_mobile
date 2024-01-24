@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/medical_records_controller.dart';
+import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 
 import '../../controllers/profile_controller.dart';
@@ -10,5 +11,6 @@ class HomeBinding extends Bindings {
     Get.put(PatientController());
     Get.put(ProfileController());
     Get.put(MedicalRecordsController());
+    Get.put(NotificationController());
   }
 }

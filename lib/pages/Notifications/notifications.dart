@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
+import 'package:vetmidi/pages/Notifications/notification_card.dart';
 
 import '../../components/back_button.dart';
-import '../../components/button.dart';
-import '../../controllers/patient_controller.dart';
+import '../../controllers/auth_controller.dart';
 import '../../core/utils/app_constants.dart';
 
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
+
+  @override
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 0), () async {
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      if (!Get.find<NotificationController>().fetchedAppointments) {
+        await Get.find<NotificationController>().getAppointments(token);
+      }
+
+      if (!Get.find<NotificationController>().fetchedTreatments) {
+        await Get.find<NotificationController>().getTreatments(token);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +39,7 @@ class NotificationsScreen extends StatelessWidget {
         backgroundColor: ThemeColors.primaryBackground,
         body: Container(
           padding: EdgeInsets.all(20 * fem),
+          height: Get.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,75 +53,23 @@ class NotificationsScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10 * fem),
-              Text(
-                "12 Sep, 2023, 10:30 PM",
-                style: TextStyle(
-                  fontSize: 13 * ffem,
-                  color: Colors.black38,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: 7 * fem),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(20 * fem),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10 * fem),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.airline_stops),
-                    SizedBox(height: 10),
-                    Text(
-                      "Your pet's treatment ends tomorrow.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Ensure their well-being by scheduling a follow-up appointment on our app.",
-                      style: TextStyle(
-                        color: Colors.black38,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Button(
-                            "Dial Clinic",
-                            (BuildContext ctx) {},
-                            context,
-                            fontSize: 14 * ffem,
-                            radius: 10 * ffem,
-                            backgroundColor: ThemeColors.secondaryColor,
-                          ),
-                        ),
-                        SizedBox(width: 20 * fem),
-                        Expanded(
-                          child: Obx(() {
-                            return Button(
-                              "View Treatment",
-                              (BuildContext ctx) async {
-                                // await updatePatientHandler();
-                              },
-                              context,
-                              loading: Get.find<PatientController>().loading,
-                              backgroundColor: Colors.white,
-                              fontSize: 14 * ffem,
-                              radius: 10 * fem,
-                              color: ThemeColors.secondaryColor,
-                              hasBorder: true,
-                            );
-                          }),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+              Expanded(
+                child: Obx(() {
+                  return ListView(
+                    children: [
+                      ...Get.find<NotificationController>()
+                          .appointments
+                          .map((appointment) =>
+                              NotificationCard(notification: appointment))
+                          .toList(),
+                      ...Get.find<NotificationController>()
+                          .treatments
+                          .map((treatment) =>
+                              NotificationCard(notification: treatment))
+                          .toList(),
+                    ],
+                  );
+                }),
               ),
             ],
           ),

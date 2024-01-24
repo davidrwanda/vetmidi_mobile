@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/pages/Home/home_pet_avatar.dart';
@@ -19,6 +20,38 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _firebaseMessaging = FirebaseMessaging.instance;
+
+  showAlertDialog(BuildContext context, String deviceId) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () => Navigator.pop(context),
+    );
+    Widget continueButton = TextButton(
+        child: Text("Yes, It is"),
+        onPressed: () {
+          Navigator.pop(context);
+          Get.find<AuthController>().updateDeviceId(deviceId);
+        });
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("New device detected"),
+      content: Text("Please confirm that this is this your new device?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +68,15 @@ class _HomeState extends State<Home> {
         Get.find<ProfileController>().getProfile(token);
       });
     }
+
+    Future.delayed(const Duration(seconds: 0), () async {
+      await _firebaseMessaging.requestPermission();
+      final fCMToken = await _firebaseMessaging.getToken();
+      if (Get.find<AuthController>().user!.mobile_device != fCMToken && fCMToken != null) {
+        print("Tokkkkkenennee inside different $fCMToken");
+        showAlertDialog(context, fCMToken);
+      }
+    });
   }
 
   @override

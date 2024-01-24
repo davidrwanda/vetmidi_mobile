@@ -46,7 +46,8 @@ Future<dynamic> sendHttpRequest(Uri url,
     } else if (error.toString().contains('HTTP Status 500')) {
       throw const HttpException("Internal Server Error");
     } else {
-      throw const HttpException("Error!");
+      print("Error! ${error.toString()}");
+      throw HttpException("Error! ${error.toString()}");
     }
   }
 }
