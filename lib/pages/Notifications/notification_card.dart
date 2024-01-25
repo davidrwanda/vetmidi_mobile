@@ -31,6 +31,7 @@ class NotificationCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 10 * fem),
         Text(
           notification.created_on,
           style: TextStyle(

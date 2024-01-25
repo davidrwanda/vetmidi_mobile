@@ -77,7 +77,12 @@ class AuthController extends GetxController {
     };
     var res = await _profileService.updatePatientService(
         body, _token.value!.accessToken);
-    print("ressssssss $res");
+    var userJson = _user.value!.toJson();
+    userJson["mobile_device"] = newDeviceId;
+    User newUser = User.fromJSONCustom(userJson);
+    // print("new user Json $newUser");
+    _user.value = newUser;
+    // print("ressssssss $res");
   }
 
   Future<void> changePassword(String email, String currentPassword,

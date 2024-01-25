@@ -52,7 +52,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(height: 10 * fem),
               Expanded(
                 child: Obx(() {
                   return ListView(

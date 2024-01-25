@@ -75,6 +75,58 @@ class User {
     );
   }
 
+  factory User.fromJSONCustom(Map<String, dynamic> json) {
+    return User(
+      firstName: json["firstName"],
+      lastName: json["lastName"],
+      email: json["email"],
+      mobile_device: json["mobile_device"],
+      address: json["address"],
+      city: json["city"],
+      phone: json["phone"],
+      fax: json["fax"],
+      profession: json["profession"],
+      postalCode: json["postalCode"],
+      featureImage: json["featureImage"],
+      userVerified: json["userVerified"],
+      passwordChange: json["passwordChange"],
+      lastForgotPassword: json["lastForgotPassword"],
+      sentVerificationEmail: json["sentVerificationEmail"],
+      lastLogin: json["lastLogin"],
+      contactWithEmail: json["contactWithEmail"],
+      contactWithSMS: json["contactWithSMS"],
+      contactWithWhatsapp: json["contactWithWhatsapp"],
+      isNewUser: json["isNewUser"],
+      isAdmin: json["isAdmin"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'mobile_device': mobile_device,
+      'address': address,
+      'city': city,
+      'phone': phone,
+      'fax': fax,
+      'profession': profession,
+      'postalCode': postalCode,
+      'featureImage': featureImage,
+      'userVerified': userVerified,
+      'passwordChange': passwordChange,
+      'lastForgotPassword': lastForgotPassword,
+      'sentVerificationEmail': sentVerificationEmail,
+      'lastLogin': lastLogin,
+      'contactWithEmail': contactWithEmail,
+      'contactWithSMS': contactWithSMS,
+      'contactWithWhatsapp': contactWithWhatsapp,
+      'isNewUser': isNewUser,
+      'isAdmin': isAdmin,
+    };
+  }
+
   @override
   String toString() {
     return ''' {
