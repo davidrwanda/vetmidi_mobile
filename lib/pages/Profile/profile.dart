@@ -162,14 +162,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         "referant_description": getReferalFrenchValue(referantDescription),
       };
 
-      print("update profileeeeeee handlerrrrrrr $data");
+      // print("update profileeeeeee handlerrrrrrr $data");
 
-      // String token = Get.find<AuthController>().token?.accessToken ?? "";
-      // await Get.find<ProfileController>().updateProfile(data, token);
-      // Future.delayed(const Duration(seconds: 2), () {
-      //   Get.find<ProfileController>().fetchedProfile = false;
-      //   Get.offAndToNamed(AppRoutes.home);
-      // });
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      await Get.find<ProfileController>().updateProfile(data, token);
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.find<ProfileController>().fetchedProfile = false;
+        Get.offAndToNamed(AppRoutes.home);
+      });
     }
   }
 
