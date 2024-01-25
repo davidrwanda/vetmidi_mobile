@@ -167,6 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<ProfileController>().updateProfile(data, token);
       Future.delayed(const Duration(seconds: 2), () {
+        Get.find<ProfileController>().profile = null;
         Get.find<ProfileController>().fetchedProfile = false;
         Get.offAndToNamed(AppRoutes.home);
       });
@@ -180,6 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: ThemeColors.primaryBackground,
         height: Get.height,
         child: Obx(() {
+          initializeFields();
           return Column(
             children: [
               const CustomAppBar(),
