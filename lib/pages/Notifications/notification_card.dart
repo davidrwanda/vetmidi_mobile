@@ -26,6 +26,15 @@ class NotificationCard extends StatelessWidget {
     // }
   }
 
+  String getNotificationBody(String originalBody, String subject, String date) {
+    String newBody =
+        originalBody.replaceAll('(^^^Appointment_NAME^^^)', subject);
+    newBody = newBody.replaceAll('(^^^Treatment_NAME^^^)', subject);
+    newBody = newBody.replaceAll('^^^Treatment_STARTING_DATE^^^', date + ' ');
+    newBody = newBody.replaceAll('^^^Appointment_STARTING_DATE^^^', date + ' ');
+    return newBody;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,8 +70,8 @@ class NotificationCard extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                notification.body
-                    .replaceAll("(^^^Treatment_NAME^^^)", notification.subject),
+                getNotificationBody(
+                    notification.body, notification.subject, notification.date),
                 style: TextStyle(
                   color: Colors.black38,
                 ),

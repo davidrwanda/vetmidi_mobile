@@ -6,14 +6,22 @@ import 'package:vetmidi/services/notifications_service.dart';
 import '../components/toast.dart';
 
 class NotificationController extends GetxController {
-  final RxBool _isLoading = false.obs;
+  final RxBool _fetchingAppointments = false.obs;
+  final RxBool _fetchingTreatments = false.obs;
   final RxBool _fetchedAppointments = false.obs;
   final RxBool _fetchedTreatments = false.obs;
   final RxList<NotificationModel> _treatments = RxList<NotificationModel>([]);
   final RxList<NotificationModel> _appointments = RxList<NotificationModel>([]);
   final Rx<NotificationModel?> _notification = Rx<NotificationModel?>(null);
   final NotificationService _notificationService = NotificationService();
-  final AuthController _authController = AuthController();
+
+  bool get fetchingAppointments {
+    return _fetchingAppointments.value;
+  }
+
+  bool get fetchingTreatments {
+    return _fetchingTreatments.value;
+  }
 
   List<NotificationModel> get treatments {
     return [..._treatments];
@@ -37,7 +45,7 @@ class NotificationController extends GetxController {
 
   Future<void> getTreatments(String token) async {
     try {
-      _isLoading.value = true;
+      _fetchingTreatments.value = true;
       var res = await _notificationService.getTreatmentsService(token);
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
@@ -51,13 +59,13 @@ class NotificationController extends GetxController {
     } catch (error) {
       showToast(error.toString());
     } finally {
-      _isLoading.value = false;
+      _fetchingTreatments.value = false;
     }
   }
 
   Future<void> getAppointments(token) async {
     try {
-      _isLoading.value = true;
+      _fetchingAppointments.value = true;
       var res = await _notificationService.getAppointmentsService(token);
       print("treatmentssssssss $res");
 
@@ -73,7 +81,7 @@ class NotificationController extends GetxController {
     } catch (error) {
       showToast(error.toString());
     } finally {
-      _isLoading.value = false;
+      _fetchingAppointments.value = false;
     }
   }
 }

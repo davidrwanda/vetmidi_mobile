@@ -6,6 +6,7 @@ import 'package:vetmidi/pages/Home/treatments_list.dart';
 import 'package:vetmidi/routes/index.dart';
 
 import '../../controllers/auth_controller.dart';
+import '../../controllers/notifications_controller.dart';
 import '../../controllers/patient_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../../core/theme/colors_theme.dart';
@@ -70,10 +71,22 @@ class _HomeState extends State<Home> {
     }
 
     Future.delayed(const Duration(seconds: 0), () async {
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      if (!Get.find<NotificationController>().fetchedAppointments) {
+        await Get.find<NotificationController>().getAppointments(token);
+      }
+
+      if (!Get.find<NotificationController>().fetchedTreatments) {
+        await Get.find<NotificationController>().getTreatments(token);
+      }
+    });
+
+    Future.delayed(const Duration(seconds: 0), () async {
       await _firebaseMessaging.requestPermission();
       final fCMToken = await _firebaseMessaging.getToken();
-      if (Get.find<AuthController>().user!.mobile_device != fCMToken && fCMToken != null) {
-        print("Tokkkkkenennee inside different $fCMToken");
+      if (Get.find<AuthController>().user!.mobile_device != fCMToken &&
+          fCMToken != null) {
+        // print("Tokkkkkenennee inside different $fCMToken");
         showAlertDialog(context, fCMToken);
       }
     });

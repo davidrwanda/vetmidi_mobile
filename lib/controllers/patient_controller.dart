@@ -24,11 +24,20 @@ class PatientController extends GetxController {
   Patient? get patient {
     return _patient.value;
   }
-  
+
+  Patient? getPetById(String id) {
+    List<Patient> pets =
+        _patients.where((element) => element.fmId == id).toList();
+    if (pets.isNotEmpty) {
+      return pets[0];
+    } else {
+      return null;
+    }
+  }
+
   List<PetFile> get petFiles {
     return [..._petFiles];
   }
-
 
   set patient(Patient? inPatient) {
     _patient.value = inPatient;
