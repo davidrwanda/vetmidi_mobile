@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vetmidi/pages/Home/treatment_card.dart';
 
 import '../../core/utils/app_constants.dart';
+import '../../routes/index.dart';
 
 Widget treatmentList() {
   return Column(
@@ -16,12 +18,15 @@ Widget treatmentList() {
               fontSize: 14 * ffem,
             ),
           ),
-          Text(
-            "View All",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 13 * ffem,
-              color: Colors.black38,
+          GestureDetector(
+            onTap: () => Get.toNamed(AppRoutes.treatments),
+            child: Text(
+              "View All",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 13 * ffem,
+                color: Colors.black38,
+              ),
             ),
           ),
         ],

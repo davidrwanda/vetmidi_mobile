@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:vetmidi/components/back_button.dart';
+import 'package:vetmidi/controllers/notifications_controller.dart';
+import 'package:vetmidi/models/notification.dart';
 
+import '../../controllers/patient_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
+import '../../core/utils/functions.dart';
+import '../../models/patients.dart';
 
 class AppointmentDetails extends StatelessWidget {
   const AppointmentDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    NotificationModel? appointment =
+        Get.find<NotificationController>().appointment;
+    Patient? pet =
+        Get.find<PatientController>().getPetById(appointment!.pet_id);
     return SafeArea(
         child: Scaffold(
       backgroundColor: ThemeColors.primaryBackground,
@@ -45,7 +55,13 @@ class AppointmentDetails extends StatelessWidget {
                         children: [
                           Expanded(flex: 3, child: Text("Date")),
                           Expanded(
-                              flex: 5, child: Text("Sep, 12, 2023 | 12:30 PM")),
+                            flex: 5,
+                            child: Text(
+                              formatDateTime(
+                                appointment.created_on,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -63,14 +79,15 @@ class AppointmentDetails extends StatelessWidget {
                                     height: 35 * fem,
                                     width: 35 * fem,
                                     child: ClipOval(
-                                      child: Image.asset(
-                                        "assets/images/luna.png",
-                                        fit: BoxFit.cover,
-                                      ),
+                                      child: pet != null && pet.webImage != ""
+                                          ? Image.network(pet.webImage,
+                                              fit: BoxFit.cover)
+                                          : Image.asset(
+                                              "assets/images/dog.png"),
                                     ),
                                   ),
                                   SizedBox(width: 5 * fem),
-                                  Text("Luna"),
+                                  Text(pet?.name ?? ""),
                                 ],
                               )),
                         ],

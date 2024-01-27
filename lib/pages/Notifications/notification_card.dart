@@ -7,6 +7,7 @@ import '../../components/button.dart';
 import '../../controllers/patient_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
+import '../../core/utils/make_call_service.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -15,16 +16,6 @@ class NotificationCard extends StatelessWidget {
   }) : super(key: key);
 
   final NotificationModel notification;
-
-  _launchDialer(String phoneNumber) async {
-    final url = 'tel:$phoneNumber';
-    await launchUrl(Uri(scheme: 'tel', path: phoneNumber));
-    // if (await canLaunchUrl(Uri(scheme: 'tel', path: phoneNumber))) {
-    //   await launchUrl(Uri.parse(url));
-    // } else {
-    //   throw 'Could not launch $url';
-    // }
-  }
 
   String getNotificationBody(String originalBody, String subject, String date) {
     String newBody =
@@ -83,7 +74,7 @@ class NotificationCard extends StatelessWidget {
                     child: Button(
                       "Dial Clinic",
                       (BuildContext ctx) {
-                        _launchDialer(notification.phone);
+                        launchDialer(notification.phone);
                       },
                       context,
                       fontSize: 14 * ffem,

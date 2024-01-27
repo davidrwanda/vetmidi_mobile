@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 String getTranslationKeys(String value) {
   switch (value) {
     case 'yes':
@@ -134,3 +136,8 @@ String formatFileSize(int fileSizeInBytes) {
     return '${sizeInGB.round()} GB';
   }
 }
+
+String formatDateTime(String dateTimeString) {
+    DateTime dateTime = DateFormat("MM/dd/yyyy HH:mm:ss").parse(dateTimeString);
+    return DateFormat("MMM, d, yyyy | hh:mm a").format(dateTime);
+  }

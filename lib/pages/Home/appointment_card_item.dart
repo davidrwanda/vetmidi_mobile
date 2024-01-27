@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/models/notification.dart';
 
+import '../../controllers/notifications_controller.dart';
+import '../../controllers/patient_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
+import '../../models/patients.dart';
 import '../../routes/index.dart';
 
 class AppointmentCardItem extends StatelessWidget {
@@ -16,6 +19,7 @@ class AppointmentCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Patient? pet = Get.find<PatientController>().getPetById(appointment.pet_id);
     return Container(
       child: Column(
         children: [
@@ -36,14 +40,13 @@ class AppointmentCardItem extends StatelessWidget {
                 height: 20 * fem,
                 width: 20 * fem,
                 child: ClipOval(
-                  child: Image.asset(
-                    "assets/images/luna.png",
-                    fit: BoxFit.cover,
-                  ),
+                  child: pet != null && pet.webImage != ""
+                      ? Image.network(pet.webImage, fit: BoxFit.cover)
+                      : Image.asset("assets/images/dog.png"),
                 ),
               ),
               SizedBox(width: 8 * fem),
-              Text("Luna"),
+              Text(pet?.name ?? ""),
             ],
           ),
           SizedBox(height: 9 * fem),
@@ -62,7 +65,7 @@ class AppointmentCardItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Sep, 12, Thursday",
+                    appointment.date,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                     ),
@@ -82,7 +85,7 @@ class AppointmentCardItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "13:00",
+                    appointment.created_on.substring(11, 16),
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                     ),
@@ -91,9 +94,11 @@ class AppointmentCardItem extends StatelessWidget {
               ),
               Expanded(child: Container()),
               GestureDetector(
-                onTap: () => Get.toNamed(AppRoutes.appointmentdetails),
+                onTap: () {
+                  Get.find<NotificationController>().appointment = appointment;
+                  Get.toNamed(AppRoutes.appointmentdetails);
+                },
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text("Details"),
                     Icon(

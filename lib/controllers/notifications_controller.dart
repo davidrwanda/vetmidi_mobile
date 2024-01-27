@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/models/notification.dart';
 import 'package:vetmidi/services/notifications_service.dart';
 
@@ -11,7 +10,9 @@ class NotificationController extends GetxController {
   final RxBool _fetchedAppointments = false.obs;
   final RxBool _fetchedTreatments = false.obs;
   final RxList<NotificationModel> _treatments = RxList<NotificationModel>([]);
+  final Rx<NotificationModel?> _treatment = Rx<NotificationModel?>(null);
   final RxList<NotificationModel> _appointments = RxList<NotificationModel>([]);
+  final Rx<NotificationModel?> _appointment = Rx<NotificationModel?>(null);
   final Rx<NotificationModel?> _notification = Rx<NotificationModel?>(null);
   final NotificationService _notificationService = NotificationService();
 
@@ -21,6 +22,22 @@ class NotificationController extends GetxController {
 
   bool get fetchingTreatments {
     return _fetchingTreatments.value;
+  }
+
+  set appointment(NotificationModel? inAppointment) {
+    _appointment.value = inAppointment;
+  }
+
+  NotificationModel? get appointment {
+    return _appointment.value;
+  }
+
+  set treatment(NotificationModel? inTreatment) {
+    _treatment.value = inTreatment;
+  }
+
+  NotificationModel? get treatment {
+    return _treatment.value;
   }
 
   List<NotificationModel> get treatments {

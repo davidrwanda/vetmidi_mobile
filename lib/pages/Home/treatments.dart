@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/components/back_button.dart';
-import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
@@ -12,14 +11,14 @@ import '../../models/notification.dart';
 import '../../models/patients.dart';
 import '../Records/select_typey.dart';
 
-class AppointmentsScreen extends StatefulWidget {
-  AppointmentsScreen({super.key});
+class TreatmentsScreen extends StatefulWidget {
+  TreatmentsScreen({super.key});
 
   @override
-  State<AppointmentsScreen> createState() => _AppointmentsScreenState();
+  State<TreatmentsScreen> createState() => _TreatmentsScreenState();
 }
 
-class _AppointmentsScreenState extends State<AppointmentsScreen> {
+class _TreatmentsScreenState extends State<TreatmentsScreen> {
   var _selectedTab = 0;
   var selectedPet = "all";
 
@@ -41,7 +40,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
             children: [
               backButton(),
               Text(
-                "Appointments",
+                "Treatments",
                 style: TextStyle(
                   fontSize: 35 * ffem,
                   letterSpacing: 0.9,
@@ -90,18 +89,18 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       ]),
                 ),
               ),
-              SelectType(
-                tabs: ["Upcoming", "Completed", "Cancelled"],
-                selectedIndex: _selectedTab,
-                onChange: onSelectChange,
-              ),
+              // SelectType(
+              //   tabs: ["Upcoming", "Completed", "Cancelled"],
+              //   selectedIndex: _selectedTab,
+              //   onChange: onSelectChange,
+              // ),
+              SizedBox(height: 30 * fem),
               Expanded(
                 child: ListView(
                   children: [
                     ...Get.find<NotificationController>()
-                        .appointments
-                        .map((appointment) =>
-                            AppointmentItem(appointment: appointment))
+                        .treatments
+                        .map((treatment) => TreatmentItem(treatment: treatment))
                         .toList(),
                   ],
                 ),
@@ -114,24 +113,24 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
   }
 }
 
-class AppointmentItem extends StatelessWidget {
-  const AppointmentItem({
+class TreatmentItem extends StatelessWidget {
+  const TreatmentItem({
     Key? key,
-    required this.appointment,
+    required this.treatment,
   }) : super(key: key);
 
-  final NotificationModel appointment;
+  final NotificationModel treatment;
 
   @override
   Widget build(BuildContext context) {
-    Patient? pet = Get.find<PatientController>().getPetById(appointment.pet_id);
+    Patient? pet = Get.find<PatientController>().getPetById(treatment.pet_id);
     return Container(
       padding: EdgeInsets.only(bottom: 30 * fem),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            formatDateTime(appointment.created_on),
+            formatDateTime(treatment.created_on),
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17 * ffem),
           ),
           SizedBox(height: 10 * fem),
@@ -188,14 +187,6 @@ class AppointmentItem extends StatelessWidget {
                       Expanded(flex: 5, child: Text("1162")),
                     ],
                   ),
-                ),
-                SizedBox(height: 20),
-                Button(
-                  "Cancel Appointment",
-                  (context) {},
-                  context,
-                  backgroundColor: Color(0xffE24E4E),
-                  color: Colors.white,
                 ),
               ],
             ),

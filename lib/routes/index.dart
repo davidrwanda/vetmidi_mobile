@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vetmidi/core/bindings/home_bindings.dart';
 import 'package:vetmidi/pages/Home/appointment_details.dart';
+import 'package:vetmidi/pages/Home/treatments.dart';
 import 'package:vetmidi/pages/Notifications/notifications.dart';
 import 'package:vetmidi/pages/Pets/new_pet.dart';
 import 'package:vetmidi/pages/Pets/pet_details.dart';
@@ -29,6 +30,7 @@ class AppRoutes {
   static const String treatmentdetails = "/treatmentdetails";
   static const String petprofile = "/petprofile";
   static const String appointments = "/appointments";
+  static const String treatments = "/treatments";
   static const String changePassword = "/changepassword";
 
   static final routes = [
@@ -52,6 +54,7 @@ class AppRoutes {
     GetPage(name: treatmentdetails, page: () => const TreatmentDetails()),
     GetPage(name: petprofile, page: () => const PetProfile()),
     GetPage(name: appointments, page: () => AppointmentsScreen()),
+    GetPage(name: treatments, page: () => TreatmentsScreen()),
     GetPage(name: changePassword, page: () => ChangePasswordScreen()),
     GetPage(name: addpet, page: () => NewPet()),
   ];

@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/models/notification.dart';
+import 'package:vetmidi/routes/index.dart';
 
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
+import '../../models/patients.dart';
 
 class TreatmentCardItem extends StatelessWidget {
   const TreatmentCardItem({
@@ -23,6 +25,7 @@ class TreatmentCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Patient? pet = Get.find<PatientController>().getPetById(treatment.pet_id);
     return Container(
       child: Column(
         children: [
@@ -43,17 +46,13 @@ class TreatmentCardItem extends StatelessWidget {
                 height: 20 * fem,
                 width: 20 * fem,
                 child: ClipOval(
-                  child: Image.asset(
-                    "assets/images/luna.png",
-                    fit: BoxFit.cover,
-                  ),
+                  child: pet != null && pet.webImage != ""
+                      ? Image.network(pet.webImage, fit: BoxFit.cover)
+                      : Image.asset("assets/images/dog.png"),
                 ),
               ),
               SizedBox(width: 8 * fem),
-              Text(Get.find<PatientController>()
-                      .getPetById(treatment.pet_id)
-                      ?.name ??
-                  ""),
+              Text(pet?.name ?? ""),
             ],
           ),
           SizedBox(height: 9 * fem),
@@ -102,14 +101,20 @@ class TreatmentCardItem extends StatelessWidget {
                 ],
               ),
               Expanded(child: Container()),
-              Row(
-                children: [
-                  Text("Details"),
-                  Icon(
-                    Icons.keyboard_arrow_right_outlined,
-                    color: ThemeColors.secondaryColor,
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  Get.find<NotificationController>().treatment = treatment;
+                  Get.toNamed(AppRoutes.treatmentdetails);
+                },
+                child: Row(
+                  children: [
+                    Text("Details"),
+                    Icon(
+                      Icons.keyboard_arrow_right_outlined,
+                      color: ThemeColors.secondaryColor,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

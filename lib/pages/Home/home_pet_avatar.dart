@@ -23,9 +23,10 @@ GestureDetector homePetAvatar(String image, String name) {
             height: 80 * fem,
             margin: EdgeInsets.only(bottom: 7 * fem),
             child: ClipOval(
-                child: image == ""
-                    ? Image.asset("assets/images/dog.png")
-                    : Image.network(image, fit: BoxFit.cover)),
+              child: image == ""
+                  ? Image.asset("assets/images/dog.png")
+                  : Image.network(image, fit: BoxFit.cover),
+            ),
           ),
           Container(
             width: 80 * fem,

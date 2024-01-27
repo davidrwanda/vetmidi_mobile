@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 
+import '../../controllers/notifications_controller.dart';
+import '../../controllers/patient_controller.dart';
 import '../../core/utils/app_constants.dart';
+import '../../core/utils/make_call_service.dart';
+import '../../models/notification.dart';
+import '../../models/patients.dart';
 
 class TreatmentDetails extends StatelessWidget {
   const TreatmentDetails({super.key});
 
+  String formatDateTime(String dateTimeString) {
+    DateTime dateTime = DateFormat("MM/dd/yyyy HH:mm:ss").parse(dateTimeString);
+    return DateFormat("MMM, d, yyyy | hh:mm a").format(dateTime);
+  }
+
   @override
   Widget build(BuildContext context) {
+    NotificationModel? treatment = Get.find<NotificationController>().treatment;
+    Patient? pet = Get.find<PatientController>().getPetById(treatment!.pet_id);
     return SafeArea(
         child: Scaffold(
       backgroundColor: ThemeColors.primaryBackground,
@@ -20,7 +34,7 @@ class TreatmentDetails extends StatelessWidget {
             backButton(),
             SizedBox(height: 10 * fem),
             Text(
-              "Treatment #5321",
+              "Treatment Details",
               style: TextStyle(
                 fontSize: 33 * ffem,
                 letterSpacing: 0.7,
@@ -50,14 +64,14 @@ class TreatmentDetails extends StatelessWidget {
                                   height: 35 * fem,
                                   width: 35 * fem,
                                   child: ClipOval(
-                                    child: Image.asset(
-                                      "assets/images/luna.png",
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: pet != null && pet.webImage != ""
+                                        ? Image.network(pet.webImage,
+                                            fit: BoxFit.cover)
+                                        : Image.asset("assets/images/dog.png"),
                                   ),
                                 ),
                                 SizedBox(width: 5 * fem),
-                                Text("Luna"),
+                                Text(pet?.name ?? ""),
                               ],
                             )),
                       ],
@@ -69,7 +83,14 @@ class TreatmentDetails extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(flex: 3, child: Text("Starting Date")),
-                        Expanded(flex: 5, child: Text("12 Sep, 2023")),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            formatDateTime(
+                              treatment.created_on,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -79,7 +100,12 @@ class TreatmentDetails extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(flex: 3, child: Text("Ending Date")),
-                        Expanded(flex: 5, child: Text("12 Sep, 2023")),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            treatment.date,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -172,7 +198,9 @@ class TreatmentDetails extends StatelessWidget {
                   SizedBox(height: 20 * fem),
                   Button(
                     "Dial Clinic",
-                    (context) {},
+                    (BuildContext ctx) {
+                      launchDialer(treatment.phone);
+                    },
                     context,
                     backgroundColor: Colors.white,
                     hasBorder: true,
