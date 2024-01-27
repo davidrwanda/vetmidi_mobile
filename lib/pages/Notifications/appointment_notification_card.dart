@@ -9,20 +9,20 @@ import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
 import '../../core/utils/make_call_service.dart';
 
-class NotificationCard extends StatelessWidget {
-  const NotificationCard({
+class AppointmentNotificationCard extends StatelessWidget {
+  const AppointmentNotificationCard({
     Key? key,
     required this.notification,
   }) : super(key: key);
 
   final NotificationModel notification;
 
-  String getNotificationBody(String originalBody, String subject, String date) {
+  String getNotificationBody(
+      String originalBody, String subject, String date, String name) {
     String newBody =
         originalBody.replaceAll('(^^^Appointment_NAME^^^)', subject);
-    newBody = newBody.replaceAll('(^^^Treatment_NAME^^^)', subject);
-    newBody = newBody.replaceAll('^^^Treatment_STARTING_DATE^^^', date + ' ');
     newBody = newBody.replaceAll('^^^Appointment_STARTING_DATE^^^', date + ' ');
+    newBody = newBody.replaceAll('^^^PET^^^', name);
     return newBody;
   }
 
@@ -51,7 +51,11 @@ class NotificationCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.airline_stops),
+              Container(
+                height: 20 * fem,
+                width: 20 * fem,
+                child: Image.asset("assets/images/appointment_icon.png"),
+              ),
               SizedBox(height: 10),
               Text(
                 notification.subject,
@@ -62,7 +66,13 @@ class NotificationCard extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 getNotificationBody(
-                    notification.body, notification.subject, notification.date),
+                    notification.body,
+                    notification.subject,
+                    notification.date,
+                    Get.find<PatientController>()
+                            .getPetById(notification.pet_id)
+                            ?.name ??
+                        "PET"),
                 style: TextStyle(
                   color: Colors.black38,
                 ),
@@ -72,7 +82,7 @@ class NotificationCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Button(
-                      "Dial Clinic",
+                      "Confirm",
                       (BuildContext ctx) {
                         launchDialer(notification.phone);
                       },
@@ -80,23 +90,25 @@ class NotificationCard extends StatelessWidget {
                       fontSize: 14 * ffem,
                       radius: 10 * ffem,
                       backgroundColor: ThemeColors.secondaryColor,
+                      height: 50,
                     ),
                   ),
                   SizedBox(width: 20 * fem),
                   Expanded(
                     child: Obx(() {
                       return Button(
-                        "View Treatment",
+                        "Dial Clinic",
                         (BuildContext ctx) async {
-                          // await updatePatientHandler();
+                          await launchDialer(notification.phone);
                         },
                         context,
                         loading: Get.find<PatientController>().loading,
                         backgroundColor: Colors.white,
-                        fontSize: 14 * ffem,
+                        fontSize: 13 * ffem,
                         radius: 10 * fem,
                         color: ThemeColors.secondaryColor,
                         hasBorder: true,
+                        height: 30,
                       );
                     }),
                   ),

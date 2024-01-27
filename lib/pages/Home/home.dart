@@ -143,7 +143,7 @@ class _HomeState extends State<Home> {
                     : [
                         ...Get.find<PatientController>()
                             .patients
-                            .map((pet) => homePetAvatar(pet.webImage, pet.name))
+                            .map((pet) => homePetAvatar(pet, pet.name))
                             .toList(),
                         GestureDetector(
                           onTap: () => Get.toNamed(AppRoutes.addpet),

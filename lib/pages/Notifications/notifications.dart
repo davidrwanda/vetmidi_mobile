@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
-import 'package:vetmidi/pages/Notifications/notification_card.dart';
+import 'package:vetmidi/pages/Notifications/appointment_notification_card.dart';
+import 'package:vetmidi/pages/Notifications/treatment_notification_card.dart';
 
 import '../../components/back_button.dart';
 import '../../controllers/auth_controller.dart';
@@ -59,12 +60,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       ...Get.find<NotificationController>()
                           .appointments
                           .map((appointment) =>
-                              NotificationCard(notification: appointment))
+                              AppointmentNotificationCard(notification: appointment))
                           .toList(),
                       ...Get.find<NotificationController>()
                           .treatments
                           .map((treatment) =>
-                              NotificationCard(notification: treatment))
+                              TreatmentNotificationCard(notification: treatment))
                           .toList(),
                     ],
                   );

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
+import 'package:vetmidi/models/patients.dart';
 import 'package:vetmidi/routes/index.dart';
 
 import '../../core/utils/app_constants.dart';
 
-GestureDetector homePetAvatar(String image, String name) {
+GestureDetector homePetAvatar(Patient pet, String name) {
+  String image = pet.webImage;
   return GestureDetector(
     onTap: () {
-      Get.find<PatientController>().patient =
-          Get.find<PatientController>().patients[0];
+      Get.find<PatientController>().patient = pet;
       Get.toNamed(AppRoutes.petprofile);
     },
     child: Container(
