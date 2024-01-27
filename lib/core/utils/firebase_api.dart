@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:vetmidi/controllers/auth_controller.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
   print("Title ${message.notification?.title}");

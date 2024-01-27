@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/models/notification.dart';

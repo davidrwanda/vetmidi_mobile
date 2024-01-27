@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
-import 'package:vetmidi/controllers/profile_controller.dart';
 import 'package:vetmidi/routes/index.dart';
 
-import '../controllers/patient_controller.dart';
 import '../core/utils/app_constants.dart';
 import 'language_switch.dart';
 

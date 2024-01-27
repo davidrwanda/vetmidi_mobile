@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/pages/Home/home.dart';
-import 'package:vetmidi/pages/Pets/new_pet.dart';
 import 'package:vetmidi/pages/Pets/pets.dart';
 import 'package:vetmidi/pages/Profile/profile.dart';
 import 'package:vetmidi/pages/Records/medical_records.dart';

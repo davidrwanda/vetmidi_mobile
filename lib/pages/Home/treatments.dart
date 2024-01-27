@@ -9,7 +9,6 @@ import '../../controllers/patient_controller.dart';
 import '../../core/utils/app_constants.dart';
 import '../../models/notification.dart';
 import '../../models/patients.dart';
-import '../Records/select_typey.dart';
 
 class TreatmentsScreen extends StatefulWidget {
   TreatmentsScreen({super.key});
@@ -19,17 +18,21 @@ class TreatmentsScreen extends StatefulWidget {
 }
 
 class _TreatmentsScreenState extends State<TreatmentsScreen> {
-  var _selectedTab = 0;
   var selectedPet = "all";
 
-  onSelectChange(int index) {
-    setState(() {
-      _selectedTab = index;
-    });
+  onPetchanged(String? value) {
+    if (value != null) {
+      setState(() {
+        selectedPet = value;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    List<NotificationModel> treatments = selectedPet == 'all'
+        ? Get.find<NotificationController>().treatments
+        : Get.find<NotificationController>().getPetTreatments(selectedPet);
     return SafeArea(
       child: Scaffold(
         backgroundColor: ThemeColors.primaryBackground,
@@ -65,7 +68,7 @@ class _TreatmentsScreenState extends State<TreatmentsScreen> {
                       style: const TextStyle(color: ThemeColors.textColor),
                       underline: null,
                       hint: const Text("Select an option"),
-                      onChanged: (String? newValue) {},
+                      onChanged: onPetchanged,
                       items: [
                         const DropdownMenuItem<String>(
                           value: "all",
@@ -78,7 +81,7 @@ class _TreatmentsScreenState extends State<TreatmentsScreen> {
                             .patients
                             .map<DropdownMenuItem<String>>((Patient patient) {
                           return DropdownMenuItem<String>(
-                            value: patient.name,
+                            value: patient.fmId,
                             child: Text(
                               patient.name,
                               style:
@@ -98,8 +101,7 @@ class _TreatmentsScreenState extends State<TreatmentsScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    ...Get.find<NotificationController>()
-                        .treatments
+                    ...treatments
                         .map((treatment) => TreatmentItem(treatment: treatment))
                         .toList(),
                   ],

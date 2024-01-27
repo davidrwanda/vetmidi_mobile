@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/components/pet_image.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/utils/functions.dart';
@@ -13,7 +12,6 @@ import '../../components/inputs.dart';
 import '../../controllers/auth_controller.dart';
 import '../../core/theme/colors_theme.dart';
 import '../../core/utils/app_constants.dart';
-import '../../routes/index.dart';
 import 'pet_files.dart';
 import 'upload_documents.dart';
 

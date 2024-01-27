@@ -8,11 +8,6 @@ import 'package:http/http.dart' as http;
 class AuthService {
   Future<dynamic> login(Map<String, String> body) async {
     http.Response response;
-    var headers = {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      "Connection": "keep-alive"
-    };
     response = await http.post(Uri.parse("$baseUrl/login"), body: body);
     if (response.body.isNotEmpty) {
       return json.decode(response.body);

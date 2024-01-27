@@ -5,6 +5,7 @@ import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/pages/Pets/pet_card.dart';
 
+import '../../controllers/notifications_controller.dart';
 import '../../core/utils/app_constants.dart';
 import '../Home/appointments_list.dart';
 import '../Home/treatments_list.dart';
@@ -25,8 +26,14 @@ class PetProfile extends StatelessWidget {
               children: [
                 backButton(),
                 PatientCard(patient: Get.find<PatientController>().patient!),
-                appointmentList(),
-                treatmentList(),
+                appointmentList(
+                  Get.find<NotificationController>().getPetAppointments(
+                      Get.find<PatientController>().patient!.fmId),
+                ),
+                treatmentList(
+                  Get.find<NotificationController>().getPetTreatments(
+                      Get.find<PatientController>().patient!.fmId),
+                ),
               ],
             ),
           ),

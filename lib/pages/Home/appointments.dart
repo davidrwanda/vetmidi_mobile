@@ -29,8 +29,19 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
     });
   }
 
+  onPetchanged(String? value) {
+    if (value != null) {
+      setState(() {
+        selectedPet = value;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<NotificationModel> appointments = selectedPet == 'all'
+        ? Get.find<NotificationController>().appointments
+        : Get.find<NotificationController>().getPetAppointments(selectedPet);
     return SafeArea(
       child: Scaffold(
         backgroundColor: ThemeColors.primaryBackground,
@@ -66,7 +77,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       style: const TextStyle(color: ThemeColors.textColor),
                       underline: null,
                       hint: const Text("Select an option"),
-                      onChanged: (String? newValue) {},
+                      onChanged: onPetchanged,
                       items: [
                         const DropdownMenuItem<String>(
                           value: "all",
@@ -79,7 +90,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                             .patients
                             .map<DropdownMenuItem<String>>((Patient patient) {
                           return DropdownMenuItem<String>(
-                            value: patient.name,
+                            value: patient.fmId,
                             child: Text(
                               patient.name,
                               style:
@@ -98,8 +109,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    ...Get.find<NotificationController>()
-                        .appointments
+                    ...appointments
                         .map((appointment) =>
                             AppointmentItem(appointment: appointment))
                         .toList(),

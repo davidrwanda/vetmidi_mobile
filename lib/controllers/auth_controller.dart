@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vetmidi/components/toast.dart';
-import 'package:vetmidi/controllers/patient_controller.dart';
-import 'package:vetmidi/controllers/profile_controller.dart';
 import 'package:vetmidi/models/token.dart';
 import 'package:vetmidi/routes/index.dart';
 
@@ -17,9 +15,6 @@ class AuthController extends GetxController {
   final RxInt _selectedTab = 0.obs;
   final Rx<User?> _user = Rx<User?>(null);
   final Rx<Token?> _token = Rx<Token?>(null);
-
-  final ProfileController _profileController = ProfileController();
-  final PatientController _petController = PatientController();
   final AuthService _authService = AuthService();
   final ProfileService _profileService = ProfileService();
 
@@ -48,7 +43,7 @@ class AuthController extends GetxController {
     try {
       _isLoading.value = true;
       Map<String, String> map = {"email": email, "password": password};
-      var res = await _authService.login(map);
+      await _authService.login(map);
       res2 = await _authService.login(map);
       if (res2["error"] != null && res2["error"] == true) {
         throw Exception(res2["message"]);
@@ -75,7 +70,7 @@ class AuthController extends GetxController {
       "last_name": _user.value?.firstName,
       "mobile_device": newDeviceId
     };
-    var res = await _profileService.updatePatientService(
+    await _profileService.updatePatientService(
         body, _token.value!.accessToken);
     var userJson = _user.value!.toJson();
     userJson["mobile_device"] = newDeviceId;

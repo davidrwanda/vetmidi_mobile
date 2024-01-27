@@ -57,7 +57,6 @@ class _MedicalRecordsState extends State<MedicalRecords> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 0), () {
-      String query = selectedPet == "all" ? "" : selectedPet;
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       Get.find<MedicalRecordsController>().getMedicalRecords("", token);
     });

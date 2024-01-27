@@ -179,8 +179,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(height: 20 * fem),
-            appointmentList(),
-            treatmentList(),
+            appointmentList(Get.find<NotificationController>().appointments),
+            treatmentList(Get.find<NotificationController>().treatments),
           ],
         ),
       );

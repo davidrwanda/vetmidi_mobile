@@ -44,6 +44,17 @@ class NotificationController extends GetxController {
     return [..._treatments];
   }
 
+  List<NotificationModel> getPetTreatments(String petId) {
+    return _treatments.where((treatment) => treatment.pet_id == petId).toList();
+  }
+
+  List<NotificationModel> getPetAppointments(String petId) {
+    List<NotificationModel> petAppointments = _appointments
+        .where((appointment) => appointment.pet_id == petId)
+        .toList();
+    return petAppointments;
+  }
+
   List<NotificationModel> get appointments {
     return [..._appointments];
   }
@@ -84,7 +95,6 @@ class NotificationController extends GetxController {
     try {
       _fetchingAppointments.value = true;
       var res = await _notificationService.getAppointmentsService(token);
-      print("treatmentssssssss $res");
 
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
