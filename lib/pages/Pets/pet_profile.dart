@@ -22,17 +22,24 @@ class PetProfile extends StatelessWidget {
           padding: EdgeInsets.all(20 * fem),
           child: Container(
             height: Get.height,
-            child: ListView(
+            child: Column(
               children: [
                 backButton(),
-                PatientCard(patient: Get.find<PatientController>().patient!),
-                appointmentList(
-                  Get.find<NotificationController>().getPetAppointments(
-                      Get.find<PatientController>().patient!.fmId),
-                ),
-                treatmentList(
-                  Get.find<NotificationController>().getPetTreatments(
-                      Get.find<PatientController>().patient!.fmId),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      PatientCard(
+                          patient: Get.find<PatientController>().patient!),
+                      appointmentList(
+                        Get.find<NotificationController>().getPetAppointments(
+                            Get.find<PatientController>().patient!.fmId),
+                      ),
+                      treatmentList(
+                        Get.find<NotificationController>().getPetTreatments(
+                            Get.find<PatientController>().patient!.fmId),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

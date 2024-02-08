@@ -36,6 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? contactWithWhatsapp;
   final ScrollController _scrollController = ScrollController();
   var selectedTab = 0;
+  var profileChanged = false;
+  var initializedFields = false;
 
   var fNameIsValid = true;
   var lNameIsValid = true;
@@ -48,13 +50,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
-    if (!Get.find<ProfileController>().fetchedProfile) {
-      Future.delayed(const Duration(seconds: 0), () {
-        String token = Get.find<AuthController>().token?.accessToken ?? "";
-        Get.find<ProfileController>().getProfile(token);
-      });
-    }
-
     _firstName = TextEditingController();
     _lastName = TextEditingController();
     _address = TextEditingController();
@@ -63,12 +58,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _phone = TextEditingController();
     _postalCode = TextEditingController();
 
-    initializeFields();
+    if (!Get.find<ProfileController>().fetchedProfile) {
+      Future.delayed(const Duration(seconds: 0), () async {
+        String token = Get.find<AuthController>().token?.accessToken ?? "";
+        await Get.find<ProfileController>().getProfile(token);
+        initializeFields();
+      });
+    } else {
+      initializeFields();
+    }
   }
 
   initializeFields() {
     _firstName.text = Get.find<ProfileController>().profile?.firstName ?? "";
+    print("_firstName.text ${_firstName.text}");
     _lastName.text = Get.find<ProfileController>().profile?.lastName ?? "";
+    print("_lastName.text ${_lastName.text}");
     _email.text = Get.find<ProfileController>().profile?.email ?? "";
     _address.text = Get.find<ProfileController>().profile?.address ?? "";
     _city.text = Get.find<ProfileController>().profile?.city ?? "";
@@ -94,6 +99,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     contactWithWhatsapp = getTranslationKeys(
         Get.find<AuthController>().user?.contactWithWhatsapp.toLowerCase() ??
             "yes");
+
+    print("doneeeee");
   }
 
   validateFields() {
@@ -181,7 +188,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: ThemeColors.primaryBackground,
         height: Get.height,
         child: Obx(() {
-          initializeFields();
           return Column(
             children: [
               const CustomAppBar(),
@@ -470,10 +476,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       "validation.signUp.required.FirstName"
                                                           .tr,
                                                   setValid: (bool value) {
+                                                    print("set valid ");
                                                     setState(() {
                                                       fNameIsValid = value;
                                                     });
                                                   },
+                                                  setChanged: () {
+                                                    setState(() {
+                                                      profileChanged = true;
+                                                    });
+                                                  },
+                                                  changed: profileChanged,
                                                 ),
                                                 InputText(
                                                   "",
@@ -487,9 +500,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           .tr,
                                                   setValid: (bool value) {
                                                     setState(() {
+                                                      profileChanged = true;
                                                       lNameIsValid = value;
                                                     });
                                                   },
+                                                  setChanged: () {
+                                                    setState(() {
+                                                      profileChanged = true;
+                                                    });
+                                                  },
+                                                  changed: profileChanged,
                                                 ),
                                                 // select(
                                                 //   "page.title".tr,
@@ -519,6 +539,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ],
                                                   (String value) {
                                                     setState(() {
+                                                      profileChanged = true;
                                                       country = value;
                                                     });
                                                   },
@@ -565,9 +586,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         .tr,
                                                 setValid: (bool value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     addressIsValid = value;
                                                   });
                                                 },
+                                                setChanged: () {
+                                                  setState(() {
+                                                    profileChanged = true;
+                                                  });
+                                                },
+                                                changed: profileChanged,
                                               ),
                                               InputText(
                                                 "page.signUpCityPlaceholder".tr,
@@ -579,9 +607,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 valid: cityIsValid,
                                                 setValid: (bool value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     cityIsValid = value;
                                                   });
                                                 },
+                                                setChanged: () {
+                                                  setState(() {
+                                                    profileChanged = true;
+                                                  });
+                                                },
+                                                changed: profileChanged,
                                                 required: true,
                                               ),
                                               InputText(
@@ -596,9 +631,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 required: true,
                                                 setValid: (bool value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     phoneIsValid = value;
                                                   });
                                                 },
+                                                setChanged: () {
+                                                  setState(() {
+                                                    profileChanged = true;
+                                                  });
+                                                },
+                                                changed: profileChanged,
                                               ),
                                               InputText(
                                                 "page.signUpPostalCodePlaceholder"
@@ -612,9 +654,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 valid: postalCodeIsValid,
                                                 setValid: (bool value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     postalCodeIsValid = value;
                                                   });
                                                 },
+                                                setChanged: () {
+                                                  setState(() {
+                                                    profileChanged = true;
+                                                  });
+                                                },
+                                                changed: profileChanged,
                                                 required: true,
                                               ),
                                             ]),
@@ -647,6 +696,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ],
                                                 (String value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     contactWithEmail = value;
                                                   });
                                                 },
@@ -661,6 +711,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ],
                                                 (String value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     contactWithSMS = value;
                                                   });
                                                 },
@@ -675,6 +726,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ],
                                                 (String value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     contactWithWhatsapp = value;
                                                   });
                                                 },
@@ -715,6 +767,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ],
                                                 (String value) {
                                                   setState(() {
+                                                    profileChanged = true;
                                                     referantDescription = value;
                                                   });
                                                 },
@@ -745,10 +798,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               return Button(
                                 "page.profile.saveChanges.btn".tr,
                                 (BuildContext ctx) async {
-                                  await updateProfileHandler();
+                                  if (profileChanged) {
+                                    await updateProfileHandler();
+                                  }
                                 },
                                 context,
                                 loading: Get.find<ProfileController>().updating,
+                                color: !profileChanged
+                                    ? ThemeColors.secondaryColor
+                                    : Colors.white,
+                                backgroundColor: !profileChanged
+                                    ? Colors.transparent
+                                    : Colors.blue,
+                                hasBorder: !profileChanged ? true : false,
                                 fontSize: 14 * ffem,
                               );
                             }),

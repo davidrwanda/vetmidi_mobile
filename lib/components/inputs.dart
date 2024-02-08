@@ -10,29 +10,34 @@ class InputText extends StatelessWidget {
   final String hintText, icon, errorText, label;
   final Color backgroundColor;
   final double marginTop, width, height, fontSize;
-  final bool showBorder, showIcon, valid, required;
+  final bool showBorder, showIcon, valid, required, changed;
   final bool numberKeyboard, isPassword, readOnly;
   final TextEditingController txtController;
-  final Function? setValid;
+  final Function? setValid, setChanged;
 
   // ignore: use_key_in_widget_constructors
-  const InputText(this.hintText, this.txtController,
-      {this.numberKeyboard = false,
-      this.label = "",
-      this.isPassword = false,
-      this.valid = true,
-      this.required = false,
-      this.readOnly = false,
-      this.errorText = 'This field can\'t be empty',
-      this.icon = 'auth_user.svg',
-      this.marginTop = 5,
-      this.fontSize = 16,
-      this.backgroundColor = Colors.white,
-      this.showBorder = false,
-      this.showIcon = true,
-      this.height = 45,
-      this.width = double.infinity,
-      this.setValid});
+  const InputText(
+    this.hintText,
+    this.txtController, {
+    this.numberKeyboard = false,
+    this.label = "",
+    this.isPassword = false,
+    this.valid = true,
+    this.changed = false,
+    this.required = false,
+    this.readOnly = false,
+    this.errorText = 'This field can\'t be empty',
+    this.icon = 'auth_user.svg',
+    this.marginTop = 5,
+    this.fontSize = 16,
+    this.backgroundColor = Colors.white,
+    this.showBorder = false,
+    this.showIcon = true,
+    this.height = 45,
+    this.width = double.infinity,
+    this.setValid,
+    this.setChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +84,9 @@ class InputText extends StatelessWidget {
               }
               if (setValid != null && !valid && required && value.isNotEmpty) {
                 setValid!(true);
+              }
+              if (setChanged != null && !changed) {
+                setChanged!();
               }
             },
             controller: txtController,

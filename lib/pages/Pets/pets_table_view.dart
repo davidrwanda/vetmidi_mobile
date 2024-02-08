@@ -51,12 +51,12 @@ class _PetsTableViewState extends State<PetsTableView> {
                       controller: _scrollController,
                       children: [
                         Container(
-                          width: 80 * fem,
+                          width: 60 * fem,
                           height: 50 * fem,
                           color: Colors.transparent,
                         ),
                         SizedBox(
-                          width: 60 * fem,
+                          width: 80 * fem,
                           height: double.infinity,
                           child: const Center(
                             child: Text(
@@ -65,18 +65,18 @@ class _PetsTableViewState extends State<PetsTableView> {
                             ),
                           ),
                         ),
+                        // SizedBox(
+                        //   width: 60 * fem,
+                        //   height: double.infinity,
+                        //   child: const Center(
+                        //     child: Text(
+                        //       "Race",
+                        //       textAlign: TextAlign.center,
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(
-                          width: 60 * fem,
-                          height: double.infinity,
-                          child: const Center(
-                            child: Text(
-                              "Race",
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 90 * fem,
+                          width: 100 * fem,
                           height: double.infinity,
                           child: const Center(
                             child: Text(
@@ -85,26 +85,26 @@ class _PetsTableViewState extends State<PetsTableView> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 60 * fem,
-                          height: double.infinity,
-                          child: const Center(
-                            child: Text(
-                              "Espece",
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 60 * fem,
-                          height: double.infinity,
-                          child: const Center(
-                            child: Text(
-                              "Sterilise",
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: 60 * fem,
+                        //   height: double.infinity,
+                        //   child: const Center(
+                        //     child: Text(
+                        //       "Espece",
+                        //       textAlign: TextAlign.center,
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   width: 70 * fem,
+                        //   height: double.infinity,
+                        //   child: const Center(
+                        //     child: Text(
+                        //       "Sterilise",
+                        //       textAlign: TextAlign.center,
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                           width: 40 * fem,
                           height: double.infinity,

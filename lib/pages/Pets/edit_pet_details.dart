@@ -533,7 +533,9 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                               Expanded(
                                 child: Button(
                                   "page.pet.cancel".tr,
-                                  (BuildContext ctx) {},
+                                  (BuildContext ctx) {
+                                    Get.back();
+                                  },
                                   context,
                                   backgroundColor: Colors.white,
                                   color: ThemeColors.secondaryColor,

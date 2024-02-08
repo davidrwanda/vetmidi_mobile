@@ -45,7 +45,7 @@ class _PetRowItemState extends State<PetRowItem> {
         controller: _scrollController,
         children: [
           SizedBox(
-            width: 80 * fem,
+            width: 60 * fem,
             height: 50 * fem,
             child: Center(
               child: Container(
@@ -68,7 +68,7 @@ class _PetRowItemState extends State<PetRowItem> {
             ),
           ),
           SizedBox(
-            width: 60 * fem,
+            width: 80 * fem,
             height: double.infinity,
             child: Center(
               child: Text(
@@ -77,18 +77,18 @@ class _PetRowItemState extends State<PetRowItem> {
               ),
             ),
           ),
+          // SizedBox(
+          //   width: 60 * fem,
+          //   height: double.infinity,
+          //   child: Center(
+          //     child: Text(
+          //       widget.patient.race,
+          //       textAlign: TextAlign.center,
+          //     ),
+          //   ),
+          // ),
           SizedBox(
-            width: 60 * fem,
-            height: double.infinity,
-            child: Center(
-              child: Text(
-                widget.patient.race,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 90 * fem,
+            width: 100 * fem,
             height: double.infinity,
             child: Center(
               child: Text(
@@ -97,41 +97,41 @@ class _PetRowItemState extends State<PetRowItem> {
               ),
             ),
           ),
-          SizedBox(
-            width: 60 * fem,
-            height: double.infinity,
-            child: Center(
-              child: Text(
-                "page.type.${widget.patient.species}".tr,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 60 * fem,
-            height: double.infinity,
-            child: Row(
-              children: [
-                getTranslationKeys(widget.patient.sterilise.toLowerCase()) ==
-                        "page.general.yes"
-                    ? const Icon(
-                        Icons.check_circle_outline,
-                        color: ThemeColors.secondaryColor,
-                        size: 18,
-                      )
-                    : Icon(
-                        Icons.highlight_off,
-                        color: ThemeColors.deleteRed2.withOpacity(0.6),
-                        size: 18,
-                      ),
-                SizedBox(width: 4 * fem),
-                Text(
-                  getTranslationKeys(widget.patient.sterilise.toLowerCase()).tr,
-                  style: const TextStyle(color: Colors.black38),
-                ),
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   width: 60 * fem,
+          //   height: double.infinity,
+          //   child: Center(
+          //     child: Text(
+          //       "page.type.${widget.patient.species}".tr,
+          //       textAlign: TextAlign.center,
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   width: 70 * fem,
+          //   height: double.infinity,
+          //   child: Row(
+          //     children: [
+          //       getTranslationKeys(widget.patient.sterilise.toLowerCase()) ==
+          //               "page.general.yes"
+          //           ? const Icon(
+          //               Icons.check_circle_outline,
+          //               color: ThemeColors.secondaryColor,
+          //               size: 18,
+          //             )
+          //           : Icon(
+          //               Icons.highlight_off,
+          //               color: ThemeColors.deleteRed2.withOpacity(0.6),
+          //               size: 18,
+          //             ),
+          //       SizedBox(width: 4 * fem),
+          //       Text(
+          //         getTranslationKeys(widget.patient.sterilise.toLowerCase()).tr,
+          //         style: const TextStyle(color: Colors.black38),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             width: 40 * fem,
             height: double.infinity,
