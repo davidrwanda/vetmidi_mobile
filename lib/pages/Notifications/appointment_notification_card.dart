@@ -92,7 +92,7 @@ class AppointmentNotificationCard extends StatelessWidget {
                       height: 50,
                     ),
                   ),
-                  SizedBox(width: 20 * fem),
+                  SizedBox(width: 15 * fem),
                   Expanded(
                     child: Obx(() {
                       return Button(
