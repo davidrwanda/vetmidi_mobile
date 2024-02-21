@@ -9,6 +9,13 @@ class AuthService {
   Future<dynamic> login(Map<String, String> body) async {
     http.Response response;
     response = await http.post(Uri.parse("$baseUrl/login"), body: body);
+    int maxAttempts = 3;
+    for (int attempt = 0; attempt < maxAttempts; attempt++) {
+        response = await http.post(Uri.parse("$baseUrl/login"), body: body);
+        if (attempt >= maxAttempts - 1) {
+          break; // If this was the last attempt, rethrow the exception
+        }
+      }
     if (response.body.isNotEmpty) {
       return json.decode(response.body);
     } else {
