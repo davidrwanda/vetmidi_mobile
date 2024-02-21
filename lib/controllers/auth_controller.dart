@@ -55,7 +55,11 @@ class AuthController extends GetxController {
         Get.toNamed(AppRoutes.home);
       }
     } catch (error) {
-      showToast(error.toString());
+      if (error.toString() == 'Empty response') {
+        return login(email, password);
+      } else {
+        showToast(error.toString());
+      }
     } finally {
       _isLoading.value = false;
     }
@@ -70,8 +74,7 @@ class AuthController extends GetxController {
       "last_name": _user.value?.firstName,
       "mobile_device": newDeviceId
     };
-    await _profileService.updatePatientService(
-        body, _token.value!.accessToken);
+    await _profileService.updatePatientService(body, _token.value!.accessToken);
     var userJson = _user.value!.toJson();
     userJson["mobile_device"] = newDeviceId;
     User newUser = User.fromJSONCustom(userJson);

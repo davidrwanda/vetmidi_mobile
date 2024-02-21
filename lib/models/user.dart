@@ -11,10 +11,10 @@ class User {
   final String postalCode;
   final String featureImage;
   final bool userVerified;
-  final bool passwordChange;
-  final String lastForgotPassword;
-  final int sentVerificationEmail;
-  final String lastLogin;
+  bool? passwordChange;
+  String? lastForgotPassword;
+  int? sentVerificationEmail;
+  String? lastLogin;
   final String contactWithEmail;
   final String contactWithSMS;
   final String contactWithWhatsapp;
@@ -36,10 +36,10 @@ class User {
     required this.postalCode,
     required this.featureImage,
     required this.userVerified,
-    required this.passwordChange,
-    required this.lastForgotPassword,
-    required this.sentVerificationEmail,
-    required this.lastLogin,
+    this.passwordChange,
+    this.lastForgotPassword,
+    this.sentVerificationEmail,
+    this.lastLogin,
     required this.contactWithEmail,
     required this.contactWithSMS,
     required this.contactWithWhatsapp,
