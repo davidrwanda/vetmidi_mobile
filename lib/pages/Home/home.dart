@@ -86,7 +86,6 @@ class _HomeState extends State<Home> {
       final fCMToken = await _firebaseMessaging.getToken();
       if (Get.find<AuthController>().user!.mobile_device != fCMToken &&
           fCMToken != null) {
-        // print("Tokkkkkenennee inside different $fCMToken");
         showAlertDialog(context, fCMToken);
       }
     });
