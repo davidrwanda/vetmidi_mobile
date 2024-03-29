@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/models/clinic.dart';
 import 'package:vetmidi/models/token.dart';
 import 'package:vetmidi/routes/index.dart';
 
@@ -14,12 +15,17 @@ class AuthController extends GetxController {
   final RxBool _isLoading = false.obs;
   final RxInt _selectedTab = 0.obs;
   final Rx<User?> _user = Rx<User?>(null);
+  final RxList<Clinic?> _clinics = RxList<Clinic?>([]);
   final Rx<Token?> _token = Rx<Token?>(null);
   final AuthService _authService = AuthService();
   final ProfileService _profileService = ProfileService();
 
   bool get loading {
     return _isLoading.value;
+  }
+
+  List<Clinic?> get clinics {
+    return [..._clinics];
   }
 
   User? get user {
@@ -65,6 +71,52 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> signup(String firstName, String lastName, String email,
+      String password, String clinicID) async {
+    try {
+      _isLoading.value = true;
+      Map<String, String> map = {
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "password": password,
+        "password_confirmation": password,
+        "clinic": clinicID
+      };
+      var res1 = await _authService.signupService(map);
+      if (res1["error"] != null && res1["error"] == true) {
+        throw Exception(res1["message"]);
+      } else {
+        showToast('Your email has been verified successfully!');
+        Get.toNamed(AppRoutes.verifyOTP, arguments: email);
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> verifyOTP(String email, String otp) async {
+    try {
+      _isLoading.value = true;
+      Map<String, String> map = {
+        "email": email,
+        "otp": otp,
+      };
+      var res1 = await _authService.verifyOTPService(map);
+      if (res1["error"] != null && res1["error"] == true) {
+        throw Exception(res1["message"]);
+      } else {
+        Get.toNamed(AppRoutes.login);
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
   Future<void> updateDeviceId(String newDeviceId) async {
     final box = GetStorage();
     box.write('fCMToken', newDeviceId);
@@ -78,9 +130,7 @@ class AuthController extends GetxController {
     var userJson = _user.value!.toJson();
     userJson["mobile_device"] = newDeviceId;
     User newUser = User.fromJSONCustom(userJson);
-    // print("new user Json $newUser");
     _user.value = newUser;
-    // print("ressssssss $res");
   }
 
   Future<void> changePassword(String email, String currentPassword,
@@ -103,6 +153,23 @@ class AuthController extends GetxController {
           Get.toNamed(AppRoutes.login);
           _selectedTab.value = 0;
         });
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> getClinics() async {
+    try {
+      _isLoading.value = true;
+      var res = await _authService.getClinicsService();
+      if (res["error"] != null && res["error"] == true) {
+        throw Exception(res["message"]);
+      } else {
+        List<dynamic> data = res["data"];
+        _clinics.value = data.map((e) => Clinic.fromJSON(e)).toList();
       }
     } catch (error) {
       showToast(error.toString());

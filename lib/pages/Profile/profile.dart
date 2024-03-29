@@ -71,9 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   initializeFields() {
     _firstName.text = Get.find<ProfileController>().profile?.firstName ?? "";
-    print("_firstName.text ${_firstName.text}");
     _lastName.text = Get.find<ProfileController>().profile?.lastName ?? "";
-    print("_lastName.text ${_lastName.text}");
     _email.text = Get.find<ProfileController>().profile?.email ?? "";
     _address.text = Get.find<ProfileController>().profile?.address ?? "";
     _city.text = Get.find<ProfileController>().profile?.city ?? "";
@@ -100,7 +98,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Get.find<AuthController>().user?.contactWithWhatsapp.toLowerCase() ??
             "yes");
 
-    print("doneeeee");
   }
 
   validateFields() {
@@ -476,7 +473,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       "validation.signUp.required.FirstName"
                                                           .tr,
                                                   setValid: (bool value) {
-                                                    print("set valid ");
                                                     setState(() {
                                                       fNameIsValid = value;
                                                     });

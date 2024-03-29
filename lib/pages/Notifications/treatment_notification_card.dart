@@ -87,13 +87,13 @@ class TreatmentNotificationCard extends StatelessWidget {
                         launchDialer(notification.phone);
                       },
                       context,
-                      fontSize: 14 * ffem,
+                      fontSize: 12 * ffem,
                       radius: 10 * ffem,
                       backgroundColor: ThemeColors.secondaryColor,
                       height: 50,
                     ),
                   ),
-                  SizedBox(width: 20 * fem),
+                  SizedBox(width: 15 * fem),
                   Expanded(
                     child: Obx(() {
                       return Button(
@@ -106,7 +106,7 @@ class TreatmentNotificationCard extends StatelessWidget {
                         context,
                         loading: Get.find<PatientController>().loading,
                         backgroundColor: Colors.white,
-                        fontSize: 13 * ffem,
+                        fontSize: 12 * ffem,
                         radius: 10 * fem,
                         color: ThemeColors.secondaryColor,
                         hasBorder: true,

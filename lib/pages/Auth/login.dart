@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/components/inputs.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
+import 'package:vetmidi/routes/index.dart';
 
 import '../../components/language_switch.dart';
 import '../../core/utils/app_constants.dart';
@@ -106,19 +107,17 @@ class _LoginState extends State<Login> {
                       Text("page.signInRememberMe".tr),
                     ],
                   ),
-                  Obx(() {
-                    return Button(
-                      "page.LoginNow".tr,
-                      (BuildContext ctx) async {
-                        // showAlertDialog(ctx);
-                        // Get.toNamed(AppRoutes.profile);
-                        await Get.find<AuthController>()
-                            .login(_email.text, _password.text);
-                      },
-                      context,
-                      loading: Get.find<AuthController>().loading,
-                    );
-                  })
+                  // Obx(() {
+                  Button(
+                    "page.LoginNow".tr,
+                    (BuildContext ctx) async {
+                      await Get.find<AuthController>()
+                          .login(_email.text, _password.text);
+                    },
+                    context,
+                    loading: Get.find<AuthController>().loading,
+                  ),
+                  // })
                 ],
               ),
               SizedBox(height: 20 * fem),
@@ -126,6 +125,13 @@ class _LoginState extends State<Login> {
                 "page.signInForgotPass".tr,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.black45),
+              ),
+              SizedBox(height: 20 * fem),
+              TextButton(
+                onPressed: () => Get.toNamed(AppRoutes.signup),
+                child: Text("Don't have an account? SignUP",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.black45)),
               ),
               SizedBox(height: 60 * fem),
               const LanguageSwitch(),
