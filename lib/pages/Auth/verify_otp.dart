@@ -61,34 +61,37 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 Get.find<AuthController>().verifyOTP(email, verificationCode);
               }, // end onSubmit
             ),
-            SizedBox(height: 230 * fem),
+            SizedBox(height: 180 * fem),
             TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Resend Code?",
-                  style: TextStyle(
-                    color: ThemeColors.textColor,
-                  ),
-                )),
+                onPressed: () => Get.find<AuthController>().resendOTP(email),
+                child: Obx(() {
+                  return Text(
+                    Get.find<AuthController>().resendingOTP
+                        ? "Sending..."
+                        : "Resend Code?",
+                    style: TextStyle(
+                      color: ThemeColors.textColor,
+                    ),
+                  );
+                })),
             SizedBox(height: 20 * fem),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Obx(() {
-                  return Button(
-                    "Proceed",
-                    (BuildContext ctx) async {
-                      // showAlertDialog(ctx);
-                      // Get.toNamed(AppRoutes.profile);
-                      // await Get.find<AuthController>()
-                      //     .login(_email.text, _password.text);
-                      // Get.toNamed(AppRoutes.verifyOTP);
-                    },
-                    context,
-                    backgroundColor: ThemeColors.secondaryColor,
-                    loading: Get.find<AuthController>().loading,
-                  );
-                }
-              ),
+                return Button(
+                  "Proceed",
+                  (BuildContext ctx) async {
+                    // showAlertDialog(ctx);
+                    // Get.toNamed(AppRoutes.profile);
+                    // await Get.find<AuthController>()
+                    //     .login(_email.text, _password.text);
+                    // Get.toNamed(AppRoutes.verifyOTP);
+                  },
+                  context,
+                  backgroundColor: ThemeColors.secondaryColor,
+                  loading: Get.find<AuthController>().loading,
+                );
+              }),
             ),
           ],
         ),
