@@ -16,6 +16,7 @@ class AuthController extends GetxController {
   final RxInt _selectedTab = 0.obs;
   final Rx<User?> _user = Rx<User?>(null);
   final RxList<Clinic?> _clinics = RxList<Clinic?>([]);
+  final RxList<Clinic?> _selectedClinics = RxList<Clinic?>([]);
   final Rx<Token?> _token = Rx<Token?>(null);
   final AuthService _authService = AuthService();
   final ProfileService _profileService = ProfileService();
@@ -25,7 +26,7 @@ class AuthController extends GetxController {
   }
 
   List<Clinic?> get clinics {
-    return [..._clinics];
+    return [..._selectedClinics];
   }
 
   User? get user {
@@ -42,6 +43,18 @@ class AuthController extends GetxController {
 
   set selectedTab(int value) {
     _selectedTab.value = value;
+  }
+
+  void searchClinic(String query) {
+    List<Clinic?> results = _clinics
+        .where((clinic) =>
+            clinic!.app_name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    _selectedClinics.value = results;
+  }
+
+  void resetClinics() {
+    _selectedClinics.value = _clinics;
   }
 
   Future<void> login(String email, String password) async {
@@ -87,7 +100,6 @@ class AuthController extends GetxController {
       if (res1["error"] != null && res1["error"] == true) {
         throw Exception(res1["message"]);
       } else {
-        showToast('Your email has been verified successfully!');
         Get.toNamed(AppRoutes.verifyOTP, arguments: email);
       }
     } catch (error) {
@@ -105,9 +117,11 @@ class AuthController extends GetxController {
         "otp": otp,
       };
       var res1 = await _authService.verifyOTPService(map);
-      if (res1["error"] != null && res1["error"] == true) {
-        throw Exception(res1["message"]);
+      if (res1["code"] != null && res1["code"] == 422) {
+        List<dynamic> errors = res1["errors"];
+        throw Exception(errors[0]["message"]);
       } else {
+        showToast('Your email has been verified successfully!');
         Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
@@ -170,6 +184,7 @@ class AuthController extends GetxController {
       } else {
         List<dynamic> data = res["data"];
         _clinics.value = data.map((e) => Clinic.fromJSON(e)).toList();
+        _selectedClinics.value = [..._clinics];
       }
     } catch (error) {
       showToast(error.toString());

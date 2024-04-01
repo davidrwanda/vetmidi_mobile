@@ -107,17 +107,17 @@ class _LoginState extends State<Login> {
                       Text("page.signInRememberMe".tr),
                     ],
                   ),
-                  // Obx(() {
-                  Button(
-                    "page.LoginNow".tr,
-                    (BuildContext ctx) async {
-                      await Get.find<AuthController>()
-                          .login(_email.text, _password.text);
-                    },
-                    context,
-                    loading: Get.find<AuthController>().loading,
-                  ),
-                  // })
+                  Obx(() {
+                    return Button(
+                      "page.LoginNow".tr,
+                      (BuildContext ctx) async {
+                        await Get.find<AuthController>()
+                            .login(_email.text, _password.text);
+                      },
+                      context,
+                      loading: Get.find<AuthController>().loading,
+                    );
+                  })
                 ],
               ),
               SizedBox(height: 20 * fem),

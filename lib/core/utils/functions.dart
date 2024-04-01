@@ -138,6 +138,24 @@ String formatFileSize(int fileSizeInBytes) {
 }
 
 String formatDateTime(String dateTimeString) {
-    DateTime dateTime = DateFormat("MM/dd/yyyy HH:mm:ss").parse(dateTimeString);
-    return DateFormat("MMM, d, yyyy | hh:mm a").format(dateTime);
-  }
+  DateTime dateTime = DateFormat("MM/dd/yyyy HH:mm:ss").parse(dateTimeString);
+  return DateFormat("MMM, d, yyyy | hh:mm a").format(dateTime);
+}
+
+bool validateEmail(String email) {
+  // Regular expression for validating email addresses
+  final RegExp emailRegex = RegExp(
+    r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+  );
+
+  return emailRegex.hasMatch(email);
+}
+
+bool validatePassword(String password) {
+  // Regular expression for validating passwords
+  final RegExp passwordRegex = RegExp(
+    r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+  );
+
+  return passwordRegex.hasMatch(password);
+}
