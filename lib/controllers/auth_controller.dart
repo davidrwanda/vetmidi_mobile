@@ -64,29 +64,29 @@ class AuthController extends GetxController {
 
   Future<void> login(String email, String password) async {
     var res2 = null;
-    try {
-      _isLoading.value = true;
-      Map<String, String> map = {"email": email, "password": password};
-      await _authService.login(map);
-      res2 = await _authService.login(map);
-      if (res2["error"] != null && res2["error"] == true) {
-        throw Exception(res2["message"]);
-      } else {
-        Token token = Token.fromJSON(res2["token"]);
-        _token.value = token;
-        User user = User.fromJSON(res2["user"]);
-        _user.value = user;
-        Get.toNamed(AppRoutes.home);
-      }
-    } catch (error) {
-      if (error.toString() == 'Empty response') {
-        return login(email, password);
-      } else {
-        showToast(error.toString());
-      }
-    } finally {
-      _isLoading.value = false;
+    // try {
+    //   _isLoading.value = true;
+    Map<String, String> map = {"email": email, "password": password};
+    await _authService.login(map);
+    res2 = await _authService.login(map);
+    if (res2["error"] != null && res2["error"] == true) {
+      throw Exception(res2["message"]);
+    } else {
+      Token token = Token.fromJSON(res2["token"]);
+      _token.value = token;
+      User user = User.fromJSON(res2["user"]);
+      _user.value = user;
+      Get.toNamed(AppRoutes.home);
     }
+    // } catch (error) {
+    //   if (error.toString() == 'Empty response') {
+    //     return login(email, password);
+    //   } else {
+    //     showToast(error.toString());
+    //   }
+    // } finally {
+    //   _isLoading.value = false;
+    // }
   }
 
   Future<void> signup(String firstName, String lastName, String email,
@@ -126,7 +126,8 @@ class AuthController extends GetxController {
         List<dynamic> errors = res1["errors"];
         throw Exception(errors[0]["message"]);
       } else {
-        showToast('Your email has been verified successfully!', title: "Success");
+        showToast('Your email has been verified successfully!',
+            title: "Success");
         Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
