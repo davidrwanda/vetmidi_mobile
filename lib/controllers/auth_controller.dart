@@ -13,6 +13,7 @@ import '../services/profile_service.dart';
 
 class AuthController extends GetxController {
   final RxBool _isLoading = false.obs;
+  final RxBool _resendingOtp = false.obs;
   final RxInt _selectedTab = 0.obs;
   final Rx<User?> _user = Rx<User?>(null);
   final RxList<Clinic?> _clinics = RxList<Clinic?>([]);
@@ -23,6 +24,10 @@ class AuthController extends GetxController {
 
   bool get loading {
     return _isLoading.value;
+  }
+
+  bool get resendingOTP {
+    return _resendingOtp.value;
   }
 
   List<Clinic?> get clinics {
@@ -121,13 +126,33 @@ class AuthController extends GetxController {
         List<dynamic> errors = res1["errors"];
         throw Exception(errors[0]["message"]);
       } else {
-        showToast('Your email has been verified successfully!');
+        showToast('Your email has been verified successfully!', title: "Success");
         Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
       showToast(error.toString());
     } finally {
       _isLoading.value = false;
+    }
+  }
+
+  Future<void> resendOTP(String email) async {
+    try {
+      _resendingOtp.value = true;
+      Map<String, String> map = {
+        "email": email,
+      };
+      var res1 = await _authService.resendOTPService(map);
+      if (res1["code"] != null && res1["code"] == 422) {
+        List<dynamic> errors = res1["errors"];
+        throw Exception(errors[0]["message"]);
+      } else {
+        showToast(res1["message"], title: "Success");
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _resendingOtp.value = false;
     }
   }
 

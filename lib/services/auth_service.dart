@@ -45,6 +45,16 @@ class AuthService {
     }
   }
 
+  Future<dynamic> resendOTPService(Map<String, String> body) async {
+    http.Response response;
+    response = await http.post(Uri.parse("$baseUrl/resend-otp"), body: body);
+    if (response.body.isNotEmpty) {
+      return json.decode(response.body);
+    } else {
+      throw const HttpException('Empty response');
+    }
+  }
+
   Future<dynamic> getClinicsService() async {
     http.Response response;
     response = await http.get(Uri.parse("$baseUrl/clinics"));

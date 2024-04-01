@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../core/utils/app_constants.dart';
 
@@ -9,6 +10,25 @@ Container registerTopDesign() {
     // color: Colors.orange,
     child: Stack(
       children: [
+        Positioned(
+          top: 20 * fem,
+          left: 10 * fem,
+          child: GestureDetector(
+            onTap: () => Get.back(),
+            child: Row(
+              children: [
+                Icon(Icons.keyboard_arrow_left),
+                SizedBox(width: 5),
+                Text(
+                  "Back",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         Positioned(
           top: 0,
           right: 0,
