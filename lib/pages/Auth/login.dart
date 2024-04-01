@@ -129,7 +129,7 @@ class _LoginState extends State<Login> {
               SizedBox(height: 20 * fem),
               TextButton(
                 onPressed: () => Get.toNamed(AppRoutes.signup),
-                child: Text("Don't have an account? SignUP",
+                child: Text("Don't have an account? Sign up",
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black45)),
               ),
