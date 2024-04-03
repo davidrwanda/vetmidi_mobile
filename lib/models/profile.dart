@@ -12,7 +12,7 @@ class Profile {
   final String featureImage;
   final bool userVerified;
   final bool passwordChange;
-  final String lastForgotPassword;
+  String? lastForgotPassword;
   final int sentVerificationEmail;
   final String lastLogin;
   final String contactWithEmail;
@@ -36,7 +36,7 @@ class Profile {
     required this.featureImage,
     required this.userVerified,
     required this.passwordChange,
-    required this.lastForgotPassword,
+    this.lastForgotPassword,
     required this.sentVerificationEmail,
     required this.lastLogin,
     required this.contactWithEmail,
