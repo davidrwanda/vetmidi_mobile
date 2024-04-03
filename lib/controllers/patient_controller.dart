@@ -66,22 +66,25 @@ class PatientController extends GetxController {
   }
 
   Future<void> getPatients(String token) async {
-    try {
-      _isLoading.value = true;
-      var res = await _patientService.getPatientsService(token);
-      if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+    // try {
+    //   _isLoading.value = true;
+    var res = await _patientService.getPatientsService(token);
+    if (res["error"] != null && res["error"] == true) {
+      throw Exception(res["message"]);
+    } else {
+      List<dynamic> data = res["data"];
+      if (data[0]["isempty"] != null && data[0]["isempty"] == true) {
       } else {
-        List<dynamic> data = res["data"];
         List<Patient> patients = data.map((e) => Patient.fromJSON(e)).toList();
         _patients.value = patients;
-        _fetchedPatients.value = true;
       }
-    } catch (error) {
-      showToast(error.toString());
-    } finally {
-      _isLoading.value = false;
+      _fetchedPatients.value = true;
     }
+    // } catch (error) {
+    //   showToast(error.toString());
+    // } finally {
+    //   _isLoading.value = false;
+    // }
   }
 
   Future<void> updatePatient(
