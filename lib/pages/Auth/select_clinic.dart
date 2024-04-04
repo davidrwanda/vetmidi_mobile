@@ -141,9 +141,12 @@ class _SelectClinicsState extends State<SelectClinics> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-                height: 40,
-                width: 100,
-                child: Image.asset("assets/images/clinic_image.png")),
+              height: 40,
+              width: 100,
+              child: clinic.logo == ""
+                  ? Image.asset("assets/images/clinic_image.png")
+                  : Image.network(clinic.logo),
+            ),
             Text(clinic.app_name),
           ],
         ),
