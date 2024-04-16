@@ -154,7 +154,7 @@ bool validateEmail(String email) {
 bool validatePassword(String password) {
   // Regular expression for validating passwords
   final RegExp passwordRegex = RegExp(
-    r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+    r'^(?=.*?[a-z])(?=.*?[#?!@)($%^&*-]).{5,}$',
   );
 
   return passwordRegex.hasMatch(password);

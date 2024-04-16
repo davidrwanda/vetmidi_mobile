@@ -786,7 +786,7 @@ class Translation extends Translations {
           "errors.form.email.required.valid": "Not valid email!",
           "errors.form.password.required": "Password is required!",
           "errors.form.password.required.valid":
-              "8 characters including 1 Uppercase letter,1 lowercase letter, 1 number and 1 special character are required!",
+              "5 characters including 1 lowercase letter and 1 special character are required!",
           "errors.form.password.matching": "Password not matching!",
           "message.resendmail.header":
               "Thank you for signing up, please confirm your email address to get started.",
@@ -1678,7 +1678,7 @@ class Translation extends Translations {
           "errors.form.email.required.valid": "E-mail non valide!",
           "errors.form.password.required": "Mot de passe exigés!",
           "errors.form.password.required.valid":
-              "8 caractères dont, 1 lettre majuscule,1 lettre minuscule, 1 chiffre et 1 spécial caractère sont obligatoires!",
+              "5 caractères dont, 1 lettre minuscule et 1 spécial caractère sont obligatoires!",
           "errors.form.password.matching": "Mot de passe ne correspondant pas!",
           "message.resendmail.header":
               "Merci de votre inscription, veuillez confirmer votre adresse e-mail pour recevoir a débuté.",
