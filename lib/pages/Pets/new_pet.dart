@@ -237,8 +237,8 @@ class _NewPetState extends State<NewPet> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                showToast(
-                                    "page.pets.uploadImage.validation".tr);
+                                showToast("page.pets.uploadImage.validation".tr,
+                                    title: "feedback.alert.successTitle".tr);
                               },
                               child: Container(
                                 color: Colors.transparent,

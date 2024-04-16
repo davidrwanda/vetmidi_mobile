@@ -127,7 +127,7 @@ class AuthController extends GetxController {
         throw Exception(errors[0]["message"]);
       } else {
         showToast('Your email has been verified successfully!',
-            title: "Success");
+            title: "feedback.alert.successTitle".tr);
         Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
@@ -154,6 +154,28 @@ class AuthController extends GetxController {
       showToast(error.toString());
     } finally {
       _resendingOtp.value = false;
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    try {
+      _isLoading.value = true;
+      Map<String, String> map = {
+        "email": email,
+      };
+      var res1 = await _authService.forgotPasswordService(map);
+      if (res1["code"] != null && res1["code"] == 422) {
+        List<dynamic> errors = res1["errors"];
+        throw Exception(errors[0]["message"]);
+      } else {
+        showToast('An otp verification code has been sent to your email',
+            title: "feedback.alert.successTitle".tr);
+        // Get.toNamed(AppRoutes.login);
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _isLoading.value = false;
     }
   }
 
@@ -188,7 +210,8 @@ class AuthController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        showToast("Password updated successfully!", title: "Success");
+        showToast("Password updated successfully!",
+            title: "feedback.alert.successTitle".tr);
         Timer(const Duration(seconds: 2), () {
           Get.toNamed(AppRoutes.login);
           _selectedTab.value = 0;

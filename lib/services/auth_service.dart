@@ -55,6 +55,17 @@ class AuthService {
     }
   }
 
+  Future<dynamic> forgotPasswordService(Map<String, String> body) async {
+    http.Response response;
+    response = await http.post(Uri.parse("$baseUrl/mobile-forget-password"),
+        body: body);
+    if (response.body.isNotEmpty) {
+      return json.decode(response.body);
+    } else {
+      throw const HttpException('Empty response');
+    }
+  }
+
   Future<dynamic> getClinicsService() async {
     http.Response response;
     response = await http.get(Uri.parse("$baseUrl/clinics"));

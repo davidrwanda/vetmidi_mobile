@@ -120,22 +120,23 @@ class _LoginState extends State<Login> {
                   })
                 ],
               ),
-              SizedBox(height: 20 * fem),
-              Text(
-                "page.signInForgotPass".tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.black45),
+              SizedBox(height: 5 * fem),
+              TextButton(
+                onPressed: () => Get.toNamed(AppRoutes.forgotPassword),
+                child: Text("page.signInForgotPass".tr,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.black45)),
               ),
-              SizedBox(height: 20 * fem),
+              SizedBox(height: 5 * fem),
               TextButton(
                 onPressed: () => Get.toNamed(AppRoutes.signup),
                 child: Text("Don't have an account? Sign up",
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black45)),
               ),
-              SizedBox(height: 60 * fem),
+              SizedBox(height: 40 * fem),
               const LanguageSwitch(),
-              SizedBox(height: 60 * fem),
+              SizedBox(height: 40 * fem),
               const Text(
                 "©2023 Digimidi",
                 textAlign: TextAlign.center,
