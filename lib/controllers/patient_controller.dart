@@ -114,7 +114,8 @@ class PatientController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         throw Exception(res["message"]);
       } else {
-        showToast("page.pets.petAddedSuccess".tr);
+        showToast("page.pets.petAddedSuccess".tr,
+            title: "feedback.alert.successTitle".tr);
         _fetchedPatients.value = false;
       }
     } catch (error) {
