@@ -61,12 +61,10 @@ class _MedicalRecordsState extends State<MedicalRecords> {
       Get.find<MedicalRecordsController>().getMedicalRecords("", token);
     });
 
-    if (!Get.find<PatientController>().fetchedPatients) {
-      Future.delayed(const Duration(seconds: 0), () {
-        String token = Get.find<AuthController>().token?.accessToken ?? "";
-        Get.find<PatientController>().getPatients(token);
-      });
-    }
+    Future.delayed(const Duration(seconds: 0), () {
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      Get.find<PatientController>().getPatients(token);
+    });
   }
 
   @override

@@ -24,12 +24,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void initState() {
     super.initState();
 
-    if (!Get.find<PatientController>().fetchedPatients) {
-      Future.delayed(const Duration(seconds: 0), () {
-        String token = Get.find<AuthController>().token?.accessToken ?? "";
-        Get.find<PatientController>().getPatients(token);
-      });
-    }
+    Future.delayed(const Duration(seconds: 0), () {
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      Get.find<PatientController>().getPatients(token);
+    });
   }
 
   var activeTab = 0;

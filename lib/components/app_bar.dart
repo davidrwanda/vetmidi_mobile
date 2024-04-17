@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
+import 'package:vetmidi/controllers/notifications_controller.dart';
 import 'package:vetmidi/routes/index.dart';
 
+import '../controllers/patient_controller.dart';
+import '../controllers/profile_controller.dart';
 import '../core/utils/app_constants.dart';
 import 'language_switch.dart';
 
@@ -27,10 +30,11 @@ class CustomAppBar extends StatelessWidget {
               if (selected == 0) {
                 Get.find<AuthController>().selectedTab = 0;
               } else {
+                Get.offAndToNamed(AppRoutes.login);
                 Get.find<AuthController>().logout();
-                // Get.find<ProfileController>().resetProfileState();
-                // Get.find<PatientController>().resetPetsState();
-                Get.toNamed(AppRoutes.login);
+                Get.find<ProfileController>().resetProfileState();
+                Get.find<PatientController>().resetPetsState();
+                Get.find<NotificationController>().resetNotificationsState();
               }
             },
             offset: const Offset(0, 40),

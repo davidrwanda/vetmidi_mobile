@@ -58,15 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _phone = TextEditingController();
     _postalCode = TextEditingController();
 
-    if (!Get.find<ProfileController>().fetchedProfile) {
-      Future.delayed(const Duration(seconds: 0), () async {
-        String token = Get.find<AuthController>().token?.accessToken ?? "";
-        await Get.find<ProfileController>().getProfile(token);
-        initializeFields();
-      });
-    } else {
+    Future.delayed(const Duration(seconds: 0), () async {
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      await Get.find<ProfileController>().getProfile(token);
       initializeFields();
-    }
+    });
   }
 
   initializeFields() {
@@ -167,12 +163,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         "title": getTitleFrenchValue(title),
         "referant_description": getReferalFrenchValue(referantDescription),
       };
-      
+
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<ProfileController>().updateProfile(data, token);
       Future.delayed(const Duration(seconds: 2), () {
         Get.find<ProfileController>().profile = null;
-        Get.find<ProfileController>().fetchedProfile = false;
         Get.offAndToNamed(AppRoutes.home);
       });
     }
@@ -208,8 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Get.find<ProfileController>().fetching
                           ? const ProfileLoadingCard()
                           : Container(),
-                      (!Get.find<ProfileController>().fetching &&
-                              Get.find<ProfileController>().fetchedProfile)
+                      !Get.find<ProfileController>().fetching
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

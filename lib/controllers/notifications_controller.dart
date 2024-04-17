@@ -71,6 +71,13 @@ class NotificationController extends GetxController {
     return _fetchedTreatments.value;
   }
 
+  void resetNotificationsState() {
+    _appointments.value = [];
+    _appointment.value = null;
+    _treatments.value = [];
+    _treatment.value = null;
+  }
+
   Future<void> getTreatments(String token) async {
     try {
       _fetchingTreatments.value = true;

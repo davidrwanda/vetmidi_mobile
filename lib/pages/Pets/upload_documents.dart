@@ -226,8 +226,6 @@ class _UploadDocumentsState extends State<UploadDocuments> {
                                   Get.find<AuthController>().token!.accessToken;
                               await Get.find<PatientController>()
                                   .uploadPetDocuments(files, petId, token);
-                              Get.find<PatientController>().fetchedPatients =
-                                  false;
                               setUploaded(true);
                             },
                             context,

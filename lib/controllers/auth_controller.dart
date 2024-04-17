@@ -273,7 +273,7 @@ class AuthController extends GetxController {
   }
 
   void logout() {
-    _selectedTab.value = 0;
+    print("LOgged outttttttttttttttt");
     _token.value = null;
     _user.value = null;
   }

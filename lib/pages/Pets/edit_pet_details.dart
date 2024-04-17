@@ -208,6 +208,8 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "Get.find<PatientController>().patient ${Get.find<PatientController>().patient}");
     return SafeArea(
         child: Scaffold(
       backgroundColor: ThemeColors.primaryBackground,

@@ -7,17 +7,8 @@ import '../models/profile.dart';
 class ProfileController extends GetxController {
   final RxBool _fetching = false.obs;
   final RxBool _updating = false.obs;
-  final RxBool _fetchedProfile = false.obs;
   final Rx<Profile?> _profile = Rx<Profile?>(null);
   final ProfileService _profileService = ProfileService();
-
-  bool get fetchedProfile {
-    return _fetchedProfile.value;
-  }
-
-  set fetchedProfile(bool value) {
-    _fetchedProfile.value = value;
-  }
 
   bool get fetching {
     return _fetching.value;
@@ -36,7 +27,6 @@ class ProfileController extends GetxController {
   }
 
   void resetProfileState() {
-    _fetchedProfile.value = false;
     _profile.value = null;
   }
 
@@ -48,7 +38,6 @@ class ProfileController extends GetxController {
         throw Exception(res["message"]);
       } else {
         _profile.value = Profile.fromJSON(res["data"]);
-        _fetchedProfile.value = true;
       }
     } catch (error) {
       showToast(error.toString());

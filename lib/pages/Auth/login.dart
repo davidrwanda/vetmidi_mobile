@@ -77,18 +77,18 @@ class _LoginState extends State<Login> {
       });
     }
 
-    // if (_email.text.isNotEmpty && !validateEmail(_email.text)) {
-    //   formIsValid = false;
-    //   setState(() {
-    //     emailTextError = "errors.form.email.required.valid".tr;
-    //     emailIsValid = false;
-    //   });
-    //   Timer(const Duration(seconds: 2), () {
-    //     setState(() {
-    //       emailIsValid = true;
-    //     });
-    //   });
-    // }
+    if (_email.text.isNotEmpty && !validateEmail(_email.text)) {
+      formIsValid = false;
+      setState(() {
+        emailTextError = "errors.form.email.required.valid".tr;
+        emailIsValid = false;
+      });
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          emailIsValid = true;
+        });
+      });
+    }
 
     if (_password.text.isEmpty) {
       formIsValid = false;
@@ -177,6 +177,7 @@ class _LoginState extends State<Login> {
                     return Button(
                       "page.LoginNow".tr,
                       (BuildContext ctx) async {
+                        Get.find<AuthController>().selectedTab = 0;
                         if (validateInputs()) {
                           await Get.find<AuthController>()
                               .login(_email.text, _password.text);

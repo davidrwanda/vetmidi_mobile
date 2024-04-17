@@ -58,17 +58,13 @@ class _HomeState extends State<Home> {
     super.initState();
     String token = Get.find<AuthController>().token?.accessToken ?? "";
 
-    if (!Get.find<PatientController>().fetchedPatients) {
-      Future.delayed(const Duration(seconds: 0), () {
-        Get.find<PatientController>().getPatients(token);
-      });
-    }
+    Future.delayed(const Duration(seconds: 0), () {
+      Get.find<PatientController>().getPatients(token);
+    });
 
-    if (!Get.find<ProfileController>().fetchedProfile) {
-      Future.delayed(const Duration(seconds: 0), () {
-        Get.find<ProfileController>().getProfile(token);
-      });
-    }
+    Future.delayed(const Duration(seconds: 0), () {
+      Get.find<ProfileController>().getProfile(token);
+    });
 
     Future.delayed(const Duration(seconds: 0), () async {
       String token = Get.find<AuthController>().token?.accessToken ?? "";
@@ -84,7 +80,7 @@ class _HomeState extends State<Home> {
     Future.delayed(const Duration(seconds: 0), () async {
       await _firebaseMessaging.requestPermission();
       final fCMToken = await _firebaseMessaging.getToken();
-      if (Get.find<AuthController>().user!.mobile_device != fCMToken &&
+      if (Get.find<AuthController>().user?.mobile_device != fCMToken &&
           fCMToken != null) {
         showAlertDialog(context, fCMToken);
       }
