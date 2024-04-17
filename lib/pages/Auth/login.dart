@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/components/button.dart';
@@ -7,6 +9,7 @@ import 'package:vetmidi/routes/index.dart';
 
 import '../../components/language_switch.dart';
 import '../../core/utils/app_constants.dart';
+import '../../core/utils/functions.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,6 +22,10 @@ class _LoginState extends State<Login> {
   late final TextEditingController _email;
   late final TextEditingController _password;
   var rememberMe = false;
+  var emailIsValid = true;
+  var passwordIsValid = true;
+  var emailTextError = "";
+  var passwordTextError = "";
 
   @override
   void initState() {
@@ -55,6 +62,61 @@ class _LoginState extends State<Login> {
     );
   }
 
+  bool validateInputs() {
+    var formIsValid = true;
+    if (_email.text.isEmpty) {
+      formIsValid = false;
+      setState(() {
+        emailTextError = "errors.form.email.required".tr;
+        emailIsValid = false;
+      });
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          emailIsValid = true;
+        });
+      });
+    }
+
+    // if (_email.text.isNotEmpty && !validateEmail(_email.text)) {
+    //   formIsValid = false;
+    //   setState(() {
+    //     emailTextError = "errors.form.email.required.valid".tr;
+    //     emailIsValid = false;
+    //   });
+    //   Timer(const Duration(seconds: 2), () {
+    //     setState(() {
+    //       emailIsValid = true;
+    //     });
+    //   });
+    // }
+
+    if (_password.text.isEmpty) {
+      formIsValid = false;
+      setState(() {
+        passwordTextError = "errors.form.password.required".tr;
+        passwordIsValid = false;
+      });
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          passwordIsValid = true;
+        });
+      });
+    }
+    if (_password.text.isNotEmpty && !validatePassword(_password.text)) {
+      formIsValid = false;
+      setState(() {
+        passwordTextError = "errors.form.password.required.valid".tr;
+        passwordIsValid = false;
+      });
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          passwordIsValid = true;
+        });
+      });
+    }
+    return formIsValid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -83,11 +145,15 @@ class _LoginState extends State<Login> {
               InputText(
                 "page.loginEmailPlaceholder".tr,
                 _email,
+                valid: emailIsValid,
+                errorText: emailTextError,
               ),
               InputText(
                 "page.loginPswPlaceholder".tr,
                 _password,
                 isPassword: true,
+                valid: passwordIsValid,
+                errorText: passwordTextError,
               ),
               SizedBox(height: 10 * fem),
               Row(
@@ -111,8 +177,10 @@ class _LoginState extends State<Login> {
                     return Button(
                       "page.LoginNow".tr,
                       (BuildContext ctx) async {
-                        await Get.find<AuthController>()
-                            .login(_email.text, _password.text);
+                        if (validateInputs()) {
+                          await Get.find<AuthController>()
+                              .login(_email.text, _password.text);
+                        }
                       },
                       context,
                       loading: Get.find<AuthController>().loading,

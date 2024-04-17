@@ -29,7 +29,7 @@ class InputText extends StatelessWidget {
     this.errorText = 'This field can\'t be empty',
     this.icon = 'auth_user.svg',
     this.marginTop = 5,
-    this.fontSize = 16,
+    this.fontSize = 14,
     this.backgroundColor = Colors.white,
     this.showBorder = false,
     this.showIcon = true,

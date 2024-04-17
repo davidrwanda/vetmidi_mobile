@@ -90,55 +90,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
     country = getTranslationKeys(
         Get.find<ProfileController>().profile?.pays ?? "Suisse");
     contactWithEmail = getTranslationKeys(
-        Get.find<AuthController>().user?.contactWithEmail.toLowerCase() ??
+        Get.find<ProfileController>().profile?.contactWithEmail.toLowerCase() ??
             "yes");
     contactWithSMS = getTranslationKeys(
-        Get.find<AuthController>().user?.contactWithSMS.toLowerCase() ?? "yes");
-    contactWithWhatsapp = getTranslationKeys(
-        Get.find<AuthController>().user?.contactWithWhatsapp.toLowerCase() ??
+        Get.find<ProfileController>().profile?.contactWithSMS.toLowerCase() ??
             "yes");
-
+    contactWithWhatsapp = getTranslationKeys(Get.find<ProfileController>()
+            .profile
+            ?.contactWithWhatsapp
+            .toLowerCase() ??
+        "yes");
   }
 
   validateFields() {
     var formValid = true;
 
-    if (_firstName.text.isEmpty) {
+    if (selectedTab == 0 && _firstName.text.isEmpty) {
       formValid = false;
       setState(() {
         fNameIsValid = false;
       });
     }
 
-    if (_lastName.text.isEmpty) {
+    if (selectedTab == 0 && _lastName.text.isEmpty) {
       formValid = false;
       setState(() {
         lNameIsValid = false;
       });
     }
 
-    if (_address.text.isEmpty) {
+    if (selectedTab == 1 && _address.text.isEmpty) {
       formValid = false;
       setState(() {
         addressIsValid = false;
       });
     }
 
-    if (_city.text.isEmpty) {
+    if (selectedTab == 1 && _city.text.isEmpty) {
       formValid = false;
       setState(() {
         cityIsValid = false;
       });
     }
 
-    if (_phone.text.isEmpty) {
+    if (selectedTab == 1 && _phone.text.isEmpty) {
       formValid = false;
       setState(() {
         phoneIsValid = false;
       });
     }
 
-    if (_postalCode.text.isEmpty) {
+    if (selectedTab == 1 && _postalCode.text.isEmpty) {
       formValid = false;
       setState(() {
         postalCodeIsValid = false;
@@ -165,9 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         "title": getTitleFrenchValue(title),
         "referant_description": getReferalFrenchValue(referantDescription),
       };
-
-      // print("update profileeeeeee handlerrrrrrr $data");
-
+      
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<ProfileController>().updateProfile(data, token);
       Future.delayed(const Duration(seconds: 2), () {
@@ -261,26 +261,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       SizedBox(height: 20 * fem),
                                       detailsItem(
                                           "Email",
-                                          Get.find<AuthController>()
-                                                  .user
+                                          Get.find<ProfileController>()
+                                                  .profile
                                                   ?.email ??
                                               ""),
                                       detailsItem(
                                           "page.CityInput".tr,
-                                          Get.find<AuthController>()
-                                                  .user
+                                          Get.find<ProfileController>()
+                                                  .profile
                                                   ?.city ??
                                               ""),
                                       detailsItem(
                                           "page.PhoneInput".tr,
-                                          Get.find<AuthController>()
-                                                  .user
+                                          Get.find<ProfileController>()
+                                                  .profile
                                                   ?.phone ??
                                               ""),
                                       detailsItem(
                                           "page.PostalCodeInput".tr,
-                                          Get.find<AuthController>()
-                                                  .user
+                                          Get.find<ProfileController>()
+                                                  .profile
                                                   ?.postalCode ??
                                               ""),
                                       SizedBox(height: 20 * fem),
@@ -296,22 +296,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Column(children: [
                                     detailsBoolean(
                                         "Email",
-                                        Get.find<AuthController>()
-                                                .user
+                                        Get.find<ProfileController>()
+                                                .profile
                                                 ?.contactWithEmail
                                                 .toLowerCase() ??
                                             "yes"),
                                     detailsBoolean(
                                         "SMS",
-                                        Get.find<AuthController>()
-                                                .user
+                                        Get.find<ProfileController>()
+                                                .profile
                                                 ?.contactWithSMS
                                                 .toLowerCase() ??
                                             "yes"),
                                     detailsBoolean(
                                         "Whatsapp",
-                                        Get.find<AuthController>()
-                                                .user
+                                        Get.find<ProfileController>()
+                                                .profile
                                                 ?.contactWithWhatsapp
                                                 .toLowerCase() ??
                                             "yes"),

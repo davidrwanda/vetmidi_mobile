@@ -105,6 +105,12 @@ class AuthController extends GetxController {
       if (res1["error"] != null && res1["error"] == true) {
         throw Exception(res1["message"]);
       } else {
+        Map<String, String> loginMap = {"email": email, "password": password};
+        var res2 = await _authService.login(loginMap);
+        Token token = Token.fromJSON(res2["token"]);
+        _token.value = token;
+        User user = User.fromJSON(res2["user"]);
+        _user.value = user;
         Get.toNamed(AppRoutes.verifyOTP, arguments: email);
       }
     } catch (error) {
@@ -128,7 +134,7 @@ class AuthController extends GetxController {
       } else {
         showToast('Your email has been verified successfully!',
             title: "feedback.alert.successTitle".tr);
-        Get.toNamed(AppRoutes.login);
+        Get.toNamed(AppRoutes.home);
       }
     } catch (error) {
       showToast(error.toString());
