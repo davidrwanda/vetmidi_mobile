@@ -102,7 +102,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               SizedBox(height: 10 * fem),
               Obx(() {
                 return Button(
-                  "page.LoginNow".tr,
+                  "page.sendRequest".tr,
                   (BuildContext ctx) async {
                     await forgotPasswordHandler();
                   },

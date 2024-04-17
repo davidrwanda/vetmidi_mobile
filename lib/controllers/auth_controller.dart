@@ -170,7 +170,31 @@ class AuthController extends GetxController {
       } else {
         showToast('An otp verification code has been sent to your email',
             title: "feedback.alert.successTitle".tr);
-        // Get.toNamed(AppRoutes.login);
+        Get.toNamed(AppRoutes.resetPassword, arguments: {"email": email});
+      }
+    } catch (error) {
+      showToast(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> resetPassword(String email, String password, String otp) async {
+    try {
+      _isLoading.value = true;
+      Map<String, String> map = {
+        "email": email,
+        "password": password,
+        "otp": otp,
+      };
+      var res1 = await _authService.resetPasswordService(map);
+      if (res1["code"] != null && res1["code"] == 422) {
+        List<dynamic> errors = res1["errors"];
+        throw Exception(errors[0]["message"]);
+      } else {
+        showToast("Password has been changed",
+            title: "feedback.alert.successTitle".tr);
+        Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
       showToast(error.toString());
