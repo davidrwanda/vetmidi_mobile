@@ -101,6 +101,9 @@ PODS:
   - SDWebImage (5.18.10):
     - SDWebImage/Core (= 5.18.10)
   - SDWebImage/Core (5.18.10)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - SwiftyGif (5.4.4)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -112,6 +115,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -143,6 +147,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
@@ -165,9 +171,10 @@ SPEC CHECKSUMS:
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   SDWebImage: fc8f2d48bbfd72ef39d70e981bd24a3f3be53fec
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
-PODFILE CHECKSUM: 0805b11bfb13bd44fc55fe52946ce14f22a2998e
+PODFILE CHECKSUM: ca64c15dac66dc8e2347298523c357d2246fd65d
 
 COCOAPODS: 1.14.3

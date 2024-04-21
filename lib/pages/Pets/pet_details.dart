@@ -373,20 +373,22 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                                     label: "page.pets.Alimentation".tr,
                                     readOnly: true,
                                   ),
-                                  select(
-                                    "page.pets.Goesoutside".tr,
-                                    goesOutside,
-                                    [
-                                      "page.general.yes".tr,
-                                      "page.general.no".tr
-                                    ],
-                                    (String value) {
-                                      setState(() {
-                                        goesOutside = value;
-                                      });
-                                    },
-                                    readOnly: true,
-                                  ),
+                                    specie != "page.type.CN"
+                                      ? select(
+                                          "page.pets.GoesOutside".tr,
+                                          goesOutside,
+                                          [
+                                            "page.general.yes".tr,
+                                            "page.general.no".tr
+                                          ],
+                                          (String value) {
+                                            setState(() {
+                                              goesOutside = value;
+                                            });
+                                          },
+                                          readOnly: true,
+                                        )
+                                      : Container(),
                                   select(
                                     "page.pets.IsInsured".tr,
                                     isInsured,

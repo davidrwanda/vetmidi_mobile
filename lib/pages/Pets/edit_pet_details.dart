@@ -187,7 +187,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
         "race": _breed.text,
         "color": _color.text,
         "relance_rage": rabbiesVaccinationDate,
-        "weight": int.parse(_weight.text),
+        "weight": double.parse(_weight.text),
         "sex": sex!.tr.substring(0, 1),
         "alimentation": _alimentation.text,
         "mode_de_vie": getYesOrNoValue(goesOutside!),
@@ -501,16 +501,18 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                             _alimentation,
                             label: "page.pets.Alimentation".tr,
                           ),
-                          select(
+                          specie != "page.type.CN"
+                              ? select(
                             "page.pets.Goesoutside".tr,
                             goesOutside,
                             ["page.general.yes", "page.general.no"],
                             (String value) {
                               setState(() {
-                                goesOutside = value;
+                                goesOutside = value;        
                               });
                             },
-                          ),
+                          )
+                              : Container(),
                           select(
                             "page.pets.IsInsured".tr,
                             isInsured,

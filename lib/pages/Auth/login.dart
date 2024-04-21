@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/components/inputs.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
@@ -32,34 +32,33 @@ class _LoginState extends State<Login> {
     super.initState();
     _email = TextEditingController();
     _password = TextEditingController();
+    _getRememberMePreference();
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed: () => Navigator.pop(context),
-    );
-    Widget continueButton = TextButton(
-      child: Text("Yes, It is"),
-      onPressed: () => Navigator.pop(context),
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("New device detected"),
-      content: Text("Please confirm that this is this your new device?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  _getRememberMePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      rememberMe = prefs.getBool('rememberMe') ?? false;
+      if (rememberMe) {
+        _email.text = prefs.getString('email') ?? '';
+        _password.text = prefs.getString('password') ?? '';
+      }
+    });
+  }
+
+  _saveRememberMePreference(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('rememberMe', value);
+    if (!value) {
+      prefs.remove('email');
+      prefs.remove('password');
+    }
+  }
+
+  _saveLoginData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', _email.text);
+    prefs.setString('password', _password.text);
   }
 
   bool validateInputs() {
@@ -162,14 +161,16 @@ class _LoginState extends State<Login> {
                   Row(
                     children: [
                       Checkbox(
-                          value: rememberMe,
-                          onChanged: (newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                rememberMe = newValue;
-                              });
-                            }
-                          }),
+                        value: rememberMe,
+                        onChanged: (newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              rememberMe = newValue;
+                              _saveRememberMePreference(newValue);
+                            });
+                          }
+                        },
+                      ),
                       Text("page.signInRememberMe".tr),
                     ],
                   ),
@@ -181,6 +182,9 @@ class _LoginState extends State<Login> {
                         if (validateInputs()) {
                           await Get.find<AuthController>()
                               .login(_email.text, _password.text);
+                          if (rememberMe) {
+                            _saveLoginData();
+                          }
                         }
                       },
                       context,
