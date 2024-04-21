@@ -58,5 +58,16 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to allow you to upload photos to your profile.</string>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<dict>
+    <key>NSPrivacyAccessedAPIs</key>
+    <dict>
+        <key>NSPrivacyAccessedAPICategoryUserDefaults</key>
+        <array>
+            <string>We use UserDefaults to store and retrieve user preferences and settings, ensuring a personalized user experience.</string>
+        </array>
+    </dict>
+</dict>
+
 </dict>
 </plist>

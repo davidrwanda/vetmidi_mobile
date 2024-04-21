@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/components/inputs.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
@@ -74,6 +75,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               EdgeInsets.symmetric(horizontal: 40 * fem, vertical: 20 * fem),
           child: ListView(
             children: [
+              backButton(),
               Container(
                 margin:
                     EdgeInsets.fromLTRB(0 * fem, 10 * fem, 0 * fem, 10 * fem),
