@@ -202,7 +202,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<PatientController>().updatePatient(
           Get.find<PatientController>().patient!.fmId, data, token);
-      // Get.find<AuthController>().selectedTab = 1;
+      Get.find<PatientController>().getPatients(token);
     }
   }
 
@@ -503,15 +503,15 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                           ),
                           specie != "page.type.CN"
                               ? select(
-                            "page.pets.Goesoutside".tr,
-                            goesOutside,
-                            ["page.general.yes", "page.general.no"],
-                            (String value) {
-                              setState(() {
-                                goesOutside = value;        
-                              });
-                            },
-                          )
+                                  "page.pets.Goesoutside".tr,
+                                  goesOutside,
+                                  ["page.general.yes", "page.general.no"],
+                                  (String value) {
+                                    setState(() {
+                                      goesOutside = value;
+                                    });
+                                  },
+                                )
                               : Container(),
                           select(
                             "page.pets.IsInsured".tr,
