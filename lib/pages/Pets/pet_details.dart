@@ -177,7 +177,7 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                         SizedBox(height: 15 * fem),
                         Container(
                           height: 35 * fem,
-                          width: 230 * fem,
+                          width: 300 * fem,
                           padding: EdgeInsets.all(2 * fem),
                           decoration: BoxDecoration(
                             color: ThemeColors.primaryBackground,
