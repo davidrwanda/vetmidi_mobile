@@ -20,7 +20,7 @@ Container registerTopDesign() {
                 Icon(Icons.keyboard_arrow_left),
                 SizedBox(width: 5),
                 Text(
-                  "Back",
+                   "page.back".tr,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),

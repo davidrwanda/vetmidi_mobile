@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/services/profile_service.dart';
 
 import '../models/profile.dart';
@@ -35,12 +36,12 @@ class ProfileController extends GetxController {
       _fetching.value = true;
       var res = await _profileService.getProfileService(token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         _profile.value = Profile.fromJSON(res["data"]);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _fetching.value = false;
     }
@@ -51,13 +52,12 @@ class ProfileController extends GetxController {
       _updating.value = true;
       var res = await _profileService.updatePatientService(body, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
-        showToast("page.profile.updateSuccessful".tr,
-            title: "feedback.alert.successTitle".tr);
+        successToast("page.profile.updateSuccessful".tr);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _updating.value = false;
     }

@@ -9,7 +9,6 @@ import '../../components/inputs.dart';
 import '../../components/language_switch.dart';
 import '../../core/utils/app_constants.dart';
 import '../../core/utils/functions.dart';
-import '../../routes/index.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});

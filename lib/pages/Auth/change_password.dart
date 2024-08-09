@@ -44,7 +44,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 backButton(),
                 SizedBox(height: 20 * fem),
                 Text(
-                  "CHANGE PASSWORD",
+                  "page.changePassword.changePassword".tr,
                   style: TextStyle(
                       color: ThemeColors.secondaryColor,
                       fontWeight: FontWeight.w700,
@@ -54,10 +54,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 InputText(
                   "",
                   _currentPassword,
-                  label: "Current Password",
+                  label: "page.changePassword.currentPassword".tr,
                   required: true,
                   valid: oldPasswordIsValid,
-                  errorText: "Current Password is required",
+                  errorText: "page.changePassword.currentPasswordRequired".tr,
                   isPassword: true,
                   setValid: (bool value) {
                     setState(() {
@@ -68,11 +68,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 InputText(
                   "",
                   _newPassword,
-                  label: "New Password",
+                  label: "page.changePassword.newPassword".tr,
                   isPassword: true,
                   required: true,
                   valid: newPasswordIsValid,
-                  errorText: "New Password is required",
+                  errorText: "page.changePassword.newPasswordRequired".tr,
                   setValid: (bool value) {
                     setState(() {
                       newPasswordIsValid = value;
@@ -82,11 +82,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 InputText(
                   "",
                   _comfirmPassword,
-                  label: "Password Confirmation",
+                  label: "page.changePassword.confirmPassword".tr,
                   required: true,
                   isPassword: true,
                   valid: confirmPasswordIsValid,
-                  errorText: "Password Confirmation is required",
+                  errorText: "page.changePassword.confirmPasswordRequired".tr,
                   setValid: (bool value) {
                     setState(() {
                       confirmPasswordIsValid = value;
@@ -97,7 +97,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Center(
                   child: Obx(() {
                     return Button(
-                      "Change",
+                      "page.changePassword.change".tr,
                       (context) {
                         String? email = Get.find<AuthController>().user!.email;
                         Get.find<AuthController>().changePassword(

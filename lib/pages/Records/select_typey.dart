@@ -41,7 +41,7 @@ class SelectType extends StatelessWidget {
                       child: Text(
                         entry.value,
                         style: TextStyle(
-                          fontSize: 18 * ffem,
+                          fontSize: 14 * ffem,
                           fontWeight: entry.key == selectedIndex
                               ? FontWeight.w800
                               : FontWeight.w300,

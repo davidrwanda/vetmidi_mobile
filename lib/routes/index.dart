@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vetmidi/core/bindings/home_bindings.dart';
 import 'package:vetmidi/pages/Auth/reset_password.dart';
-import 'package:vetmidi/pages/Auth/select_clinic.dart';
 import 'package:vetmidi/pages/Auth/signup.dart';
 import 'package:vetmidi/pages/Auth/verify_otp.dart';
 import 'package:vetmidi/pages/Home/appointment_details.dart';

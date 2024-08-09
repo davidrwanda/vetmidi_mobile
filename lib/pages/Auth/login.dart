@@ -162,6 +162,7 @@ class _LoginState extends State<Login> {
                     children: [
                       Checkbox(
                         value: rememberMe,
+                        activeColor: Colors.blue,
                         onChanged: (newValue) {
                           if (newValue != null) {
                             setState(() {
@@ -203,7 +204,7 @@ class _LoginState extends State<Login> {
               SizedBox(height: 5 * fem),
               TextButton(
                 onPressed: () => Get.toNamed(AppRoutes.signup),
-                child: Text("Don't have an account? Sign up",
+                child: Text("page.signupText".tr,
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black45)),
               ),

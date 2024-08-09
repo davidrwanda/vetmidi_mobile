@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/components/back_button.dart';
 import 'package:vetmidi/components/button.dart';
-import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/controllers/patient_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 
 import '../../components/app_bar.dart';
 import '../../components/inputs.dart';
@@ -237,8 +237,7 @@ class _NewPetState extends State<NewPet> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                showToast("page.pets.uploadImage.validation".tr,
-                                    title: "feedback.alert.successTitle".tr);
+                                successToast("page.pets.uploadImage.validation".tr);
                               },
                               child: Container(
                                 color: Colors.transparent,

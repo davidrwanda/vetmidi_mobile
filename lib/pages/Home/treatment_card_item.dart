@@ -63,7 +63,7 @@ class TreatmentCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "DATE",
+                    "page.date".tr,
                     style: TextStyle(
                       color: Colors.black12,
                       fontSize: 11 * ffem,
@@ -84,7 +84,7 @@ class TreatmentCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "END DAY",
+                    "page.time".tr,
                     style: TextStyle(
                       color: Colors.black12,
                       fontSize: 11 * ffem,
@@ -92,10 +92,9 @@ class TreatmentCardItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    treatment.date,
+                    treatment.created_on.substring(11, 16),
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13 * ffem,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -108,7 +107,7 @@ class TreatmentCardItem extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    Text("Details"),
+                    Text("page.details".tr),
                     Icon(
                       Icons.keyboard_arrow_right_outlined,
                       color: ThemeColors.secondaryColor,

@@ -3,15 +3,15 @@ import 'package:get/get.dart';
 
 import '../core/utils/app_constants.dart';
 
-void showToast(String message, {String title = "Error"}) {
-  Get.snackbar(
-    title,
-    message,
-    snackPosition: SnackPosition.BOTTOM,
-    backgroundColor: Colors.grey,
-    colorText: Colors.white,
-  );
-}
+// void successToast(String message, {String title = "Error"}) {
+//   Get.snackbar(
+//     title,
+//     message,
+//     snackPosition: SnackPosition.BOTTOM,
+//     backgroundColor: Colors.grey,
+//     colorText: Colors.white,
+//   );
+// }
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showNotification(
     BuildContext context, message) {

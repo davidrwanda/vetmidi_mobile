@@ -21,17 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: Icon(Icons.home_outlined),
       label: "Home",
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.pets_outlined),
-      label: "My Pets",
+     BottomNavigationBarItem(
+      icon: const Icon(Icons.pets_outlined),
+      label: "page.pets.myPets".tr,
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.account_circle_outlined),
-      label: "Profile",
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.account_circle_outlined),
+      label: "page.profile".tr,
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.receipt_long),
-      label: "Records",
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.receipt_long),
+      label: "page.records".tr,
     ),
     // const BottomNavigationBarItem(
     //   icon: Icon(Icons.add),

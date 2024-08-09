@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/clinic.dart';
 import 'package:vetmidi/models/token.dart';
 import 'package:vetmidi/routes/index.dart';
@@ -70,7 +70,8 @@ class AuthController extends GetxController {
       await _authService.login(map);
       res2 = await _authService.login(map);
       if (res2["error"] != null && res2["error"] == true) {
-        throw Exception(res2["message"]);
+        errorToast(res2["message"]);
+        // throw CustomException(res2["message"]);
       } else {
         Token token = Token.fromJSON(res2["token"]);
         _token.value = token;
@@ -82,7 +83,7 @@ class AuthController extends GetxController {
       if (error.toString() == 'Empty response') {
         return login(email, password);
       } else {
-        showToast(error.toString());
+        successToast(error.toString());
       }
     } finally {
       _isLoading.value = false;
@@ -103,7 +104,7 @@ class AuthController extends GetxController {
       };
       var res1 = await _authService.signupService(map);
       if (res1["error"] != null && res1["error"] == true) {
-        throw Exception(res1["message"]);
+        errorToast(res1["message"]);
       } else {
         Map<String, String> loginMap = {"email": email, "password": password};
         var res2 = await _authService.login(loginMap);
@@ -114,7 +115,7 @@ class AuthController extends GetxController {
         Get.toNamed(AppRoutes.verifyOTP, arguments: email);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -130,14 +131,12 @@ class AuthController extends GetxController {
       var res1 = await _authService.verifyOTPService(map);
       if (res1["code"] != null && res1["code"] == 422) {
         List<dynamic> errors = res1["errors"];
-        throw Exception(errors[0]["message"]);
+        errorToast(errors[0]["message"]);
       } else {
-        showToast('Your email has been verified successfully!',
-            title: "feedback.alert.successTitle".tr);
-        Get.toNamed(AppRoutes.home);
+        successToast('Your email has been verified successfully!');
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -152,12 +151,12 @@ class AuthController extends GetxController {
       var res1 = await _authService.resendOTPService(map);
       if (res1["code"] != null && res1["code"] == 422) {
         List<dynamic> errors = res1["errors"];
-        throw Exception(errors[0]["message"]);
+        errorToast(errors[0]["message"]);
       } else {
-        showToast(res1["message"], title: "Success");
+        successToast(res1["message"]);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _resendingOtp.value = false;
     }
@@ -172,14 +171,13 @@ class AuthController extends GetxController {
       var res1 = await _authService.forgotPasswordService(map);
       if (res1["code"] != null && res1["code"] == 422) {
         List<dynamic> errors = res1["errors"];
-        throw Exception(errors[0]["message"]);
+        errorToast(errors[0]["message"]);
       } else {
-        showToast('An otp verification code has been sent to your email',
-            title: "feedback.alert.successTitle".tr);
+        successToast('An otp verification code has been sent to your email');
         Get.toNamed(AppRoutes.resetPassword, arguments: {"email": email});
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -196,14 +194,13 @@ class AuthController extends GetxController {
       var res1 = await _authService.resetPasswordService(map);
       if (res1["code"] != null && res1["code"] == 422) {
         List<dynamic> errors = res1["errors"];
-        throw Exception(errors[0]["message"]);
+        errorToast(errors[0]["message"]);
       } else {
-        showToast("Password has been changed",
-            title: "feedback.alert.successTitle".tr);
+        successToast("Password has been changed");
         Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -238,17 +235,16 @@ class AuthController extends GetxController {
       var res = await _authService.changePasswordScreen(
           map, _token.value!.accessToken);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
-        showToast("Password updated successfully!",
-            title: "feedback.alert.successTitle".tr);
+        successToast("Password updated successfully!");
         Timer(const Duration(seconds: 2), () {
           Get.toNamed(AppRoutes.login);
           _selectedTab.value = 0;
         });
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -259,14 +255,14 @@ class AuthController extends GetxController {
       _isLoading.value = true;
       var res = await _authService.getClinicsService();
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"];
         _clinics.value = data.map((e) => Clinic.fromJSON(e)).toList();
         _selectedClinics.value = [..._clinics];
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }

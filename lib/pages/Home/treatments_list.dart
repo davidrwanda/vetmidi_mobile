@@ -14,7 +14,7 @@ Widget treatmentList(List<NotificationModel> treatments) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Treatments",
+            "page.treatment".tr,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14 * ffem,
@@ -23,7 +23,7 @@ Widget treatmentList(List<NotificationModel> treatments) {
           GestureDetector(
             onTap: () => Get.toNamed(AppRoutes.treatments),
             child: Text(
-              "View All",
+              "page.viewAll".tr,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 13 * ffem,
@@ -37,7 +37,7 @@ Widget treatmentList(List<NotificationModel> treatments) {
       Container(
         width: double.infinity,
         height: 170 * fem,
-        padding: EdgeInsets.all(10 * fem),
+        padding: EdgeInsets.all(20 * fem),
         margin: EdgeInsets.only(bottom: 30 * fem),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10 * fem),

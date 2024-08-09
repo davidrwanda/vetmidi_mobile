@@ -10,9 +10,9 @@ String getTranslationKeys(String value) {
       return "page.general.no";
     case 'non':
       return "page.general.no";
-    case 'cat':
+    case 'Cat':
       return "page.type.CT";
-    case 'dog':
+    case 'Dog':
       return "page.type.CN";
     case 'rabbit':
       return "page.type.LP";

@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/patients.dart';
 import 'package:vetmidi/models/pet_file.dart';
 import 'package:vetmidi/services/patient_service.dart';
@@ -60,7 +61,7 @@ class PatientController extends GetxController {
       _isLoading.value = true;
       var res = await _patientService.getPatientsService(token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic>? data = res["data"];
         if (data != null) {
@@ -73,7 +74,7 @@ class PatientController extends GetxController {
         }
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -86,13 +87,12 @@ class PatientController extends GetxController {
       var res =
           await _patientService.updatePatientService(patientId, body, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
-        showToast("page.pets.updateSuccess".tr,
-            title: "feedback.alert.successTitle".tr);
+        successToast("page.pets.updateSuccess".tr);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -103,13 +103,12 @@ class PatientController extends GetxController {
       _isLoading.value = true;
       var res = await _patientService.createPatientService(body, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
-        showToast("page.pets.petAddedSuccess".tr,
-            title: "feedback.alert.successTitle".tr);
+        successToast("page.pets.petAddedSuccess".tr);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -120,14 +119,14 @@ class PatientController extends GetxController {
       _isLoading.value = true;
       var res = await _patientService.getPetFilesService(petId, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"];
         List<PetFile> petFiles = data.map((e) => PetFile.fromJSON(e)).toList();
         _petFiles.value = petFiles;
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -144,7 +143,7 @@ class PatientController extends GetxController {
             file.name, fileBytes, petId, token);
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _isUpLoading.value = false;
     }

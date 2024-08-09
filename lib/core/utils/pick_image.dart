@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 
 Future pickImage(ImageSource source, Function setImage) async {
   try {
@@ -15,6 +16,6 @@ Future pickImage(ImageSource source, Function setImage) async {
     List<int> imageBytes = imageTemporary.readAsBytesSync();
     setImage(base64Encode(imageBytes));
   } on PlatformException catch (e) {
-    showToast('Failed to pick image ${e.toString()}');
+    successToast('Failed to pick image ${e.toString()}');
   }
 }

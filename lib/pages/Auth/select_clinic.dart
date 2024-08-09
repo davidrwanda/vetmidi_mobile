@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
@@ -45,7 +44,7 @@ class _SelectClinicsState extends State<SelectClinics> {
                   children: [
                     Icon(Icons.keyboard_arrow_left),
                     Text(
-                      "Back",
+                      "page.back".tr,
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),

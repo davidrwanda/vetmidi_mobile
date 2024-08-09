@@ -8,7 +8,6 @@ import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
 import 'package:vetmidi/pages/Auth/select_clinic.dart';
-import 'package:vetmidi/routes/index.dart';
 
 import '../../components/register_top_design.dart';
 import '../../core/utils/app_constants.dart';

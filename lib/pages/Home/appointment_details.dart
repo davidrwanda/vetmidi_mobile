@@ -32,7 +32,7 @@ class AppointmentDetails extends StatelessWidget {
               backButton(),
               SizedBox(height: 10 * fem),
               Text(
-                "Appointment Details",
+                "page.appointmentDetails".tr,
                 style: TextStyle(
                   fontSize: 28 * ffem,
                   letterSpacing: 0.4,
@@ -69,7 +69,7 @@ class AppointmentDetails extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 10 * fem),
                       child: Row(
                         children: [
-                          Expanded(flex: 3, child: Text("Pet Name")),
+                          Expanded(flex: 3, child: Text("page.petName".tr)),
                           Expanded(
                               flex: 5,
                               child: Row(
@@ -97,7 +97,7 @@ class AppointmentDetails extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 10 * fem),
                       child: Row(
                         children: [
-                          Expanded(flex: 3, child: Text("Veterinary Name")),
+                          Expanded(flex: 3, child: Text("page.Veterinary".tr)),
                           Expanded(flex: 5, child: Text("-")),
                         ],
                       ),
@@ -107,7 +107,7 @@ class AppointmentDetails extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 10 * fem),
                       child: Row(
                         children: [
-                          Expanded(flex: 3, child: Text("Purpose")),
+                          Expanded(flex: 3, child: Text("page.purpose".tr)),
                           Expanded(flex: 5, child: Text("1162")),
                         ],
                       ),

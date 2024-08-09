@@ -34,7 +34,7 @@ class TreatmentDetails extends StatelessWidget {
             backButton(),
             SizedBox(height: 10 * fem),
             Text(
-              "Treatment Details",
+              "page.treatmentDetails".tr,
               style: TextStyle(
                 fontSize: 33 * ffem,
                 letterSpacing: 0.7,
@@ -55,7 +55,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Pet Name")),
+                        Expanded(flex: 3, child: Text("page.petName".tr)),
                         Expanded(
                             flex: 5,
                             child: Row(
@@ -82,7 +82,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Starting Date")),
+                        Expanded(flex: 3, child: Text("page.startingDate".tr)),
                         Expanded(
                           flex: 5,
                           child: Text(
@@ -99,7 +99,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Ending Date")),
+                        Expanded(flex: 3, child: Text("page.endingDate".tr)),
                         Expanded(
                           flex: 5,
                           child: Text(
@@ -114,14 +114,14 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Renewal")),
-                        Expanded(flex: 5, child: Text("Yes")),
+                        Expanded(flex: 3, child: Text("page.renewal".tr)),
+                        Expanded(flex: 5, child: Text("page.yes".tr)),
                       ],
                     ),
                   ),
                   SizedBox(height: 20 * fem),
                   Text(
-                    "POSOLOGY #1",
+                    "page.posology1".tr,
                     style: TextStyle(
                       color: Colors.black12,
                       fontWeight: FontWeight.w700,
@@ -132,7 +132,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Medecine Name")),
+                        Expanded(flex: 3, child: Text("page.medecineName".tr)),
                         Expanded(flex: 5, child: Text("-")),
                       ],
                     ),
@@ -142,7 +142,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Posology")),
+                        Expanded(flex: 3, child: Text("page.posology".tr)),
                         Expanded(flex: 5, child: Text("-")),
                       ],
                     ),
@@ -152,14 +152,14 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Instructions")),
+                        Expanded(flex: 3, child: Text("page.instructions".tr)),
                         Expanded(flex: 5, child: Text("-")),
                       ],
                     ),
                   ),
                   SizedBox(height: 20 * fem),
                   Text(
-                    "POSOLOGY #2",
+                    "page.posology2".tr,
                     style: TextStyle(
                       color: Colors.black12,
                       fontWeight: FontWeight.w700,
@@ -170,7 +170,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Medecine Name")),
+                        Expanded(flex: 3, child: Text("page.medecineName".tr)),
                         Expanded(flex: 5, child: Text("-")),
                       ],
                     ),
@@ -180,7 +180,7 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Posology")),
+                        Expanded(flex: 3, child: Text("page.posology".tr)),
                         Expanded(flex: 5, child: Text("-")),
                       ],
                     ),
@@ -190,14 +190,14 @@ class TreatmentDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 7 * fem),
                     child: Row(
                       children: [
-                        Expanded(flex: 3, child: Text("Instructions")),
+                        Expanded(flex: 3, child: Text("page.instructions".tr)),
                         Expanded(flex: 5, child: Text("-")),
                       ],
                     ),
                   ),
                   SizedBox(height: 20 * fem),
                   Button(
-                    "Dial Clinic",
+                    "page.call".tr,
                     (BuildContext ctx) {
                       launchDialer(treatment.phone);
                     },

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vetmidi/components/toast.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/medical_record.dart';
 import 'package:vetmidi/services/medical_records_service.dart';
 
@@ -22,7 +23,7 @@ class MedicalRecordsController extends GetxController {
       var res =
           await _medicalRecordsService.getMedicalRecordsService(query, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"]["data"];
         List<MedicalRecord> medicalRecords =
@@ -30,7 +31,7 @@ class MedicalRecordsController extends GetxController {
         _records.value = medicalRecords;
       }
     } catch (e) {
-      showToast(e.toString());
+      successToast(e.toString());
     } finally {
       _fetching.value = false;
     }
@@ -41,7 +42,7 @@ class MedicalRecordsController extends GetxController {
       _fetching.value = true;
       var res = await _medicalRecordsService.getReportService(query, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"]["data"];
         List<MedicalRecord> medicalRecords =
@@ -49,7 +50,7 @@ class MedicalRecordsController extends GetxController {
         _records.value = medicalRecords;
       }
     } catch (e) {
-      showToast(e.toString());
+      successToast(e.toString());
     } finally {
       _fetching.value = false;
     }
@@ -61,7 +62,7 @@ class MedicalRecordsController extends GetxController {
       var res =
           await _medicalRecordsService.getVignetteReportService(query, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"]["data"];
         List<MedicalRecord> medicalRecords =
@@ -69,7 +70,7 @@ class MedicalRecordsController extends GetxController {
         _records.value = medicalRecords;
       }
     } catch (e) {
-      showToast(e.toString());
+      successToast(e.toString());
     } finally {
       _fetching.value = false;
     }
@@ -80,7 +81,7 @@ class MedicalRecordsController extends GetxController {
       _fetching.value = true;
       var res = await _medicalRecordsService.getPjReportService(query, token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"]["data"];
         List<MedicalRecord> medicalRecords =
@@ -88,7 +89,7 @@ class MedicalRecordsController extends GetxController {
         _records.value = medicalRecords;
       }
     } catch (e) {
-      showToast(e.toString());
+      successToast(e.toString());
     } finally {
       _fetching.value = false;
     }

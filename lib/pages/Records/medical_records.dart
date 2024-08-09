@@ -21,7 +21,7 @@ class MedicalRecords extends StatefulWidget {
 
 class _MedicalRecordsState extends State<MedicalRecords> {
   var _selectedTab = 0;
-  var selectedPet = "all";
+  var selectedPet = "page.all".tr;
   final ScrollController _scrollController = ScrollController();
 
   onSelectChange(int index) {
@@ -29,7 +29,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
       _selectedTab = index;
     });
 
-    String query = selectedPet == "all" ? "" : selectedPet;
+    String query = selectedPet == "page.all".tr ? "" : selectedPet;
 
     String token = Get.find<AuthController>().token?.accessToken ?? "";
     if (index == 0) {
@@ -94,14 +94,14 @@ class _MedicalRecordsState extends State<MedicalRecords> {
             Container(
               margin: EdgeInsets.only(left: 20 * fem),
               child: SelectType(
-                tabs: ["All", "REPORT", "VIGNETTE", "PJ"],
+                tabs: ["page.all".tr, "page.report".tr, "page.pj".tr],
                 selectedIndex: _selectedTab,
                 onChange: onSelectChange,
               ),
             ),
             SizedBox(height: 20 * fem),
             Container(
-              width: 150 * fem,
+              width: 200 * fem,
               height: 40 * fem,
               padding: EdgeInsets.only(left: 10 * fem),
               decoration: BoxDecoration(
@@ -120,10 +120,10 @@ class _MedicalRecordsState extends State<MedicalRecords> {
                     hint: const Text("Select an option"),
                     onChanged: onPetchanged,
                     items: [
-                      const DropdownMenuItem<String>(
-                        value: "all",
+                      DropdownMenuItem<String>(
+                        value: "page.all".tr,
                         child: Text(
-                          "Pets: All",
+                          "page.petall".tr,
                           style: TextStyle(color: ThemeColors.textColor),
                         ),
                       ),
@@ -180,7 +180,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
                             height: double.infinity,
                             child: const Center(
                               child: Text(
-                                "Taper",
+                                "Type",
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -228,7 +228,7 @@ class _MedicalRecordsState extends State<MedicalRecords> {
                             color: Colors.white,
                             width: double.infinity,
                             margin: EdgeInsets.all(20 * fem),
-                            padding: EdgeInsets.symmetric(vertical: 15 * fem),
+                            padding: EdgeInsets.all(20 * fem),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [

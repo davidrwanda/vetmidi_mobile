@@ -456,15 +456,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             child: Column(
                                               children: [
                                                 InputText(
-                                                  "page.signUpFirstNamePlaceholder"
+                                                  "page.signUpLastNamePlaceholder"
                                                       .tr,
                                                   _firstName,
                                                   label:
-                                                      "page.FirstNameInput".tr,
+                                                      "page.LastNameInput".tr,
                                                   required: true,
                                                   valid: fNameIsValid,
                                                   errorText:
-                                                      "validation.signUp.required.FirstName"
+                                                      "validation.signUp.required.LastName"
                                                           .tr,
                                                   setValid: (bool value) {
                                                     setState(() {
@@ -482,11 +482,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   "",
                                                   _lastName,
                                                   label:
-                                                      "page.LastNameInput".tr,
+                                                      "page.FirstNameInput".tr,
                                                   required: true,
                                                   valid: lNameIsValid,
                                                   errorText:
-                                                      "validation.signUp.required.LastName"
+                                                      "validation.signUp.required.FirstName"
                                                           .tr,
                                                   setValid: (bool value) {
                                                     setState(() {
@@ -801,13 +801,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ? Colors.transparent
                                     : Colors.blue,
                                 hasBorder: !profileChanged ? true : false,
-                                fontSize: 14 * ffem,
+                                fontSize: 12 * ffem,
+                                weight: FontWeight.w800,
                               );
                             }),
                           ),
                           SizedBox(width: 10 * fem),
                           Expanded(
-                            flex: 5,
+                            flex: 6,
                             child: Button(
                               "page.profile.changePassword.btn".tr,
                               (BuildContext ctx) {
@@ -817,7 +818,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: ThemeColors.secondaryColor,
                               backgroundColor: Colors.transparent,
                               hasBorder: true,
-                              fontSize: 14 * ffem,
+                              fontSize: 12 * ffem,
                             ),
                           ),
                         ],

@@ -14,7 +14,7 @@ Widget appointmentList(List<NotificationModel> appointments) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Appointments",
+            "page.appointment".tr,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14 * ffem,
@@ -23,7 +23,7 @@ Widget appointmentList(List<NotificationModel> appointments) {
           GestureDetector(
             onTap: () => Get.toNamed(AppRoutes.appointments),
             child: Text(
-              "View All",
+              "page.viewAll".tr,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 13 * ffem,

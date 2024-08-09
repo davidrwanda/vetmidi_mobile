@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../controllers/patient_controller.dart';
 import '../core/theme/colors_theme.dart';
 import '../core/utils/app_constants.dart';
-import '../core/utils/functions.dart';
 import '../models/patients.dart';
 import '../routes/index.dart';
 

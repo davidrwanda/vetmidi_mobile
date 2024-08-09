@@ -52,7 +52,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
             children: [
               backButton(),
               Text(
-                "Appointments",
+                "page.appointments".tr,
                 style: TextStyle(
                   fontSize: 35 * ffem,
                   letterSpacing: 0.9,
@@ -79,10 +79,10 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                       hint: const Text("Select an option"),
                       onChanged: onPetchanged,
                       items: [
-                        const DropdownMenuItem<String>(
+                         DropdownMenuItem<String>(
                           value: "all",
                           child: Text(
-                            "Pets: All",
+                            "page.all".tr,
                             style: TextStyle(color: ThemeColors.textColor),
                           ),
                         ),
@@ -102,7 +102,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                 ),
               ),
               SelectType(
-                tabs: ["Upcoming", "Completed", "Cancelled"],
+                tabs: ["page.upcoming".tr, "page.completed".tr, "page.cancelled".tr],
                 selectedIndex: _selectedTab,
                 onChange: onSelectChange,
               ),
@@ -157,7 +157,7 @@ class AppointmentItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10 * fem),
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Text("Pet Name")),
+                      Expanded(flex: 3, child: Text("page.petName".tr)),
                       Expanded(
                           flex: 5,
                           child: Row(
@@ -184,7 +184,7 @@ class AppointmentItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10 * fem),
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Text("Veterinary Name")),
+                      Expanded(flex: 3, child: Text("page.Veterinary".tr)),
                       Expanded(flex: 5, child: Text("-")),
                     ],
                   ),
@@ -194,14 +194,14 @@ class AppointmentItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10 * fem),
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Text("Purpose")),
+                      Expanded(flex: 3, child: Text("page.purpose".tr)),
                       Expanded(flex: 5, child: Text("1162")),
                     ],
                   ),
                 ),
                 SizedBox(height: 20),
                 Button(
-                  "Cancel Appointment",
+                  "page.cancelAppointment".tr,
                   (context) {},
                   context,
                   backgroundColor: Color(0xffE24E4E),

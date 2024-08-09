@@ -120,8 +120,8 @@ class _PetDetailsScreenState extends State<PetDetailsScreen> {
                     Icons.arrow_back,
                     color: ThemeColors.secondaryColor,
                   ),
-                  const Text(
-                    "Back",
+                   Text(
+                    "page.back".tr,
                     style: TextStyle(
                       color: ThemeColors.secondaryColor,
                     ),

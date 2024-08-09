@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/notification.dart';
 import 'package:vetmidi/services/notifications_service.dart';
 
@@ -83,7 +84,7 @@ class NotificationController extends GetxController {
       _fetchingTreatments.value = true;
       var res = await _notificationService.getTreatmentsService(token);
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"];
         List<NotificationModel> treatments =
@@ -92,7 +93,7 @@ class NotificationController extends GetxController {
         _fetchedTreatments.value = true;
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _fetchingTreatments.value = false;
     }
@@ -104,7 +105,7 @@ class NotificationController extends GetxController {
       var res = await _notificationService.getAppointmentsService(token);
 
       if (res["error"] != null && res["error"] == true) {
-        throw Exception(res["message"]);
+        errorToast(res["message"]);
       } else {
         List<dynamic> data = res["data"];
         List<NotificationModel> appointments =
@@ -113,7 +114,7 @@ class NotificationController extends GetxController {
         _fetchedAppointments.value = true;
       }
     } catch (error) {
-      showToast(error.toString());
+      successToast(error.toString());
     } finally {
       _fetchingAppointments.value = false;
     }

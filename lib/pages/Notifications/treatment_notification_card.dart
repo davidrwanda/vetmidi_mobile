@@ -82,7 +82,7 @@ class TreatmentNotificationCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Button(
-                      "Dial Clinic",
+                      "page.call".tr,
                       (BuildContext ctx) {
                         launchDialer(notification.phone);
                       },
@@ -97,7 +97,7 @@ class TreatmentNotificationCard extends StatelessWidget {
                   Expanded(
                     child: Obx(() {
                       return Button(
-                        "View Treatment",
+                        "page.viewTreatment".tr,
                         (BuildContext ctx) async {
                           Get.find<NotificationController>().treatment =
                               notification;

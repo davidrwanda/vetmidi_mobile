@@ -15,7 +15,7 @@ Widget backButton() {
           size: 26 * ffem,
         ),
         Text(
-          "Back",
+          "page.back".tr,
           style: TextStyle(fontSize: 17 * ffem),
         )
       ],

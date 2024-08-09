@@ -11,6 +11,41 @@ import 'core/utils/firebase_api.dart';
 import 'core/utils/translations.dart';
 
 Future<void> main() async {
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Container(
+      color: Colors.red, // Set the background color to red
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.white,
+              size: 40,
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Something went wrong!',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              details.exceptionAsString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  };  
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp();
@@ -35,7 +70,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        backgroundColor: ThemeColors.primaryBackground,
+        scaffoldBackgroundColor: ThemeColors.primaryBackground,
       ),
       initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,

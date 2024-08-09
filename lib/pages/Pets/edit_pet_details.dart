@@ -228,7 +228,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                   size: 26 * ffem,
                 ),
                 Text(
-                  "Back",
+                  "page.back".tr,
                   style: TextStyle(fontSize: 17 * ffem),
                 )
               ],
@@ -244,8 +244,8 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
           ),
           SizedBox(height: 10 * fem),
           Container(
-            padding: EdgeInsets.all(20 * fem),
-            margin: EdgeInsets.symmetric(horizontal: 20 * fem),
+            padding: EdgeInsets.all(10 * fem),
+            margin: EdgeInsets.symmetric(horizontal: 10 * fem),
             width: double.infinity,
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -280,7 +280,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                 SizedBox(height: 15 * fem),
                 Container(
                   height: 35 * fem,
-                  width: 250 * fem,
+                  width: 350 * fem,
                   padding: EdgeInsets.all(2 * fem),
                   decoration: BoxDecoration(
                     color: ThemeColors.primaryBackground,
@@ -376,8 +376,8 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                               "page.type.GP",
                               "page.type.OI",
                               "page.type.HAM",
-                              "page.type.NAC",
                               "page.type.REP",
+                              "page.type.NAC",
                             ],
                             required: true,
                             valid: specieIsValid,
@@ -527,11 +527,13 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                             errorText: "page.pets.IsInsuredvalidate".tr,
                             required: true,
                           ),
-                          InputText(
-                            "page.pets.Insurancename".tr,
-                            _insuranceName,
-                            label: "page.pets.Alimentation".tr,
-                          ),
+                          isInsured == "page.general.yes"
+                              ? InputText(
+                                  "page.pets.Insurancename".tr,
+                                  _insuranceName,
+                                  label: "page.pets.Insurancename".tr,
+                                )
+                              : Container(),
                           Row(
                             children: [
                               Expanded(

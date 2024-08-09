@@ -57,7 +57,7 @@ class AppointmentCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "DATE",
+                    "page.date".tr,
                     style: TextStyle(
                       color: Colors.black26,
                       fontSize: 11 * ffem,
@@ -65,7 +65,7 @@ class AppointmentCardItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    appointment.date,
+                    appointment.date.substring(0, 10),
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                     ),
@@ -77,7 +77,7 @@ class AppointmentCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "TIME",
+                    "page.time".tr,
                     style: TextStyle(
                       color: Colors.black26,
                       fontSize: 11 * ffem,
@@ -100,7 +100,7 @@ class AppointmentCardItem extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    Text("Details"),
+                    Text("page.details".tr),
                     Icon(
                       Icons.keyboard_arrow_right_outlined,
                       color: ThemeColors.secondaryColor,

@@ -37,8 +37,8 @@ class _HomeState extends State<Home> {
         });
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("New device detected"),
-      content: Text("Please confirm that this is this your new device?"),
+      title: Text("page.home.newDeviceDetected".tr),
+      content: Text("page.home.confirmDevice".tr),
       actions: [
         cancelButton,
         continueButton,
@@ -102,8 +102,8 @@ class _HomeState extends State<Home> {
                 Text(
                   "${"page.home.hello".tr}, ${Get.find<ProfileController>().profile?.firstName}!",
                   style: TextStyle(
-                    fontSize: 33 * ffem,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 25 * ffem,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 GestureDetector(
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
               ],
             ),
             SizedBox(height: 10 * fem),
-            Text("Your Pets"),
+            Text("page.pets.myPets".tr),
             SizedBox(height: 10 * fem),
             Container(
               height: 120 * fem,
@@ -161,7 +161,7 @@ class _HomeState extends State<Home> {
                                 ),
                                 SizedBox(height: 5 * fem),
                                 Text(
-                                  "Add Pet",
+                                  "page.pets.addPet".tr,
                                   style: TextStyle(
                                     fontSize: 13 * ffem,
                                   ),

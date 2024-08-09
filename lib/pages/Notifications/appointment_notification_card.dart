@@ -19,7 +19,7 @@ class AppointmentNotificationCard extends StatelessWidget {
   String getNotificationBody(
       String originalBody, String subject, String date, String name) {
     String newBody =
-        originalBody.replaceAll('(^^^Appointment_NAME^^^)', subject);
+    originalBody.replaceAll('(^^^Appointment_NAME^^^)', subject);
     newBody = newBody.replaceAll('^^^Appointment_STARTING_DATE^^^', date + ' ');
     newBody = newBody.replaceAll('^^^PET^^^', name);
     return newBody;
@@ -71,7 +71,7 @@ class AppointmentNotificationCard extends StatelessWidget {
                     Get.find<PatientController>()
                             .getPetById(notification.pet_id)
                             ?.name ??
-                        "PET"),
+                        "page.pet".tr),
                 style: TextStyle(
                   color: Colors.black38,
                 ),
@@ -81,7 +81,7 @@ class AppointmentNotificationCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Button(
-                      "Confirm",
+                      "page.confirm".tr,
                       (BuildContext ctx) {
                         launchDialer(notification.phone);
                       },
@@ -96,7 +96,7 @@ class AppointmentNotificationCard extends StatelessWidget {
                   Expanded(
                     child: Obx(() {
                       return Button(
-                        "Dial Clinic",
+                        "page.call".tr,
                         (BuildContext ctx) async {
                           await launchDialer(notification.phone);
                         },

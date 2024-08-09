@@ -48,10 +48,10 @@ class Button extends StatelessWidget {
           await onPressed(context);
         },
         style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all<Size>(Size(width, height * fem)),
-          backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-          elevation: MaterialStateProperty.all<double>(0),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
+          fixedSize: WidgetStateProperty.all<Size>(Size(width, height * fem)),
+          backgroundColor: WidgetStateProperty.all<Color>(backgroundColor),
+          elevation: WidgetStateProperty.all<double>(0),
+          shape: WidgetStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius),
             ),

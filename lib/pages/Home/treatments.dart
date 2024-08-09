@@ -43,7 +43,7 @@ class _TreatmentsScreenState extends State<TreatmentsScreen> {
             children: [
               backButton(),
               Text(
-                "Treatments",
+                "page.treatment".tr,
                 style: TextStyle(
                   fontSize: 35 * ffem,
                   letterSpacing: 0.9,
@@ -70,10 +70,10 @@ class _TreatmentsScreenState extends State<TreatmentsScreen> {
                       hint: const Text("Select an option"),
                       onChanged: onPetchanged,
                       items: [
-                        const DropdownMenuItem<String>(
+                        DropdownMenuItem<String>(
                           value: "all",
                           child: Text(
-                            "Pets: All",
+                            "page.all".tr,
                             style: TextStyle(color: ThemeColors.textColor),
                           ),
                         ),
@@ -148,7 +148,7 @@ class TreatmentItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10 * fem),
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Text("Pet Name")),
+                      Expanded(flex: 3, child: Text("page.petName".tr)),
                       Expanded(
                           flex: 5,
                           child: Row(
@@ -175,7 +175,7 @@ class TreatmentItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10 * fem),
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Text("Veterinary Name")),
+                      Expanded(flex: 3, child: Text("page.Veterinary".tr)),
                       Expanded(flex: 5, child: Text("-")),
                     ],
                   ),
@@ -185,7 +185,7 @@ class TreatmentItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10 * fem),
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Text("Purpose")),
+                      Expanded(flex: 3, child: Text("page.purpose".tr)),
                       Expanded(flex: 5, child: Text("1162")),
                     ],
                   ),
