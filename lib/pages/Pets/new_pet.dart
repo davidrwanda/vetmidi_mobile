@@ -367,6 +367,7 @@ class _NewPetState extends State<NewPet> {
                       _weight,
                       label: "page.pets.Weight".tr,
                       valid: weightIsValid,
+                      numberKeyboard: true,
                       errorText: "page.pets.WeightValidation".tr,
                       required: true,
                       setValid: (bool value) {

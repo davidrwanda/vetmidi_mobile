@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/clinic.dart';
 import 'package:vetmidi/models/token.dart';
@@ -62,33 +64,33 @@ class AuthController extends GetxController {
     _selectedClinics.value = _clinics;
   }
 
-  Future<void> login(String email, String password) async {
-    var res2 = null;
-    try {
-      _isLoading.value = true;
-      Map<String, String> map = {"email": email, "password": password};
-      await _authService.login(map);
-      res2 = await _authService.login(map);
-      if (res2["error"] != null && res2["error"] == true) {
-        errorToast(res2["message"]);
-        // throw CustomException(res2["message"]);
-      } else {
-        Token token = Token.fromJSON(res2["token"]);
-        _token.value = token;
-        User user = User.fromJSON(res2["user"]);
-        _user.value = user;
-        Get.toNamed(AppRoutes.home);
-      }
-    } catch (error) {
-      if (error.toString() == 'Empty response') {
-        return login(email, password);
-      } else {
-        successToast(error.toString());
-      }
-    } finally {
-      _isLoading.value = false;
+Future<void> login(String email, String password) async {
+  var res2 = null;
+  try {
+    _isLoading.value = true;
+    Map<String, String> map = {"email": email, "password": password};
+    await _authService.login(map);
+    res2 = await _authService.login(map);
+
+    if (res2["error"] != null && res2["error"] == true) {
+      errorToast(res2["message"]);
+    } else {
+      Token token = Token.fromJSON(res2["token"]);
+      _token.value = token;
+      User user = User.fromJSON(res2["user"]);
+      _user.value = user;
+      Get.toNamed(AppRoutes.home);
     }
+  } catch (error) {
+    if (error.toString() == 'Empty response') {
+      return login(email, password);
+    } else {
+      successToast(error.toString());
+    }
+  } finally {
+    _isLoading.value = false;
   }
+}
 
   Future<void> signup(String firstName, String lastName, String email,
       String password, String clinicID) async {
@@ -133,7 +135,8 @@ class AuthController extends GetxController {
         List<dynamic> errors = res1["errors"];
         errorToast(errors[0]["message"]);
       } else {
-        successToast('Your email has been verified successfully!');
+         successToast("page.verify.succeed".tr);
+         Get.toNamed(AppRoutes.login, arguments: Get.arguments);
       }
     } catch (error) {
       successToast(error.toString());
@@ -173,7 +176,7 @@ class AuthController extends GetxController {
         List<dynamic> errors = res1["errors"];
         errorToast(errors[0]["message"]);
       } else {
-        successToast('An otp verification code has been sent to your email');
+        successToast("page.verify.otpsent".tr);
         Get.toNamed(AppRoutes.resetPassword, arguments: {"email": email});
       }
     } catch (error) {
@@ -196,7 +199,7 @@ class AuthController extends GetxController {
         List<dynamic> errors = res1["errors"];
         errorToast(errors[0]["message"]);
       } else {
-        successToast("Password has been changed");
+        successToast("page.verify.password-changed".tr);
         Get.toNamed(AppRoutes.login);
       }
     } catch (error) {
@@ -212,7 +215,7 @@ class AuthController extends GetxController {
     var body = {
       "email": _user.value?.email,
       "first_name": _user.value?.firstName,
-      "last_name": _user.value?.firstName,
+      "last_name": _user.value?.lastName,
       "mobile_device": newDeviceId
     };
     await _profileService.updatePatientService(body, _token.value!.accessToken);
@@ -237,7 +240,7 @@ class AuthController extends GetxController {
       if (res["error"] != null && res["error"] == true) {
         errorToast(res["message"]);
       } else {
-        successToast("Password updated successfully!");
+        successToast("page.verify.password-changed".tr);
         Timer(const Duration(seconds: 2), () {
           Get.toNamed(AppRoutes.login);
           _selectedTab.value = 0;
@@ -268,9 +271,11 @@ class AuthController extends GetxController {
     }
   }
 
-  void logout() {
-    print("LOgged outttttttttttttttt");
-    _token.value = null;
-    _user.value = null;
-  }
+Future<void> logout() async {
+  print("Logged out");
+  _token.value = null;
+  _user.value = null;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove('expire_in'); 
+}
 }

@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
       onPressed: () => Navigator.pop(context),
     );
     Widget continueButton = TextButton(
-        child: Text("Yes, It is"),
+        child: Text("page.yes".tr),
         onPressed: () {
           Navigator.pop(context);
           Get.find<AuthController>().updateDeviceId(deviceId);

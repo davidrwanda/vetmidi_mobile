@@ -20,14 +20,22 @@ class Token {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'token_type': tokenType,
+      'expires_in': expiresIn,
+      'access_token': accessToken,
+      'refresh_token': refreshToken,
+    };
+  }
+
   @override
   String toString() {
-    return ''' {
-tokenType: $tokenType,
-expiresIn: $expiresIn,
-accessToken: $accessToken,
-refreshToken: $refreshToken,
-  }
-''';
+    return '''{
+      tokenType: $tokenType,
+      expiresIn: $expiresIn,
+      accessToken: $accessToken,
+      refreshToken: $refreshToken,
+    }''';
   }
 }

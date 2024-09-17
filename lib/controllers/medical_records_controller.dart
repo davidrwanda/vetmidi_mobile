@@ -30,8 +30,9 @@ class MedicalRecordsController extends GetxController {
             data.map((record) => MedicalRecord.fromJSON(record)).toList();
         _records.value = medicalRecords;
       }
-    } catch (e) {
-      successToast(e.toString());
+    } catch (e, stacktrace) {
+      print(e);
+      print(stacktrace);
     } finally {
       _fetching.value = false;
     }

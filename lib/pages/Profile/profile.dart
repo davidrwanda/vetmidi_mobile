@@ -38,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var selectedTab = 0;
   var profileChanged = false;
   var initializedFields = false;
+  var formValid = true;
 
   var fNameIsValid = true;
   var lNameIsValid = true;
@@ -58,6 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _phone = TextEditingController();
     _postalCode = TextEditingController();
 
+    _phone.addListener(() {
+      String phoneNumber = _phone.text;
+      bool isValid = validatePhoneNumber(phoneNumber);
+      setState(() {
+        phoneIsValid = isValid;
+      });
+    });
+    
     Future.delayed(const Duration(seconds: 0), () async {
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<ProfileController>().getProfile(token);
@@ -97,9 +106,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             .toLowerCase() ??
         "yes");
   }
+  
+  bool validatePhoneNumber(String phoneNumber) {
+    // Regular expression to check if the phone number starts with 41 or 33 and is 11 digits long
+    final RegExp regex = RegExp(r'^(41|33)\d{9}$');
+    return regex.hasMatch(phoneNumber);
+  }
 
   validateFields() {
-    var formValid = true;
 
     if (selectedTab == 0 && _firstName.text.isEmpty) {
       formValid = false;
@@ -460,11 +474,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       .tr,
                                                   _firstName,
                                                   label:
-                                                      "page.LastNameInput".tr,
+                                                      "page.FirstNameInput".tr,
                                                   required: true,
                                                   valid: fNameIsValid,
                                                   errorText:
-                                                      "validation.signUp.required.LastName"
+                                                      "validation.signUp.required.FirstName"
                                                           .tr,
                                                   setValid: (bool value) {
                                                     setState(() {
@@ -788,13 +802,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               return Button(
                                 "page.profile.saveChanges.btn".tr,
                                 (BuildContext ctx) async {
-                                  if (profileChanged) {
+                                  if (profileChanged && phoneIsValid) {
                                     await updateProfileHandler();
                                   }
                                 },
                                 context,
                                 loading: Get.find<ProfileController>().updating,
-                                color: !profileChanged
+                                color: !profileChanged 
                                     ? ThemeColors.secondaryColor
                                     : Colors.white,
                                 backgroundColor: !profileChanged

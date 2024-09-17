@@ -14,17 +14,17 @@ String getTranslationKeys(String value) {
       return "page.type.CT";
     case 'Dog':
       return "page.type.CN";
-    case 'rabbit':
+    case 'Rabbit':
       return "page.type.LP";
     case 'guinea pig':
       return "page.type.GP";
     case 'bird':
       return "page.type.OI";
-    case 'hamster':
+    case 'Hamster':
       return "page.type.HAM";
-    case 'exotic':
+    case 'Exotic':
       return "page.type.NAC";
-    case 'reptile':
+    case 'Reptile':
       return "page.type.REP";
     case 'Recommandé par un ami':
       return "page.referant.byfriend";

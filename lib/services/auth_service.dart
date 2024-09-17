@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:vetmidi/core/utils/app_constants.dart';
 import 'package:vetmidi/core/utils/http_request.dart';
 import 'package:http/http.dart' as http;
+import 'package:vetmidi/core/utils/toast.dart';
 
 class AuthService {
   Future<dynamic> login(Map<String, String> body) async {
@@ -27,7 +28,7 @@ class AuthService {
     http.Response response;
     response =
         await http.post(Uri.parse("$baseUrl/mobile-register"), body: body);
-
+        await this.resendOTPService(body);
     if (response.body.isNotEmpty) {
       return json.decode(response.body);
     } else {

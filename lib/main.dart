@@ -1,16 +1,22 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/core/bindings/root_bindings.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/routes/index.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // For session management
 
 import 'core/utils/firebase_api.dart';
 import 'core/utils/translations.dart';
 
 Future<void> main() async {
+  // Error handling widget
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Container(
       color: Colors.red, // Set the background color to red
@@ -46,18 +52,30 @@ Future<void> main() async {
       ),
     );
   };  
+  
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp();
   await FirebaseApi().initNotifications();
-  runApp(MyApp());
+
+  // Check token status and redirect accordingly
+  String initialRoute = await _getInitialRoute();
+
+  runApp(MyApp(initialRoute: initialRoute));
+}
+
+// Function to check if the token is still valid
+Future<String> _getInitialRoute() async {
+  return AppRoutes.login; // Redirect to login if no valid token
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  final String initialRoute;
+  
+  MyApp({super.key, required this.initialRoute});
+
   final box = GetStorage();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -72,7 +90,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: ThemeColors.primaryBackground,
       ),
-      initialRoute: AppRoutes.login,
+      // Use the determined initial route
+      initialRoute: initialRoute,
       getPages: AppRoutes.routes,
       initialBinding: RootBinding(),
       locale: Locale(box.read('locale') ?? 'en'),

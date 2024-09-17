@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:vetmidi/routes/index.dart';
 
 import '../../components/button.dart';
 import '../../components/register_top_design.dart';
@@ -28,7 +29,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
             Container(
               padding: EdgeInsets.only(left: 20 * fem),
               child: Text(
-                "User Verification",
+                "page.verify.verification".tr,
                 style:
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
               ),
@@ -37,7 +38,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
             Padding(
               padding: EdgeInsets.only(left: 20 * fem),
               child: Text(
-                "To ensure the security of your account, please, provide a 6-digit verification code, we have sent to your email address.",
+                "page.verify.longText".tr,
               ),
             ),
             SizedBox(height: 35 * fem),
@@ -67,8 +68,8 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 child: Obx(() {
                   return Text(
                     Get.find<AuthController>().resendingOTP
-                        ? "Sending..."
-                        : "Resend Code?",
+                        ?  "page.verify.sending".tr
+                        : "page.verify.ResendCode?".tr,
                     style: TextStyle(
                       color: ThemeColors.textColor,
                     ),
@@ -79,13 +80,9 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Obx(() {
                 return Button(
-                  "Proceed",
+                  "page.verify.Proceed".tr,
                   (BuildContext ctx) async {
-                    // showAlertDialog(ctx);
-                    // Get.toNamed(AppRoutes.profile);
-                    // await Get.find<AuthController>()
-                    //     .login(_email.text, _password.text);
-                    // Get.toNamed(AppRoutes.verifyOTP);
+                    Get.toNamed(AppRoutes.login, arguments: Get.arguments);
                   },
                   context,
                   backgroundColor: ThemeColors.secondaryColor,

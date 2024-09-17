@@ -8,6 +8,16 @@ class Translation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en': {
+          "page.locale": "en",
+          "page.verify.password-changed": "Password has been changed",
+          "page.verify.otpsent": "An otp verification code has been sent to your email",
+          "page.verify.succeed": "Your email has been verified successfully!",
+          "page.verify.Proceed": "Proceed",
+          "page.verify.ResendCode?": "Resend Code?",
+          "page.verify.sending": "Sending...",
+          "page.verify.verification": "User Verification",
+          "page.verify.longText":"To ensure the security of your account, please, provide a 6-digit verification code, we have sent to your email address.",
+          "page.signuplongTest": "Provide your full name, email and select the clinic to securely sign in and access your account.",
           "page.startingDate": "Starting Date",
           "page.endingDate": "Ending Date",
           "page.renewal": "Renewal",
@@ -159,7 +169,7 @@ class Translation extends Translations {
           "validation.signUp.required.Password": "Please input your Password",
           "validation.signUp.required.PasswordConfirm":
               "Please input your Password Confirmation",
-          "validation.signUp.required.Phone": "Please input your Phone",
+          "validation.signUp.required.Phone": "Please enter your phone number, starting with +41 or +33.",
           "sidebar.dashboard": "Dashboard",
           "sidebar.settings": "Settings",
           "sidebar.finance": "Finance",
@@ -980,6 +990,16 @@ class Translation extends Translations {
               "Do you want to go to your pet's profile."
         },
         'fr': {
+          "page.locale": "en",
+          "page.verify.password-changed": "Mot de passe changé avec succès",
+          "page.verify.otpsent": "Code envoyé avec succès",
+          "page.verify.succeed": "Votre email a été vérifié avec succès !",
+          "page.verify.Proceed": "Procéder",
+          "page.verify.ResendCode?": "Renvoyer le code?",
+          "page.verify.sending": "Envoi...",
+          "page.verify.verification": "Vérification",
+          "page.verify.longText":"Veuillez fournir un code de vérification à 6 chiffres que nous avons envoyé à votre adresse e-mail.",
+          "page.signuplongTest": "Fournissez votre nom complet, votre adresse e-mail et sélectionnez la clinique pour vous connecter en toute sécurité et accéder à votre compte.",
           "page.startingDate": "Date de début",
           "page.endingDate": "Date de fin",
           "page.renewal": "Renouvellement",
@@ -1106,7 +1126,7 @@ class Translation extends Translations {
               "Veuillez saisir votre mot de passe",
           "validation.signUp.required.PasswordConfirm":
               "Veuillez saisir votre mot de passe confirmation",
-          "validation.signUp.required.Phone": "Veuillez saisir votre Téléphone",
+          "validation.signUp.required.Phone": "Veuillez saisir votre Téléphone, en commençant par +41 ou +33.",
           "page.EmailInput": "Email",
           "page.FirstNameInput": "Prénom",
           "page.LastNameInput": "Nom",
@@ -1875,7 +1895,7 @@ class Translation extends Translations {
           "page.type.OI": "Oiseau",
           "page.newUser.FillAllInfoevc":
               "Veuillez remplir les informations sur cette page. Toutes les données fournies resteront confidentielles et seront utilisées pour constituer votre dossier personnel.",
-          "page.type.HAM": "hamster",
+          "page.type.HAM": "Hamster",
           "page.type.NAC": "NAC",
           "page.type.REP": "reptile",
           "page.petData.message": "Pas d'animaux disponibles",

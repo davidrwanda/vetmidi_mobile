@@ -72,7 +72,7 @@ class MedicalRecord {
         expires_date: json["expires_date"],
         pet_name: json["pet_name"],
         medicalPatientIDPADescriptionPatientImage:
-            json["medical.patient.IDPA::description_patient_image"],
+            json["web_image"],
         Webapp_URL_Temp: json["Webapp_URL_Temp"],
         url: json["url"],
         download_url: json["download_url"]);

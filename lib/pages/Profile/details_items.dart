@@ -70,7 +70,7 @@ Container detailsBoolean(String label, String value) {
             Text(label),
             Row(
               children: [
-                getTranslationKeys(value) == "page.general.yes"
+                getTranslationKeys(value) == "page.general.yes".tr
                     ? const Icon(
                         Icons.check_circle_outline,
                         color: ThemeColors.secondaryColor,

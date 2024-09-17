@@ -7,6 +7,7 @@ import 'package:vetmidi/components/inputs.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/pages/Auth/select_clinic.dart';
 
 import '../../components/register_top_design.dart';
@@ -154,14 +155,14 @@ class _SignUpState extends State<SignUp> {
             Padding(
               padding: EdgeInsets.only(left: 20 * fem),
               child: Text(
-                "Provide your full name, email and select the clinic to securely sign in and access your account.",
+                "page.signuplongTest".tr,
               ),
             ),
             SizedBox(height: 25 * fem),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20 * fem),
               child: InputText(
-                "First name",
+                "page.FirstNameInput".tr,
                 _firstName,
                 valid: firstNameIsValid,
                 errorText: "errors.form.firstName.required".tr,
@@ -172,7 +173,7 @@ class _SignUpState extends State<SignUp> {
                 horizontal: 20 * fem,
               ),
               child: InputText(
-                "Last name",
+                "page.LastNameInput".tr,
                 _lastName,
                 valid: lastNameIsValid,
                 errorText: "errors.form.secondName.required".tr,
@@ -192,7 +193,7 @@ class _SignUpState extends State<SignUp> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20 * fem),
               child: InputText(
-                "Password",
+                "page.PasswordInput".tr,
                 _password,
                 isPassword: true,
                 valid: passwordIsValid,
@@ -217,7 +218,7 @@ class _SignUpState extends State<SignUp> {
                     Expanded(
                       child: Text(
                         selectedClinic == null
-                            ? "Choose Clinic..."
+                            ? "Clinic"
                             : selectedClinic!.app_name,
                         style: TextStyle(
                           fontSize: 16 * ffem,

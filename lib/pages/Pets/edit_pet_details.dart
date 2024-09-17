@@ -475,6 +475,7 @@ class _EditPetDetailsScreenState extends State<EditPetDetailsScreen> {
                             label: "page.pets.Weight".tr,
                             required: true,
                             valid: weightIsValid,
+                            numberKeyboard: true,
                             errorText: "page.pets.WeightValidation".tr,
                             setValid: (bool value) {
                               setState(() {

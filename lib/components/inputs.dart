@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../core/theme/colors_theme.dart';
 import '../core/utils/app_constants.dart';
+import 'package:flutter/services.dart';  // Add this import
 
 class InputText extends StatelessWidget {
   final String hintText, icon, errorText, label;
@@ -64,33 +65,34 @@ class InputText extends StatelessWidget {
                 color: valid ? ThemeColors.primaryGrey4 : Colors.red),
           ),
           child: TextField(
-            obscureText: isPassword,
-            readOnly: readOnly,
-            style: TextStyle(
-                color: ThemeColors.textColor, fontSize: fontSize * ffem),
-            keyboardType:
-                numberKeyboard ? TextInputType.number : TextInputType.text,
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                  color: ThemeColors.textColor, fontSize: fontSize * ffem),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              contentPadding: const EdgeInsets.all(10.0),
-            ),
-            onChanged: (value) {
-              if (setValid != null && required && value.isEmpty) {
-                setValid!(false);
-              }
-              if (setValid != null && !valid && required && value.isNotEmpty) {
-                setValid!(true);
-              }
-              if (setChanged != null && !changed) {
-                setChanged!();
-              }
-            },
-            controller: txtController,
-          ),
+                obscureText: isPassword,
+                readOnly: readOnly,
+                style: TextStyle(
+                    color: ThemeColors.textColor, fontSize: fontSize * ffem),
+                keyboardType: numberKeyboard ? TextInputType.number : TextInputType.text,
+                  inputFormatters: numberKeyboard ? [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}'))]
+                    : [],
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                      color: ThemeColors.textColor, fontSize: fontSize * ffem),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: const EdgeInsets.all(10.0),
+                ),
+                onChanged: (value) {
+                  if (setValid != null && required && value.isEmpty) {
+                    setValid!(false);
+                  }
+                  if (setValid != null && !valid && required && value.isNotEmpty) {
+                    setValid!(true);
+                  }
+                  if (setChanged != null && !changed) {
+                    setChanged!();
+                  }
+                },
+                controller: txtController,
+              ),
         ),
         const SizedBox(height: 4),
         Container(
@@ -135,6 +137,42 @@ Widget textInput({
       style: TextStyle(fontSize: fontSize),
       textAlignVertical: TextAlignVertical.center,
       keyboardType: numerical ? TextInputType.number : TextInputType.text,
+      decoration: InputDecoration(
+        hintText: hintText,
+        enabled: enabled,
+        hintStyle: TextStyle(fontSize: fontSize),
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        contentPadding: const EdgeInsets.all(10.0),
+      ),
+      controller: controller,
+    ),
+  );
+}
+Widget numberInput({
+  required String hintText,
+  required TextEditingController controller,
+  required double fontSize,
+  double height = 50,
+  bool enabled = false,
+  bool valid = true,
+}) {
+  return Container(
+    height: height * fem,
+    width: double.infinity,
+    padding: const EdgeInsets.only(bottom: 4),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(5),
+      border: Border.all(color: valid ? Colors.black54 : Colors.red),
+    ),
+    child: TextField(
+      style: TextStyle(fontSize: fontSize),
+      textAlignVertical: TextAlignVertical.center,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),  // Allow numbers with decimal
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),  // Allow numbers and optional decimals
+      ],
       decoration: InputDecoration(
         hintText: hintText,
         enabled: enabled,
@@ -367,6 +405,7 @@ Column datePicker(
               initialDate: DateTime.now(),
               firstDate: DateTime(2000),
               lastDate: DateTime(2101),
+              locale: Locale('fr')
             );
 
             if (picked != null) {
