@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 String getTranslationKeys(String value) {
@@ -138,8 +139,13 @@ String formatFileSize(int fileSizeInBytes) {
 }
 
 String formatDateTime(String dateTimeString) {
+  String locale = 'page.locale'.tr;
   DateTime dateTime = DateFormat("MM/dd/yyyy HH:mm:ss").parse(dateTimeString);
-  return DateFormat("MMM, d, yyyy | hh:mm a").format(dateTime);
+  if (locale == 'fr') {
+    return DateFormat("d MMM yyyy '|' HH'h'mm", 'fr_FR').format(dateTime);
+  } else {
+    return DateFormat("MMM d, yyyy | hh:mm a").format(dateTime);
+  }
 }
 
 bool validateEmail(String email) {

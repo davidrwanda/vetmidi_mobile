@@ -20,7 +20,12 @@ class TreatmentCardItem extends StatelessWidget {
 
   String formatDateTime(String dateTimeString) {
     DateTime dateTime = DateFormat("MM/dd/yyyy HH:mm:ss").parse(dateTimeString);
-    return DateFormat("MMM, d, yyyy | hh:mm a").format(dateTime);
+    String locale = 'page.locale'.tr;
+    if (locale == 'fr') {
+      return DateFormat("d MMM yyyy '|' HH'h'mm", 'fr_FR').format(dateTime);
+    } else {
+      return DateFormat("MMM d, yyyy | hh:mm a").format(dateTime);
+    }
   }
 
   @override

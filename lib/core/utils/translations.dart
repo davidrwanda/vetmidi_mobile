@@ -992,7 +992,7 @@ class Translation extends Translations {
         },
         'fr': {
           "page.signup.selectClinic": "Choisir une clinique",
-          "page.locale": "en",
+          "page.locale": "fr",
           "page.verify.password-changed": "Mot de passe changé avec succès",
           "page.verify.otpsent": "Code envoyé avec succès",
           "page.verify.succeed": "Votre email a été vérifié avec succès !",
