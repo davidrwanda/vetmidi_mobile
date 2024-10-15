@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vetmidi/components/app_bar.dart';
 import 'package:vetmidi/pages/Home/home_pet_avatar.dart';
 import 'package:vetmidi/pages/Home/treatments_list.dart';
 import 'package:vetmidi/routes/index.dart';
@@ -89,96 +90,101 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Obx(() {
-      return Container(
-        color: ThemeColors.primaryBackground,
-        padding: EdgeInsets.all(20 * fem),
-        height: Get.height,
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: Obx(() {
+        return Scaffold(
+          appBar: const CustomAppBar(),
+          body: Container(
+            color: ThemeColors.primaryBackground,
+            height: Get.height,
+            child: ListView(
+              padding: EdgeInsets.all(20 * fem),
               children: [
-                Text(
-                  "${"page.home.hello".tr}, ${Get.find<ProfileController>().profile?.firstName}!",
-                  style: TextStyle(
-                    fontSize: 25 * ffem,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.notifications),
-                  child: Container(
-                    padding: EdgeInsets.all(8 * fem),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10 * fem),
-                        color: Colors.white),
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      size: 29,
-                      color: ThemeColors.secondaryColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${"page.home.hello".tr}, ${Get.find<ProfileController>().profile?.firstName}!",
+                      style: TextStyle(
+                        fontSize: 25 * ffem,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(AppRoutes.notifications),
+                      child: Container(
+                        padding: EdgeInsets.all(8 * fem),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10 * fem),
+                            color: Colors.white),
+                        child: Icon(
+                          Icons.notifications_outlined,
+                          size: 29,
+                          color: ThemeColors.secondaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10 * fem),
+                Text("page.pets.myPets".tr),
+                SizedBox(height: 10 * fem),
+                Container(
+                  height: 120 * fem,
+                  width: double.infinity,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: Get.find<PatientController>().loading
+                        ? [
+                            homePetAvatarLoading(),
+                            homePetAvatarLoading(),
+                          ]
+                        : [
+                            ...Get.find<PatientController>()
+                                .patients
+                                .map((pet) => homePetAvatar(pet, pet.name))
+                                .toList(),
+                            GestureDetector(
+                              onTap: () => Get.toNamed(AppRoutes.addpet),
+                              child: Container(
+                                height: 95 * fem,
+                                width: 75 * fem,
+                                margin: EdgeInsets.only(top: 7 * fem),
+                                decoration: BoxDecoration(
+                                  color:
+                                      ThemeColors.secondaryColor.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(20 * fem),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      color: ThemeColors.secondaryColor,
+                                      size: 30 * ffem,
+                                    ),
+                                    SizedBox(height: 5 * fem),
+                                    Text(
+                                      "page.pets.addPet".tr,
+                                      style: TextStyle(
+                                        fontSize: 13 * ffem,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                   ),
                 ),
+                SizedBox(height: 20 * fem),
+                appointmentList(Get.find<NotificationController>().appointments),
+                treatmentList(Get.find<NotificationController>().treatments),
               ],
             ),
-            SizedBox(height: 10 * fem),
-            Text("page.pets.myPets".tr),
-            SizedBox(height: 10 * fem),
-            Container(
-              height: 120 * fem,
-              width: double.infinity,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: Get.find<PatientController>().loading
-                    ? [
-                        homePetAvatarLoading(),
-                        homePetAvatarLoading(),
-                      ]
-                    : [
-                        ...Get.find<PatientController>()
-                            .patients
-                            .map((pet) => homePetAvatar(pet, pet.name))
-                            .toList(),
-                        GestureDetector(
-                          onTap: () => Get.toNamed(AppRoutes.addpet),
-                          child: Container(
-                            height: 95 * fem,
-                            width: 75 * fem,
-                            margin: EdgeInsets.only(top: 7 * fem),
-                            decoration: BoxDecoration(
-                              color:
-                                  ThemeColors.secondaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add,
-                                  color: ThemeColors.secondaryColor,
-                                  size: 30 * ffem,
-                                ),
-                                SizedBox(height: 5 * fem),
-                                Text(
-                                  "page.pets.addPet".tr,
-                                  style: TextStyle(
-                                    fontSize: 13 * ffem,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-              ),
-            ),
-            SizedBox(height: 20 * fem),
-            appointmentList(Get.find<NotificationController>().appointments),
-            treatmentList(Get.find<NotificationController>().treatments),
-          ],
-        ),
-      );
-    }));
+          ),
+        );
+      })
+    );
   }
 }

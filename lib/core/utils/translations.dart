@@ -8,6 +8,7 @@ class Translation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en': {
+          "page.signup.selectClinic": "Select Clinic",
           "page.locale": "en",
           "page.verify.password-changed": "Password has been changed",
           "page.verify.otpsent": "An otp verification code has been sent to your email",
@@ -990,6 +991,7 @@ class Translation extends Translations {
               "Do you want to go to your pet's profile."
         },
         'fr': {
+          "page.signup.selectClinic": "Choisir une clinique",
           "page.locale": "en",
           "page.verify.password-changed": "Mot de passe changé avec succès",
           "page.verify.otpsent": "Code envoyé avec succès",
@@ -1798,7 +1800,7 @@ class Translation extends Translations {
           "errors.form.firstName.required": "Le prénom exigés!",
           "errors.form.secondName.required": "Le nom exigés!",
           "errors.form.email.required": "E-mail exigés!",
-          "errors.form.email.required.valid": "E-mail non valide!",
+          "errors.form.email.required.valid": "Votre email n’est pas valide.",
           "errors.form.password.required": "Mot de passe exigés!",
           "errors.form.password.required.valid":
               "5 caractères dont, 1 lettre minuscule et 1 spécial caractère sont obligatoires!",

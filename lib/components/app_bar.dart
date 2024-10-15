@@ -9,7 +9,7 @@ import '../controllers/profile_controller.dart';
 import '../core/utils/app_constants.dart';
 import 'language_switch.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
   }) : super(key: key);
@@ -81,4 +81,7 @@ class CustomAppBar extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(60 * fem); // Adjust this value as needed
 }

@@ -81,18 +81,18 @@ class _SignUpState extends State<SignUp> {
       });
     }
 
-    // if (_email.text.isNotEmpty && !validateEmail(_email.text)) {
-    //   formIsValid = false;
-    //   setState(() {
-    //     emailTextError = "errors.form.email.required.valid".tr;
-    //     emailIsValid = false;
-    //   });
-    //   Timer(const Duration(seconds: 2), () {
-    //     setState(() {
-    //       emailIsValid = true;
-    //     });
-    //   });
-    // }
+    if (!validateEmail(_email.text)) {
+      formIsValid = false;
+      setState(() {
+        emailTextError = "errors.form.email.required.valid".tr;
+        emailIsValid = false;
+      });
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          emailIsValid = true;
+        });
+      });
+    }
 
     if (_password.text.isEmpty) {
       formIsValid = false;
@@ -218,7 +218,7 @@ class _SignUpState extends State<SignUp> {
                     Expanded(
                       child: Text(
                         selectedClinic == null
-                            ? "Clinic"
+                            ? "page.signup.selectClinic".tr
                             : selectedClinic!.app_name,
                         style: TextStyle(
                           fontSize: 16 * ffem,

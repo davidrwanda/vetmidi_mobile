@@ -44,7 +44,8 @@ class Button extends StatelessWidget {
           // ignore: prefer_const_constructors
           ),
       child: ElevatedButton(
-        onPressed: () async {
+      onPressed: () async {
+          FocusScope.of(context).unfocus(); // Hides the keyboard
           await onPressed(context);
         },
         style: ButtonStyle(
