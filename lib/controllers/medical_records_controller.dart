@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/medical_record.dart';
 import 'package:vetmidi/services/medical_records_service.dart';

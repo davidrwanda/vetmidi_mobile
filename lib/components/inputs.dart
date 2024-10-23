@@ -195,7 +195,7 @@ Widget searchInput(
     bool numerical = false,
     bool enabled = true,
     bool valid = true,
-    String hintText = "Search"}) {
+    String hintText = "page.search"}) {
   return Container(
     height: height,
     width: double.infinity,
@@ -232,7 +232,7 @@ Widget searchInput(
               ? const Icon(Icons.search)
               : const Icon(Icons.close),
         ),
-        hintText: hintText,
+        hintText: hintText.tr, // Apply translation here
         enabled: enabled,
         hintStyle: TextStyle(fontSize: fontSize),
         enabledBorder: InputBorder.none,

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/services/profile_service.dart';
 

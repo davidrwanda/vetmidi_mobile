@@ -8,6 +8,9 @@ class Translation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en': {
+          "page.search": "Search",
+          "page.signup.proceed": "Proceed",
+          "page.clinic.searchInput": "Search",
           "page.signup.selectClinic": "Select Clinic",
           "page.locale": "en",
           "page.verify.password-changed": "Password has been changed",
@@ -991,6 +994,9 @@ class Translation extends Translations {
               "Do you want to go to your pet's profile."
         },
         'fr': {
+          "page.search": "Rechercher",
+          "page.signup.proceed": "Procéder",
+          "page.clinic.searchInput": "Rechercher une clinique",
           "page.signup.selectClinic": "Choisir une clinique",
           "page.locale": "fr",
           "page.verify.password-changed": "Mot de passe changé avec succès",

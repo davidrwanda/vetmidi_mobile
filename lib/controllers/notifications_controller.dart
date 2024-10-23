@@ -3,7 +3,6 @@ import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/models/notification.dart';
 import 'package:vetmidi/services/notifications_service.dart';
 
-import '../components/toast.dart';
 
 class NotificationController extends GetxController {
   final RxBool _fetchingAppointments = false.obs;

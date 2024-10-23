@@ -7,7 +7,6 @@ import 'package:vetmidi/components/inputs.dart';
 import 'package:vetmidi/controllers/auth_controller.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
-import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/pages/Auth/select_clinic.dart';
 
 import '../../components/register_top_design.dart';
@@ -236,7 +235,7 @@ class _SignUpState extends State<SignUp> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Obx(() {
                 return Button(
-                  "Proceed",
+                  "page.signup.proceed".tr,
                   (BuildContext ctx) async {
                     await signUpHandler();
                   },

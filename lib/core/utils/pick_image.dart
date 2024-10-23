@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vetmidi/components/toast.dart';
 import 'package:vetmidi/core/utils/toast.dart';
 
 Future pickImage(ImageSource source, Function setImage) async {

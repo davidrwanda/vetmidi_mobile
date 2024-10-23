@@ -77,7 +77,7 @@ class _SelectClinicsState extends State<SelectClinics> {
                         ),
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          hintText: "Search",
+                          hintText: "page.clinic.searchInput".tr,
                           hintStyle: TextStyle(
                             color: Colors.grey.shade400,
                             fontSize: 15 * ffem,
