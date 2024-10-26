@@ -23,6 +23,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _firebaseMessaging = FirebaseMessaging.instance;
+  final _profileController = Get.find<ProfileController>();
+  final _patientController = Get.find<PatientController>();
+  final _notificationController = Get.find<NotificationController>();
+  final _authController = Get.find<AuthController>();
+  
 
   showAlertDialog(BuildContext context, String deviceId) {
     // set up the buttons
@@ -57,6 +62,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    refreshData();
     String token = Get.find<AuthController>().token?.accessToken ?? "";
 
     Future.delayed(const Duration(seconds: 0), () {
@@ -86,6 +92,22 @@ class _HomeState extends State<Home> {
         showAlertDialog(context, fCMToken);
       }
     });
+  }
+
+  void refreshData() async {
+    String token = _authController.token?.accessToken ?? "";
+
+    // Clear existing data
+    _patientController.clearPatients();
+
+    // Fetch fresh data
+    await _patientController.getPatients(token);
+    await _profileController.getProfile(token);
+    await _notificationController.getAppointments(token);
+    await _notificationController.getTreatments(token);
+
+    // Trigger a rebuild
+    setState(() {});
   }
 
   @override

@@ -194,10 +194,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(height: 100 * fem),
               const LanguageSwitch(),
               SizedBox(height: 60 * fem),
-              const Text(
-                "©2023 Digimidi",
+              Text(
+                "©${DateTime.now().year} Digimidi",
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black26),
+                style: const TextStyle(color: Colors.black26),
               ),
             ],
           ),

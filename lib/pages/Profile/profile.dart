@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vetmidi/components/button.dart';
 import 'package:vetmidi/core/theme/colors_theme.dart';
 import 'package:vetmidi/core/utils/functions.dart';
+import 'package:vetmidi/core/utils/toast.dart';
 import 'package:vetmidi/pages/Profile/profile_card_loading.dart';
 import 'package:vetmidi/routes/index.dart';
 
@@ -47,6 +48,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var cityIsValid = true;
   var postalCodeIsValid = true;
 
+  String? clinicId;
+  String? clinicName;
+  String? clinicAddress;
+  String? clinicPhone;
+  List<Map<String, dynamic>> clinicOptions = [];
+  String? currentClinicId;
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +78,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Future.delayed(const Duration(seconds: 0), () async {
       String token = Get.find<AuthController>().token?.accessToken ?? "";
       await Get.find<ProfileController>().getProfile(token);
+      await fetchClinicsConfig();
       initializeFields();
+    });
+  }
+
+  Future<void> fetchClinicsConfig() async {
+    String token = Get.find<AuthController>().token?.accessToken ?? "";
+    var clinicsData = await Get.find<ProfileController>().getClinicsConfig(token);
+    var profile = Get.find<ProfileController>().profile;
+    currentClinicId = profile?.configId;
+    setState(() {
+      clinicOptions = List<Map<String, dynamic>>.from(
+        clinicsData.map((clinic) => {
+          'id': clinic.id ?? '',
+          'name': clinic.appName ?? '',
+          'address': clinic.address ?? '',
+          'phone': clinic.phone ?? '',
+        })
+      );
+      
+
+      if (currentClinicId != null) {
+        var defaultClinic = clinicOptions.firstWhere(
+          (clinic) => clinic['id'].toString() == currentClinicId.toString(),
+          orElse: () => clinicOptions.first,
+        )['name'];
+        initializeClinicDetails(defaultClinic);
+      }
     });
   }
 
@@ -105,8 +140,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ?.contactWithWhatsapp
             .toLowerCase() ??
         "yes");
+    currentClinicId = Get.find<ProfileController>().profile?.configId;
+    // Get.find<ProfileController>().profile?.printDetails();
   }
-  
+
   bool validatePhoneNumber(String phoneNumber) {
     // Regular expression to check if the phone number starts with 41 or 33 and is 11 digits long
     final RegExp regex = RegExp(r'^(41|33)\d{9}$');
@@ -185,6 +222,124 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Get.offAndToNamed(AppRoutes.home);
       });
     }
+  }
+
+  void initializeClinicDetails(String? selectedClinic) {
+    if (selectedClinic == null) return;
+
+    var selectedClinicData = clinicOptions.firstWhere(
+      (clinic) => clinic['name'] == selectedClinic,
+      orElse: () => {'name': '', 'address': '', 'phone': ''},
+    );
+
+    setState(() {
+      clinicId = selectedClinicData['id'].toString();
+      clinicName = selectedClinicData['name'];
+      clinicAddress = selectedClinicData['address'];
+      clinicPhone = selectedClinicData['phone'];
+    });
+  }
+
+  void updateClinicDetails(String? selectedClinic) async {
+    if (selectedClinic == null) return;
+
+    var selectedClinicData = clinicOptions.firstWhere(
+      (clinic) => clinic['name'] == selectedClinic,
+      orElse: () => {'id': '', 'name': '', 'address': '', 'phone': ''},
+    );
+
+    // Convert currentClinicId to int for comparison
+    int? currentClinicIdInt = int.tryParse(currentClinicId ?? '');
+    
+    String currentClinicName = clinicOptions.firstWhere(
+      (clinic) => clinic['id'] == currentClinicIdInt,
+      orElse: () => {'name': 'Unknown'},
+    )['name'] as String;
+
+    // Show confirmation dialog
+    bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        bool isLoading = false;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("page.confirm_clinic_change".tr),
+              content: Text("page.are_you_sure".tr + " $currentClinicName " + "page.to".tr + " ${selectedClinicData['name']} ?"),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("page.no".tr),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                ElevatedButton(
+                  child: isLoading
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text("page.yes".tr, style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  onPressed: isLoading
+                      ? null
+                      : () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          try {
+                            await changeClinicHandler(selectedClinicData['id'].toString());
+                            Navigator.of(context).pop(true);
+                            isLoading = false;
+                          } catch (error) {
+                            Navigator.of(context).pop(true);
+                            errorToast(error.toString());
+                          } finally {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        },
+                ),
+              ],
+            );
+          }
+        );
+      },
+    );
+
+    if (confirm == true) {
+      setState(() {
+        clinicId = selectedClinicData['id'].toString();
+        clinicName = selectedClinicData['name'];
+        clinicAddress = selectedClinicData['address'];
+        clinicPhone = selectedClinicData['phone'];
+      });
+    } else {
+      // Reset the selection to the current clinic
+      setState(() {
+        clinicName = currentClinicName;
+      });
+    }
+  }
+
+  Future<void> changeClinicHandler(String config_id) async {
+    print("config_id: $config_id");
+    try {
+      Map<String, dynamic> data = {
+        "config_id": config_id,
+      };
+
+      String token = Get.find<AuthController>().token?.accessToken ?? "";
+      await Get.find<ProfileController>().changeClinic(data, token);
+    } catch (error) {
+      // Handle error
+      print("Error changing clinic: $error");
+    } 
   }
 
   @override
@@ -296,34 +451,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 30 * fem),
-                                Text("page.contact_with".tr),
+                                Text("page.clinic_details".tr),
                                 SizedBox(height: 20 * fem),
                                 Container(
                                   color: Colors.white,
                                   padding: EdgeInsets.all(20 * fem),
-                                  child: Column(children: [
-                                    detailsBoolean(
-                                        "Email",
-                                        Get.find<ProfileController>()
-                                                .profile
-                                                ?.contactWithEmail
-                                                .toLowerCase() ??
-                                            "yes"),
-                                    detailsBoolean(
-                                        "SMS",
-                                        Get.find<ProfileController>()
-                                                .profile
-                                                ?.contactWithSMS
-                                                .toLowerCase() ??
-                                            "yes"),
-                                    detailsBoolean(
-                                        "Whatsapp",
-                                        Get.find<ProfileController>()
-                                                .profile
-                                                ?.contactWithWhatsapp
-                                                .toLowerCase() ??
-                                            "yes"),
-                                  ]),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      select(
+                                        "page.clinic_name".tr,
+                                        clinicName,
+                                        clinicOptions.map((clinic) => clinic['name'] as String).toList(),
+                                        (String value) {
+                                          updateClinicDetails(value);
+                                        },
+                                        required: true,
+                                      ),
+                                      SizedBox(height: 15 * fem),
+                                      Text(
+                                        "page.clinic_address".tr,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14 * ffem,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5 * fem),
+                                      Text(
+                                        clinicAddress ?? "",
+                                        style: TextStyle(
+                                          fontSize: 14 * ffem,
+                                          fontWeight: FontWeight.w100, // Light font weight
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                      SizedBox(height: 15 * fem),
+                                      Text(
+                                        "page.clinic_phone".tr,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14 * ffem,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5 * fem),
+                                      Text(
+                                        clinicPhone ?? "",
+                                        style: TextStyle(
+                                          fontSize: 14 * ffem,
+                                          fontWeight: FontWeight.w100, // Light font weight
+                                        ),
+                                      ),
+                                      SizedBox(height: 20 * fem),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 30 * fem),
                                 Container(
@@ -390,69 +571,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 30 * fem),
-                                // SizedBox(
-                                //   height: 40 * fem,
-                                //   width: double.infinity,
-                                //   child: ListView(
-                                //     scrollDirection: Axis.horizontal,
-                                //     children: [
-                                //       GestureDetector(
-                                //         onTap: () {
-                                //           _scrollController.animateTo(730 * fem,
-                                //               duration:
-                                //                   const Duration(seconds: 1),
-                                //               curve: Curves.easeInOut);
-                                //         },
-                                //         child: Text(
-                                //           "page.profile.pinfo".tr,
-                                //           style: const TextStyle(fontSize: 13),
-                                //         ),
-                                //       ),
-                                //       SizedBox(width: 10 * fem),
-                                //       GestureDetector(
-                                //         onTap: () {
-                                //           _scrollController.animateTo(
-                                //               1300 * fem,
-                                //               duration:
-                                //                   const Duration(seconds: 1),
-                                //               curve: Curves.easeInOut);
-                                //         },
-                                //         child: Text(
-                                //           "page.AddressInput".tr,
-                                //           style: const TextStyle(fontSize: 13),
-                                //         ),
-                                //       ),
-                                //       SizedBox(width: 10 * fem),
-                                //       GestureDetector(
-                                //         onTap: () {
-                                //           _scrollController.animateTo(
-                                //               1700 * fem,
-                                //               duration:
-                                //                   const Duration(seconds: 1),
-                                //               curve: Curves.easeInOut);
-                                //         },
-                                //         child: Text(
-                                //           "page.profile.contactwith".tr,
-                                //           style: const TextStyle(fontSize: 13),
-                                //         ),
-                                //       ),
-                                //       SizedBox(width: 10 * fem),
-                                //       GestureDetector(
-                                //         onTap: () {
-                                //           _scrollController.animateTo(
-                                //               1700 * fem,
-                                //               duration:
-                                //                   const Duration(seconds: 1),
-                                //               curve: Curves.easeInOut);
-                                //         },
-                                //         child: Text(
-                                //           "page.referant.description".tr,
-                                //           style: const TextStyle(fontSize: 13),
-                                //         ),
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
                                 selectedTab == 0
                                     ? Column(
                                         crossAxisAlignment:
@@ -846,3 +964,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
+

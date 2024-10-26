@@ -123,8 +123,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               SizedBox(height: 60 * fem),
               const LanguageSwitch(),
               SizedBox(height: 60 * fem),
-              const Text(
-                "©2023 Digimidi",
+              Text(
+                "©${DateTime.now().year} Digimidi",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black26),
               ),

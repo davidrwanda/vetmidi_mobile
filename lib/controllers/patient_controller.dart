@@ -58,22 +58,24 @@ class PatientController extends GetxController {
   Future<void> getPatients(String token) async {
     try {
       _isLoading.value = true;
-      var res = await _patientService.getPatientsService(token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic>? data = res["data"];
-        if (data != null) {
-          if (data[0]["isempty"] != null && data[0]["isempty"] == true) {
-          } else {
-            List<Patient> patients =
-                data.map((e) => Patient.fromJSON(e)).toList();
-            _patients.value = patients;
+      await _retryOperation(() async {
+        var res = await _patientService.getPatientsService(token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic>? data = res["data"];
+          if (data != null) {
+            if (data[0]["isempty"] != null && data[0]["isempty"] == true) {
+              // Handle empty case if needed
+            } else {
+              List<Patient> patients = data.map((e) => Patient.fromJSON(e)).toList();
+              _patients.value = patients;
+            }
           }
         }
-      }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -83,15 +85,17 @@ class PatientController extends GetxController {
       String patientId, Map<String, dynamic> body, String token) async {
     try {
       _isLoading.value = true;
-      var res =
-          await _patientService.updatePatientService(patientId, body, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        successToast("page.pets.updateSuccess".tr);
-      }
+      await _retryOperation(() async {
+        var res =
+            await _patientService.updatePatientService(patientId, body, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          successToast("page.pets.updateSuccess".tr);
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -100,14 +104,16 @@ class PatientController extends GetxController {
   Future<void> createPatient(Map<String, dynamic> body, String token) async {
     try {
       _isLoading.value = true;
-      var res = await _patientService.createPatientService(body, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        successToast("page.pets.petAddedSuccess".tr);
-      }
+      await _retryOperation(() async {
+        var res = await _patientService.createPatientService(body, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          successToast("page.pets.petAddedSuccess".tr);
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -116,16 +122,18 @@ class PatientController extends GetxController {
   Future<void> getPetFiles(String petId, String token) async {
     try {
       _isLoading.value = true;
-      var res = await _patientService.getPetFilesService(petId, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"];
-        List<PetFile> petFiles = data.map((e) => PetFile.fromJSON(e)).toList();
-        _petFiles.value = petFiles;
-      }
+      await _retryOperation(() async {
+        var res = await _patientService.getPetFilesService(petId, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"];
+          List<PetFile> petFiles = data.map((e) => PetFile.fromJSON(e)).toList();
+          _petFiles.value = petFiles;
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -135,16 +143,41 @@ class PatientController extends GetxController {
       List<PlatformFile> files, String petId, String token) async {
     try {
       _isUpLoading.value = true;
-      for (var file in files) {
-        File f = File.fromUri(Uri.file(file.path!));
-        Uint8List? fileBytes = await f.readAsBytes();
-        await _patientService.uploadPetDocument(
-            file.name, fileBytes, petId, token);
-      }
+      await _retryOperation(() async {
+        for (var file in files) {
+          File f = File.fromUri(Uri.file(file.path!));
+          Uint8List? fileBytes = await f.readAsBytes();
+          var res = await _patientService.uploadPetDocument(
+              file.name, fileBytes, petId, token);
+          if (res["error"] != null && res["error"] == true) {
+            throw Exception(res["message"]);
+          }
+        }
+      });
+      successToast("page.pets.filesUploadedSuccess".tr);
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isUpLoading.value = false;
     }
+  }
+
+  Future<T> _retryOperation<T>(Future<T> Function() operation, {int maxRetries = 3}) async {
+    for (int attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error) {
+        if (attempt == maxRetries) {
+          rethrow;
+        }
+        await Future.delayed(Duration(seconds: 1 * attempt));
+      }
+    }
+    throw Exception('Operation failed after $maxRetries attempts');
+  }
+
+  void clearPatients() {
+    patients.clear();
+    update();
   }
 }

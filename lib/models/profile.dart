@@ -21,6 +21,7 @@ class Profile {
   final bool isNewUser;
   final String referantDescription;
   final String title;
+  final String configId;
 
   Profile({
     required this.firstName,
@@ -45,6 +46,7 @@ class Profile {
     required this.isNewUser,
     required this.referantDescription,
     required this.title,
+    required this.configId,
   });
 
   factory Profile.fromJSON(Map<String, dynamic> json) {
@@ -71,6 +73,7 @@ class Profile {
       isNewUser: json["is_new_user"],
       referantDescription: json["referant_description"],
       title: json["title"],
+      configId: json["config_id"],
     );
   }
 
@@ -99,7 +102,38 @@ contactWithWhatsapp: $contactWithWhatsapp,
 isNewUser: $isNewUser,
 referantDescription: $referantDescription,
 title: $title,
+configId: $configId,
   }
 ''';
+  }
+
+  // Add this method to print all details
+  void printDetails() {
+    print('''
+Profile Details:
+  First Name: $firstName
+  Last Name: $lastName
+  Email: $email
+  Address: $address
+  Pays: $pays
+  City: $city
+  Phone: $phone
+  Fax: $fax
+  Profession: $profession
+  Postal Code: $postalCode
+  Feature Image: $featureImage
+  User Verified: $userVerified
+  Password Change: $passwordChange
+  Last Forgot Password: $lastForgotPassword
+  Sent Verification Email: $sentVerificationEmail
+  Last Login: $lastLogin
+  Contact With Email: $contactWithEmail
+  Contact With SMS: $contactWithSMS
+  Contact With WhatsApp: $contactWithWhatsapp
+  Is New User: $isNewUser
+  Referant Description: $referantDescription
+  Title: $title
+  Config ID: $configId
+    ''');
   }
 }

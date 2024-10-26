@@ -243,8 +243,8 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 40 * fem),
                   const LanguageSwitch(),
                   SizedBox(height: 40 * fem),
-                  const Text(
-                    "©2023 Digimidi",
+                  Text(
+                    "©${DateTime.now().year} Digimidi",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.black26),
                   ),

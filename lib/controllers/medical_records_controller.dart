@@ -8,88 +8,102 @@ class MedicalRecordsController extends GetxController {
   final RxList<MedicalRecord> _records = RxList<MedicalRecord>([]);
   final MedicalRecordsService _medicalRecordsService = MedicalRecordsService();
   
-  bool get fetching {
-    return _fetching.value;
+  bool get fetching => _fetching.value;
+  List<MedicalRecord> get records => [..._records];
+
+  Future<T> _retryOperation<T>(Future<T> Function() operation, {int maxRetries = 3}) async {
+    for (int attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error) {
+        if (attempt == maxRetries) {
+          rethrow;
+        }
+        await Future.delayed(Duration(seconds: 1 * attempt));
+      }
+    }
+    throw Exception('Operation failed after $maxRetries attempts');
   }
 
-  List<MedicalRecord> get records {
-    return [..._records];
-  }
-
-  Future<dynamic> getMedicalRecords(String query, String token) async {
+  Future<void> getMedicalRecords(String query, String token) async {
     try {
       _fetching.value = true;
-      var res =
-          await _medicalRecordsService.getMedicalRecordsService(query, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"]["data"];
-        List<MedicalRecord> medicalRecords =
-            data.map((record) => MedicalRecord.fromJSON(record)).toList();
-        _records.value = medicalRecords;
-      }
-    } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
+      await _retryOperation(() async {
+        var res = await _medicalRecordsService.getMedicalRecordsService(query, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"]["data"];
+          List<MedicalRecord> medicalRecords =
+              data.map((record) => MedicalRecord.fromJSON(record)).toList();
+          _records.value = medicalRecords;
+        }
+      });
+    } catch (e) {
+      errorToast(e.toString());
     } finally {
       _fetching.value = false;
     }
   }
 
-  Future<dynamic> getReport(String query, String token) async {
+  Future<void> getReport(String query, String token) async {
     try {
       _fetching.value = true;
-      var res = await _medicalRecordsService.getReportService(query, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"]["data"];
-        List<MedicalRecord> medicalRecords =
-            data.map((record) => MedicalRecord.fromJSON(record)).toList();
-        _records.value = medicalRecords;
-      }
+      await _retryOperation(() async {
+        var res = await _medicalRecordsService.getReportService(query, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"]["data"];
+          List<MedicalRecord> medicalRecords =
+              data.map((record) => MedicalRecord.fromJSON(record)).toList();
+          _records.value = medicalRecords;
+        }
+      });
     } catch (e) {
-      successToast(e.toString());
+      errorToast(e.toString());
     } finally {
       _fetching.value = false;
     }
   }
 
-  Future<dynamic> getVignetteReport(String query, String token) async {
+  Future<void> getVignetteReport(String query, String token) async {
     try {
       _fetching.value = true;
-      var res =
-          await _medicalRecordsService.getVignetteReportService(query, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"]["data"];
-        List<MedicalRecord> medicalRecords =
-            data.map((record) => MedicalRecord.fromJSON(record)).toList();
-        _records.value = medicalRecords;
-      }
+      await _retryOperation(() async {
+        var res = await _medicalRecordsService.getVignetteReportService(query, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"]["data"];
+          List<MedicalRecord> medicalRecords =
+              data.map((record) => MedicalRecord.fromJSON(record)).toList();
+          _records.value = medicalRecords;
+        }
+      });
     } catch (e) {
-      successToast(e.toString());
+      errorToast(e.toString());
     } finally {
       _fetching.value = false;
     }
   }
 
-  Future<dynamic> getPjReport(String query, String token) async {
+  Future<void> getPjReport(String query, String token) async {
     try {
       _fetching.value = true;
-      var res = await _medicalRecordsService.getPjReportService(query, token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"]["data"];
-        List<MedicalRecord> medicalRecords =
-            data.map((record) => MedicalRecord.fromJSON(record)).toList();
-        _records.value = medicalRecords;
-      }
+      await _retryOperation(() async {
+        var res = await _medicalRecordsService.getPjReportService(query, token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"]["data"];
+          List<MedicalRecord> medicalRecords =
+              data.map((record) => MedicalRecord.fromJSON(record)).toList();
+          _records.value = medicalRecords;
+        }
+      });
     } catch (e) {
-      successToast(e.toString());
+      errorToast(e.toString());
     } finally {
       _fetching.value = false;
     }

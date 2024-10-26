@@ -81,41 +81,58 @@ class NotificationController extends GetxController {
   Future<void> getTreatments(String token) async {
     try {
       _fetchingTreatments.value = true;
-      var res = await _notificationService.getTreatmentsService(token);
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"];
-        List<NotificationModel> treatments =
-            data.map((e) => NotificationModel.fromJSON(e)).toList();
-        _treatments.value = treatments;
-        _fetchedTreatments.value = true;
-      }
+      await _retryOperation(() async {
+        var res = await _notificationService.getTreatmentsService(token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"];
+          List<NotificationModel> treatments =
+              data.map((e) => NotificationModel.fromJSON(e)).toList();
+          _treatments.value = treatments;
+          _fetchedTreatments.value = true;
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _fetchingTreatments.value = false;
     }
   }
 
-  Future<void> getAppointments(token) async {
+  Future<void> getAppointments(String token) async {
     try {
       _fetchingAppointments.value = true;
-      var res = await _notificationService.getAppointmentsService(token);
-
-      if (res["error"] != null && res["error"] == true) {
-        errorToast(res["message"]);
-      } else {
-        List<dynamic> data = res["data"];
-        List<NotificationModel> appointments =
-            data.map((e) => NotificationModel.fromJSON(e)).toList();
-        _appointments.value = appointments;
-        _fetchedAppointments.value = true;
-      }
+      await _retryOperation(() async {
+        var res = await _notificationService.getAppointmentsService(token);
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          List<dynamic> data = res["data"];
+          List<NotificationModel> appointments =
+              data.map((e) => NotificationModel.fromJSON(e)).toList();
+          _appointments.value = appointments;
+          _fetchedAppointments.value = true;
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _fetchingAppointments.value = false;
     }
+  }
+
+  Future<T> _retryOperation<T>(Future<T> Function() operation, {int maxRetries = 3}) async {
+    for (int attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error) {
+        if (attempt == maxRetries) {
+          rethrow;
+        }
+        await Future.delayed(Duration(seconds: 1 * attempt));
+      }
+    }
+    throw Exception('Operation failed after $maxRetries attempts');
   }
 }

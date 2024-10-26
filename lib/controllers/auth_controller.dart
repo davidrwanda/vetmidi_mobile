@@ -63,60 +63,72 @@ class AuthController extends GetxController {
     _selectedClinics.value = _clinics;
   }
 
-Future<void> login(String email, String password) async {
-  var res2 = null;
-  try {
-    _isLoading.value = true;
-    Map<String, String> map = {"email": email, "password": password};
-    await _authService.login(map);
-    res2 = await _authService.login(map);
-
-    if (res2["error"] != null && res2["error"] == true) {
-      errorToast(res2["message"]);
-    } else {
-      Token token = Token.fromJSON(res2["token"]);
-      _token.value = token;
-      User user = User.fromJSON(res2["user"]);
-      _user.value = user;
-      Get.toNamed(AppRoutes.home);
+  Future<T> _retryOperation<T>(Future<T> Function() operation, {int maxRetries = 3}) async {
+    for (int attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error) {
+        if (attempt == maxRetries) {
+          rethrow;
+        }
+        await Future.delayed(Duration(seconds: 1 * attempt));
+      }
     }
-  } catch (error) {
-    if (error.toString() == 'Empty response') {
-      return login(email, password);
-    } else {
-      successToast(error.toString());
-    }
-  } finally {
-    _isLoading.value = false;
+    throw Exception('Operation failed after $maxRetries attempts');
   }
-}
+
+  Future<void> login(String email, String password) async {
+    try {
+      _isLoading.value = true;
+      await _retryOperation(() async {
+        Map<String, String> map = {"email": email, "password": password};
+        var res = await _authService.login(map);
+
+        if (res["error"] != null && res["error"] == true) {
+          throw Exception(res["message"]);
+        } else {
+          Token token = Token.fromJSON(res["token"]);
+          _token.value = token;
+          User user = User.fromJSON(res["user"]);
+          _user.value = user;
+          Get.toNamed(AppRoutes.home);
+        }
+      });
+    } catch (error) {
+      errorToast(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
 
   Future<void> signup(String firstName, String lastName, String email,
       String password, String clinicID) async {
     try {
       _isLoading.value = true;
-      Map<String, String> map = {
-        "first_name": firstName,
-        "last_name": lastName,
-        "email": email,
-        "password": password,
-        "password_confirmation": password,
-        "clinic": clinicID
-      };
-      var res1 = await _authService.signupService(map);
-      if (res1["error"] != null && res1["error"] == true) {
-        errorToast(res1["message"]);
-      } else {
-        Map<String, String> loginMap = {"email": email, "password": password};
-        var res2 = await _authService.login(loginMap);
-        Token token = Token.fromJSON(res2["token"]);
-        _token.value = token;
-        User user = User.fromJSON(res2["user"]);
-        _user.value = user;
-        Get.toNamed(AppRoutes.verifyOTP, arguments: email);
-      }
+      await _retryOperation(() async {
+        Map<String, String> map = {
+          "first_name": firstName,
+          "last_name": lastName,
+          "email": email,
+          "password": password,
+          "password_confirmation": password,
+          "clinic": clinicID
+        };
+        var res1 = await _authService.signupService(map);
+        if (res1["error"] != null && res1["error"] == true) {
+          throw Exception(res1["message"]);
+        } else {
+          Map<String, String> loginMap = {"email": email, "password": password};
+          var res2 = await _authService.login(loginMap);
+          Token token = Token.fromJSON(res2["token"]);
+          _token.value = token;
+          User user = User.fromJSON(res2["user"]);
+          _user.value = user;
+          Get.toNamed(AppRoutes.verifyOTP, arguments: email);
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -125,20 +137,22 @@ Future<void> login(String email, String password) async {
   Future<void> verifyOTP(String email, String otp) async {
     try {
       _isLoading.value = true;
-      Map<String, String> map = {
-        "email": email,
-        "otp": otp,
-      };
-      var res1 = await _authService.verifyOTPService(map);
-      if (res1["code"] != null && res1["code"] == 422) {
-        List<dynamic> errors = res1["errors"];
-        errorToast(errors[0]["message"]);
-      } else {
-         successToast("page.verify.succeed".tr);
-         Get.toNamed(AppRoutes.login, arguments: Get.arguments);
-      }
+      await _retryOperation(() async {
+        Map<String, String> map = {
+          "email": email,
+          "otp": otp,
+        };
+        var res1 = await _authService.verifyOTPService(map);
+        if (res1["code"] != null && res1["code"] == 422) {
+          List<dynamic> errors = res1["errors"];
+          throw Exception(errors[0]["message"]);
+        } else {
+          successToast("page.verify.succeed".tr);
+          Get.toNamed(AppRoutes.login, arguments: Get.arguments);
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _isLoading.value = false;
     }
@@ -147,18 +161,20 @@ Future<void> login(String email, String password) async {
   Future<void> resendOTP(String email) async {
     try {
       _resendingOtp.value = true;
-      Map<String, String> map = {
-        "email": email,
-      };
-      var res1 = await _authService.resendOTPService(map);
-      if (res1["code"] != null && res1["code"] == 422) {
-        List<dynamic> errors = res1["errors"];
-        errorToast(errors[0]["message"]);
-      } else {
-        successToast(res1["message"]);
-      }
+      await _retryOperation(() async {
+        Map<String, String> map = {
+          "email": email,
+        };
+        var res1 = await _authService.resendOTPService(map);
+        if (res1["code"] != null && res1["code"] == 422) {
+          List<dynamic> errors = res1["errors"];
+          throw Exception(errors[0]["message"]);
+        } else {
+          successToast(res1["message"]);
+        }
+      });
     } catch (error) {
-      successToast(error.toString());
+      errorToast(error.toString());
     } finally {
       _resendingOtp.value = false;
     }
@@ -270,11 +286,18 @@ Future<void> login(String email, String password) async {
     }
   }
 
-Future<void> logout() async {
-  print("Logged out");
-  _token.value = null;
-  _user.value = null;
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('expire_in'); 
-}
+  Future<void> logout() async {
+    try {
+      await _retryOperation(() async {
+        // Implement logout API call if there's one
+        _token.value = null;
+        _user.value = null;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.remove('expire_in');
+      });
+      print("Logged out");
+    } catch (error) {
+      errorToast(error.toString());
+    }
+  }
 }
